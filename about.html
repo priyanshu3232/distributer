@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whollar for distributors — Win a whole cohort in a single bid</title>
+  <meta name="description" content="Whollar pools households ready to switch and routes them to internet providers and distributors as verified, coverage-matched cohorts. Place one sealed bid, win the group, and pay only on activation.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       WHOLLAR DISTRIBUTOR PORTAL — appended styles
+       Namespaced with .portal-root and .p- prefix to avoid any
+       conflicts with the existing styles.css
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* Portal root */
+    .portal-root { min-height: 100vh; background: #f2f5f7; font-family: 'Hanken Grotesk', system-ui, sans-serif; }
+
+    /* Portal header */
+    .portal-header { background: #fff; border-bottom: 1px solid #dde4ea; position: sticky; top: 0; z-index: 100; }
+    .portal-header-inner { max-width: 960px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .portal-brand { text-decoration: none; }
+    .portal-badge { background: #e8f4f3; color: #0f5e63; border: 1px solid #b8dedd; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; padding: 2px 8px; border-radius: 4px; }
+    .portal-header-right { display: flex; align-items: center; gap: 14px; }
+    .portal-save-label { font-size: 12px; color: #8a96a0; }
+    .btn--ghost { background: transparent; border: 1px solid #dde4ea; color: #4a5568; padding: 7px 16px; border-radius: 6px; font-size: 13px; font-family: inherit; cursor: pointer; }
+    .btn--ghost:hover { background: #f2f5f7; }
+
+    /* Step progress bar */
+    .portal-progress-wrap { background: #fff; border-bottom: 1px solid #dde4ea; padding: 16px 24px 12px; }
+    .portal-progress-inner { max-width: 960px; margin: 0 auto; }
+    .portal-steps { display: flex; align-items: flex-start; margin-bottom: 10px; }
+    .p-step { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .p-step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #dde4ea; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #8a96a0; flex-shrink: 0; transition: all 0.2s; }
+    .p-step-label { font-size: 10px; color: #8a96a0; white-space: nowrap; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    .p-step-check { display: none; }
+    .p-step--active .p-step-dot { border-color: #1f2d3d; background: #1f2d3d; color: #fff; }
+    .p-step--active .p-step-label { color: #1f2d3d; font-weight: 700; }
+    .p-step--done .p-step-dot { border-color: #0f5e63; background: #0f5e63; color: #fff; }
+    .p-step--done .p-step-check { display: inline; }
+    .p-step--done .p-step-num { display: none; }
+    .p-step--done .p-step-label { color: #0f5e63; }
+    .p-step-line { flex: 1; height: 2px; background: #dde4ea; margin: 13px 4px 0; transition: background 0.3s; }
+    .p-step-line--done { background: #0f5e63; }
+    .p-track { height: 3px; background: #dde4ea; border-radius: 2px; overflow: hidden; }
+    .p-fill { height: 100%; background: #0f5e63; border-radius: 2px; transition: width 0.35s ease; width: 0%; }
+
+    /* Screens */
+    .portal-body { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+    .p-screen-inner { max-width: 720px; }
+    .p-screen-inner--wide { max-width: 860px; }
+    .p-eyebrow { font-size: 11px; font-weight: 700; color: #0f5e63; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .p-title { font-family: 'Schibsted Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #1f2d3d; margin: 0 0 8px; line-height: 1.15; }
+    .p-sub { font-size: 15px; color: #4a5a6a; margin: 0 0 28px; line-height: 1.6; max-width: 560px; }
+
+    /* Cards */
+    .p-card { background: #fff; border: 1px solid #dde4ea; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+
+    /* Form elements */
+    .p-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #6b7f90; margin-bottom: 6px; display: block; }
+    .p-input { width: 100%; padding: 10px 14px; border: 1px solid #dde4ea; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1f2d3d; background: #fff; outline: none; box-sizing: border-box; transition: border-color 0.15s, box-shadow 0.15s; appearance: none; -webkit-appearance: none; }
+    .p-input:focus { border-color: #0f5e63; box-shadow: 0 0 0 3px rgba(15,94,99,0.1); }
+    .p-select { background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%236b7f90' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+    .p-grid { display: grid; gap: 16px; }
+    .p-grid--2 { grid-template-columns: 1fr 1fr; }
+    .p-field { display: flex; flex-direction: column; gap: 6px; }
+    .p-field--full { grid-column: span 2; }
+    .p-field--2col { display: flex; gap: 12px; flex-direction: row; }
+    .p-hint { font-size: 12px; color: #8a96a0; margin-top: 5px; line-height: 1.5; }
+
+    /* ISP type buttons */
+    .p-isp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+    .p-isp-btn { border: 2px solid #dde4ea; border-radius: 10px; padding: 16px 12px; cursor: pointer; background: #fff; display: flex; flex-direction: column; align-items: center; gap: 7px; transition: all 0.15s; font-family: inherit; }
+    .p-isp-btn:hover { border-color: #0f5e63; }
+    .p-isp-btn--active { border-color: #0f5e63; background: #edf7f6; }
+    .p-isp-icon { font-size: 22px; }
+    .p-isp-name { font-size: 13px; font-weight: 700; color: #1f2d3d; }
+    .p-isp-btn--active .p-isp-name { color: #0a4a52; }
+    .p-isp-sub { font-size: 11px; color: #8a96a0; }
+
+    /* Speed tier pills */
+    .p-speed-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .p-speed-btn { padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid #dde4ea; background: #fff; color: #6b7f90; font-family: inherit; transition: all 0.15s; }
+    .p-speed-btn:hover { border-color: #0f5e63; }
+    .p-speed-btn--active { border-color: #0f5e63; background: #edf7f6; color: #0a4a52; }
+
+    /* Documents */
+    .p-doc-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #edf1f4; }
+    .p-doc-row--last { border-bottom: none; }
+    .p-doc-info { display: flex; align-items: center; gap: 12px; }
+    .p-doc-icon { font-size: 20px; }
+    .p-doc-name { font-size: 14px; color: #1f2d3d; font-weight: 500; }
+    .p-doc-status { font-size: 11px; color: #8a96a0; margin-top: 2px; }
+    .p-doc-status--done { color: #0f5e63; font-weight: 600; }
+    .p-upload-btn { font-size: 12px; font-weight: 600; color: #0f5e63; border: 1.5px solid #0f5e63; padding: 6px 14px; border-radius: 6px; background: none; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+    .p-upload-btn:hover { background: #edf7f6; }
+    .p-upload-btn--done { background: #edf7f6; color: #0a4a52; border-color: #7fc9c4; }
+    .p-info-banner { background: #edf7f6; border: 1px solid #b8dedd; border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 0; }
+    .p-info-banner svg { flex-shrink: 0; margin-top: 1px; }
+    .p-info-banner p { font-size: 13px; color: #0a4a52; margin: 0; line-height: 1.6; }
+
+    /* Cohort marketplace */
+    .p-cohort-filters { display: flex; gap: 10px; margin-bottom: 16px; }
+    .p-filter-select { padding: 8px 32px 8px 12px; border: 1px solid #dde4ea; border-radius: 8px; font-size: 13px; font-family: inherit; color: #1f2d3d; background: #fff url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%236b7f90' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center; cursor: pointer; appearance: none; outline: none; }
+    .p-cohort-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+    .p-cohort-card { display: block; width: 100%; text-align: left; border: 1.5px solid #dde4ea; border-radius: 12px; padding: 18px 20px; cursor: pointer; background: #fff; transition: all 0.15s; font-family: inherit; }
+    .p-cohort-card:hover { border-color: #0f5e63; }
+    .p-cohort-card--selected { border: 2px solid #0f5e63; background: #edf7f6; }
+    .p-cohort-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .p-cohort-head { }
+    .p-cohort-name { font-size: 15px; font-weight: 700; color: #1f2d3d; }
+    .p-cohort-meta-id { font-size: 12px; color: #8a96a0; margin-top: 3px; }
+    .p-cohort-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .p-cohort-badge--live { background: #edf7f6; color: #0f5e63; border: 1px solid #b8dedd; }
+    .p-cohort-badge--closing { background: #fef3e2; color: #7a4c0a; border: 1px solid #f9d48a; }
+    .p-cohort-stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
+    .p-cohort-stat-label { font-size: 10px; color: #8a96a0; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+    .p-cohort-stat-val { font-size: 13px; font-weight: 700; color: #1f2d3d; }
+    .p-cohort-stat-val--teal { color: #0f5e63; }
+
+    /* Bid screen */
+    .p-bid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .p-bid-summary { background: #f2f5f7; border: 1px solid #dde4ea; border-radius: 12px; padding: 20px 24px; }
+    .p-bid-summary-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #6b7f90; margin-bottom: 14px; }
+    .p-bid-rows { }
+    .p-bid-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #dde4ea; font-size: 13px; }
+    .p-bid-row:last-child { border-bottom: none; }
+    .p-bid-lbl { color: #6b7f90; }
+    .p-bid-val { font-weight: 600; color: #1f2d3d; text-align: right; }
+    .p-bid-val--teal { color: #0f5e63; }
+    .p-bid-val--amber { color: #7a4c0a; }
+    .p-bid-footnote { font-size: 11px; color: #8a96a0; margin-top: 14px; line-height: 1.6; }
+    .p-bid-form { background: #fff; border: 1px solid #dde4ea; border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+    .p-sealed-warning { background: #fef3e2; border: 1px solid #f9d48a; border-radius: 8px; padding: 10px 14px; font-size: 12px; font-weight: 700; color: #7a4c0a; display: flex; align-items: center; gap: 8px; }
+    .p-bid-input-row { display: flex; align-items: center; gap: 10px; }
+    .p-bid-currency { font-size: 22px; font-weight: 700; color: #6b7f90; }
+    .p-bid-input { width: 130px; text-align: center; font-size: 26px !important; font-weight: 700 !important; padding: 10px 12px !important; border: 1px solid #dde4ea; border-radius: 8px; font-family: inherit; color: #1f2d3d; outline: none; }
+    .p-bid-input:focus { border-color: #0f5e63; box-shadow: 0 0 0 3px rgba(15,94,99,0.1); }
+    .p-bid-per { font-size: 12px; color: #8a96a0; line-height: 1.5; }
+    .p-bid-estimate { background: #f2f5f7; border-radius: 8px; padding: 14px 16px; }
+    .p-bid-est-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+    .p-bid-est-row--total { margin-bottom: 0; }
+    .p-bid-est-lbl { color: #6b7f90; }
+    .p-bid-est-val { font-weight: 700; color: #1f2d3d; }
+    .p-bid-est-val--big { font-size: 17px; color: #0f5e63; }
+    .p-bid-lock-note { font-size: 12px; color: #8a96a0; line-height: 1.6; display: flex; align-items: flex-start; gap: 7px; }
+    .p-bid-lock-note svg { flex-shrink: 0; margin-top: 1px; }
+    .btn--block { width: 100%; text-align: center; display: block; box-sizing: border-box; }
+    .p-submit-bid { font-size: 15px; padding: 13px 24px; cursor: pointer; }
+
+    /* Confirmation screen */
+    .p-confirm-banner { border: 2px solid #0f5e63; border-radius: 14px; padding: 24px; background: #edf7f6; text-align: center; margin-bottom: 16px; }
+    .p-confirm-icon { font-size: 40px; display: block; margin-bottom: 8px; }
+    .p-confirm-title { font-size: 20px; font-weight: 800; font-family: 'Schibsted Grotesk', sans-serif; color: #0a4a52; margin-bottom: 5px; }
+    .p-confirm-sub { font-size: 14px; color: #0f5e63; }
+    .p-confirm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .p-confirm-item { background: #fff; border: 1px solid #dde4ea; border-radius: 10px; padding: 14px 16px; }
+    .p-confirm-item-label { font-size: 11px; color: #8a96a0; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+    .p-confirm-item-val { font-size: 14px; font-weight: 700; color: #1f2d3d; }
+    .p-confirm-item-val--teal { color: #0f5e63; font-size: 16px; }
+    .p-what-next { background: #f2f5f7; border-radius: 12px; padding: 20px 24px; margin-bottom: 4px; }
+    .p-what-next-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7f90; margin-bottom: 14px; }
+    .p-next-item { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; font-size: 14px; color: #3a4e60; line-height: 1.6; }
+    .p-next-item:last-child { margin-bottom: 0; }
+    .p-next-num { width: 22px; height: 22px; border-radius: 50%; background: #0f5e63; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+    /* Nav row */
+    .p-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid #dde4ea; }
+    .p-nav--bid { justify-content: flex-start; }
+    .p-nav--end { display: flex; justify-content: flex-end; margin-top: 24px; }
+
+    /* Responsive */
+    @media (max-width: 680px) {
+      .p-grid--2 { grid-template-columns: 1fr; }
+      .p-field--full { grid-column: span 1; }
+      .p-isp-grid { grid-template-columns: 1fr 1fr; }
+      .p-cohort-stats { grid-template-columns: repeat(2, 1fr); }
+      .p-bid-layout { grid-template-columns: 1fr; }
+      .p-confirm-grid { grid-template-columns: 1fr; }
+      .portal-steps { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a href="#top" class="brand" aria-label="Whollar for distributors, home">
+        <span class="brand-mark" aria-hidden="true">
+          <i class="dot dot--white"></i>
+          <i class="dot dot--coral"></i>
+          <i class="dot dot--white"></i>
+        </span>
+        <span class="brand-name">
+          <span class="brand-word">Whollar</span>
+          <span class="brand-pill">for distributors</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#how">How it works</a>
+        <a href="#economics">The economics</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a href="#apply" class="btn btn--coral btn--sm">Apply to bid</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div data-reveal>
+          <span class="eyebrow-pill">
+            <i class="dot dot--coral"></i>
+            For internet providers and distributors
+          </span>
+          <h1 class="hero-title" data-headline>Win a whole cohort in a single bid.</h1>
+          <p class="hero-lede">Whollar pools households who are ready to switch and routes them to you as verified, coverage-matched cohorts. Place one sealed bid, win the group, and pay only when households activate.</p>
+          <div class="hero-cta">
+            <a href="#apply" class="btn btn--coral">Apply to bid</a>
+            <a href="#economics" class="link-arrow">See the economics <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="hero-status">
+            <span class="pulse"></span>
+            Now recruiting founding bidding partners for the first cohorts.
+          </p>
+        </div>
+
+        <!-- COHORT VISUAL -->
+        <div data-reveal class="cohort-wrap">
+          <div class="cohort-card">
+            <svg viewBox="0 0 480 380" class="cohort-svg" role="img" aria-label="Scattered households converging into one verified, coverage-matched cohort">
+              <defs>
+                <radialGradient id="cohGlow" cx="50%" cy="50%" r="60%">
+                  <stop offset="0%" stop-color="var(--c)" stop-opacity="0.22"/>
+                  <stop offset="100%" stop-color="var(--c)" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <!-- converging links -->
+              <g stroke="rgba(127,209,207,0.45)" stroke-width="1.4" fill="none">
+                <path d="M70,60 C190,90 250,150 330,180"/>
+                <path d="M48,150 C170,160 250,175 330,188"/>
+                <path d="M82,232 C190,210 255,200 330,196"/>
+                <path d="M60,316 C190,270 250,225 332,206"/>
+                <path d="M150,40 C230,90 280,150 336,182"/>
+                <path d="M168,330 C240,275 290,230 336,210"/>
+              </g>
+              <!-- scattered pins -->
+              <g>
+                <g transform="translate(58,48)"><circle r="13" fill="rgba(255,255,255,0.08)"/><path d="M0,-6 a6,6 0 1,0 0.01,0 M0,0 v7" stroke="#bfe0dd" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+                <g transform="translate(40,140)"><circle r="13" fill="rgba(255,255,255,0.08)"/><circle cx="0" cy="-2" r="5" fill="none" stroke="#bfe0dd" stroke-width="2"/><path d="M0,3 v6" stroke="#bfe0dd" stroke-width="2" stroke-linecap="round"/></g>
+                <g transform="translate(74,224)"><circle r="13" fill="rgba(255,255,255,0.08)"/><circle cx="0" cy="-2" r="5" fill="none" stroke="#bfe0dd" stroke-width="2"/><path d="M0,3 v6" stroke="#bfe0dd" stroke-width="2" stroke-linecap="round"/></g>
+                <g transform="translate(52,308)"><circle r="13" fill="rgba(255,255,255,0.08)"/><circle cx="0" cy="-2" r="5" fill="none" stroke="#bfe0dd" stroke-width="2"/><path d="M0,3 v6" stroke="#bfe0dd" stroke-width="2" stroke-linecap="round"/></g>
+                <g transform="translate(142,34)"><circle r="13" fill="rgba(255,255,255,0.08)"/><circle cx="0" cy="-2" r="5" fill="none" stroke="#bfe0dd" stroke-width="2"/><path d="M0,3 v6" stroke="#bfe0dd" stroke-width="2" stroke-linecap="round"/></g>
+                <g transform="translate(160,324)"><circle r="13" fill="rgba(255,255,255,0.08)"/><circle cx="0" cy="-2" r="5" fill="none" stroke="#bfe0dd" stroke-width="2"/><path d="M0,3 v6" stroke="#bfe0dd" stroke-width="2" stroke-linecap="round"/></g>
+              </g>
+              <!-- coverage outline -->
+              <path d="M300,120 C360,96 430,118 446,168 C470,196 462,260 420,286 C386,322 318,318 296,280 C268,256 270,150 300,120 Z" fill="url(#cohGlow)" stroke="var(--cs)" stroke-width="1.6" stroke-dasharray="6 7" opacity="0.85"/>
+              <!-- cohort boundary -->
+              <rect x="312" y="150" width="118" height="104" rx="20" fill="rgba(255,107,74,0.14)" stroke="var(--c)" stroke-width="2"/>
+              <g>
+                <g transform="translate(338,178)"><circle r="9" fill="var(--c)"/></g>
+                <g transform="translate(371,170)"><circle r="9" fill="var(--cs)"/></g>
+                <g transform="translate(404,182)"><circle r="9" fill="var(--c)"/></g>
+                <g transform="translate(352,210)"><circle r="9" fill="var(--cs)"/></g>
+                <g transform="translate(388,214)"><circle r="9" fill="var(--c)"/></g>
+              </g>
+              <text x="371" y="290" text-anchor="middle" fill="#fff" font-family="Schibsted Grotesk, sans-serif" font-weight="700" font-size="15">One verified cohort</text>
+            </svg>
+            <div class="cohort-foot">
+              <span class="cohort-foot-label">Scattered, in-coverage households</span>
+              <span class="cohort-foot-pill">50–250 homes per cohort</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE PROBLEM -->
+    <section class="sec sec--cream">
+      <div class="wrap">
+        <div data-reveal class="sec-head">
+          <p class="kicker kicker--coral">The acquisition problem</p>
+          <h2 class="h2 h2--navy">Acquiring customers one at a time is expensive.</h2>
+        </div>
+        <div class="grid grid-2">
+          <article data-reveal class="card">
+            <span class="icon-chip icon-chip--coral">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v0M9 13v0M9 17v0"/></svg>
+            </span>
+            <h3 class="card-title">Door-to-door eats margin.</h3>
+            <p class="card-body">High commissions and low close rates on every single sign-up. <span class="muted">[your current CAC]</span></p>
+          </article>
+          <article data-reveal class="card">
+            <span class="icon-chip icon-chip--coral">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l15-6v14L3 13v5H1v-7z"/><path d="M18 8a3 3 0 0 1 0 8"/></svg>
+            </span>
+            <h3 class="card-title">Digital ads are low intent.</h3>
+            <p class="card-body">You pay for clicks, not households actually ready to switch. <span class="muted">[your blended CAC]</span></p>
+          </article>
+          <article data-reveal class="card">
+            <span class="icon-chip icon-chip--coral">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/></svg>
+            </span>
+            <h3 class="card-title">Retail and channel take a cut.</h3>
+            <p class="card-body">Slotting fees and commissions on every activation.</p>
+          </article>
+          <article data-reveal class="card">
+            <span class="icon-chip icon-chip--coral">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+            </span>
+            <h3 class="card-title">Then they churn.</h3>
+            <p class="card-body">Promo-hoppers leave the moment the intro price ends.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="sec sec--deep">
+      <div class="wrap">
+        <div data-reveal class="sec-head">
+          <p class="kicker kicker--coral-soft">How it works</p>
+          <h2 class="h2 h2--white">Demand, delivered. You just bid.</h2>
+          <p class="sec-sub sec-sub--teal">A sealed, coverage-matched auction. Keep it high-level.</p>
+        </div>
+        <div class="grid grid-steps">
+          <article data-reveal class="step">
+            <span class="step-num">1</span>
+            <h3 class="step-title">Tell us your footprint</h3>
+            <p class="step-body">Your coverage areas and the kind of customers you want.</p>
+          </article>
+          <article data-reveal class="step">
+            <span class="step-num">2</span>
+            <h3 class="step-title">We bring you a matched cohort</h3>
+            <p class="step-body">Verified, in-coverage households with known plans and contract timing, ready to switch. Opted in and compliant.</p>
+          </article>
+          <article data-reveal class="step">
+            <span class="step-num">3</span>
+            <h3 class="step-title">Place one sealed bid</h3>
+            <p class="step-body">Your best all-in offer for the whole group, with one chance to sharpen it.</p>
+          </article>
+          <article data-reveal class="step">
+            <span class="step-num">4</span>
+            <h3 class="step-title">Win the cohort, we handle the switch</h3>
+            <p class="step-body">We onboard every household for you and manage the cutover. No truck-roll chaos.</p>
+          </article>
+          <article data-reveal class="step">
+            <span class="step-num">5</span>
+            <h3 class="step-title">Pay only on activation</h3>
+            <p class="step-body">A success fee per household that actually switches. Nothing on bids you don't win.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE ECONOMICS -->
+    <section id="economics" class="sec sec--cream">
+      <div class="wrap">
+        <div data-reveal class="sec-head">
+          <p class="kicker kicker--coral">Why Whollar</p>
+          <h2 class="h2 h2--navy">A predictable cost per customer, finally.</h2>
+        </div>
+        <div class="grid grid-4">
+          <article data-reveal class="card card--econ">
+            <span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--t)"/></svg></span>
+            <h3 class="card-title card-title--sm">Pay for outcomes, not attempts.</h3>
+            <p class="card-body card-body--sm">A fixed success fee per activated household. No upfront spend, nothing on losing bids.</p>
+          </article>
+          <article data-reveal class="card card--econ">
+            <span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span>
+            <h3 class="card-title card-title--sm">Whole cohorts, dense routes.</h3>
+            <p class="card-body card-body--sm">Clustered installs cut truck-rolls and rollout cost. Fibre and fixed-wireless economics love this.</p>
+          </article>
+          <article data-reveal class="card card--econ">
+            <span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><path d="M8.5 11.5l2.2 2.2 4.3-4.7"/></svg></span>
+            <h3 class="card-title card-title--sm">Verified, in-coverage demand.</h3>
+            <p class="card-body card-body--sm">Every household is address-qualified and ready, so no bid is wasted.</p>
+          </article>
+          <article data-reveal class="card card--econ">
+            <span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 7h18M5 7l-2 6a4 4 0 0 0 8 0L9 7M15 7l-2 6a4 4 0 0 0 8 0l-2-6"/></svg></span>
+            <h3 class="card-title card-title--sm">A level field.</h3>
+            <p class="card-body card-body--sm">Sealed bidding lets independents win on value, not on ad budget.</p>
+          </article>
+        </div>
+
+        <!-- COMPARISON TABLE -->
+        <div data-reveal class="table-wrap">
+          <table class="cmp">
+            <thead>
+              <tr>
+                <th class="cmp-rowhead-blank"></th>
+                <th class="cmp-th-whl"><span class="whl-tag"><i class="dot dot--coral"></i>Whollar</span></th>
+                <th class="cmp-th">Door-to-door</th>
+                <th class="cmp-th">Digital ads</th>
+                <th class="cmp-th">Retail / channel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cmp-label">Predictable cost per customer</td>
+                <td class="cmp-cell cmp-cell--whl"><svg class="ico-tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+              </tr>
+              <tr>
+                <td class="cmp-label">Households ready to switch (high intent)</td>
+                <td class="cmp-cell cmp-cell--whl"><svg class="ico-tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><span class="ico-partial">Partial</span></td>
+              </tr>
+              <tr>
+                <td class="cmp-label">Win many customers per effort</td>
+                <td class="cmp-cell cmp-cell--whl"><svg class="ico-tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+              </tr>
+              <tr>
+                <td class="cmp-label">No spend on losing bids</td>
+                <td class="cmp-cell cmp-cell--whl"><svg class="ico-tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+                <td class="cmp-cell"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
+              </tr>
+              <tr>
+                <td class="cmp-label">You pay</td>
+                <td class="cmp-cell cmp-cell--whl"><span class="ico-txt ico-txt--strong">Only on activation</span></td>
+                <td class="cmp-cell"><span class="ico-txt">Commission per door</span></td>
+                <td class="cmp-cell"><span class="ico-txt">Per click</span></td>
+                <td class="cmp-cell"><span class="ico-txt">Slotting + commission</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO BIDS -->
+    <section class="sec sec--mist">
+      <div class="wrap">
+        <div data-reveal class="sec-head">
+          <p class="kicker kicker--coral">Who bids</p>
+          <h2 class="h2 h2--navy">Built for every kind of provider.</h2>
+        </div>
+        <div data-reveal class="chips">
+          <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>National carriers</span>
+          <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>Regional independents</span>
+          <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>Fixed-wireless operators</span>
+          <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>Fibre overbuilders</span>
+          <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>Resellers and distributors</span>
+        </div>
+        <p data-reveal class="who-foot">Wherever you have coverage in Canada, we route matched cohorts to you.</p>
+      </div>
+    </section>
+
+    <!-- FAIR BY DESIGN -->
+    <section class="sec sec--teal">
+      <div class="wrap">
+        <div data-reveal class="sec-head">
+          <p class="kicker kicker--coral-soft">Fair by design</p>
+          <h2 class="h2 h2--white">A sealed, fair auction, on your terms.</h2>
+        </div>
+        <div class="grid grid-2">
+          <article data-reveal class="fair-card">
+            <span class="fair-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cs)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+            <div>
+              <h3 class="fair-title">You set your floor.</h3>
+              <p class="fair-body">Bid only what's profitable. We never ask you to go below your number.</p>
+            </div>
+          </article>
+          <article data-reveal class="fair-card">
+            <span class="fair-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cs)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+            <div>
+              <h3 class="fair-title">Sealed and even-handed.</h3>
+              <p class="fair-body">No backroom advantage. The best overall value for the cohort wins.</p>
+            </div>
+          </article>
+          <article data-reveal class="fair-card">
+            <span class="fair-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cs)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+            <div>
+              <h3 class="fair-title">Service standards protect everyone.</h3>
+              <p class="fair-body">Cohorts come with a service commitment, so winners keep customers happy and churn stays low.</p>
+            </div>
+          </article>
+          <article data-reveal class="fair-card">
+            <span class="fair-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cs)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+            <div>
+              <h3 class="fair-title">Compliant, consented data.</h3>
+              <p class="fair-body">Households opt in. Data is handled to PIPEDA and Québec Law 25 before it ever reaches you.</p>
+            </div>
+          </article>
+        </div>
+        <p data-reveal class="fair-foot"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--cs)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Every cohort is governed by a clear partner agreement.</p>
+      </div>
+    </section>
+
+    <!-- THE MODEL -->
+    <section class="sec sec--cream">
+      <div class="wrap">
+        <div data-reveal class="sec-head">
+          <p class="kicker kicker--coral">The model</p>
+          <h2 class="h2 h2--navy">Transparent and performance-based.</h2>
+        </div>
+        <div data-reveal class="model-panel">
+          <div class="model-pills">
+            <div class="model-stat"><div class="model-num">$0</div><div class="model-cap">upfront</div></div>
+            <div class="model-div"></div>
+            <div class="model-stat"><div class="model-num">$0</div><div class="model-cap">on losing bids</div></div>
+          </div>
+          <p class="model-copy">No upfront cost. No fee on bids you don't win. You pay a success fee only when a household activates. <span class="model-em">[Insert your fee here, e.g. a flat $X per activated household, or Y% of first-term revenue.]</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="sec sec--mist">
+      <div class="wrap wrap--narrow">
+        <div data-reveal class="sec-head sec-head--center">
+          <p class="kicker kicker--coral">FAQ</p>
+          <h2 class="h2 h2--navy">Questions from providers.</h2>
+        </div>
+        <div data-reveal class="faq-list">
+          <div class="faq-item is-open">
+            <button type="button" class="faq-q" aria-expanded="true">
+              What does it cost?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a"><p>No upfront cost. You pay a success fee only on households that activate. [your figure]</p></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false">
+              Isn't this a race to the bottom on price?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a"><p>No. You set your own floor and bid only what's profitable. Cohorts are won on overall value and service, not lowest price alone.</p></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false">
+              How do I know the demand is real?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a"><p>Every household is address-qualified, inside your coverage, opted in, with a known current plan and contract timing.</p></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false">
+              What if a cohort isn't in my coverage?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a"><p>We only route cohorts that match your footprint, so you never bid on demand you can't serve.</p></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false">
+              Who handles the switching?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a"><p>We do. We onboard every household in the cohort and manage the cutover end to end.</p></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false">
+              Is there exclusivity?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a"><p>[Your policy, e.g. the winning provider serves the whole cohort for the agreed term.]</p></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false">
+              What data do I receive?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a"><p>Only the consented, PIPEDA and Law 25-compliant household details needed to serve the cohort. Nothing more.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPLICATION -->
+    <section id="apply" class="sec sec--navy">
+      <div class="wrap">
+        <div data-reveal class="apply-head">
+          <p class="kicker kicker--coral-soft">Apply to bid</p>
+          <h2 class="h2 h2--white h2--apply">Become a founding bidding partner.</h2>
+          <p class="apply-sub">We're forming the first cohorts now. Apply to be in the first auctions in your region.</p>
+        </div>
+
+        <div data-reveal class="form-card">
+          <!-- success state -->
+          <div class="form-success" role="status" aria-live="polite" hidden>
+            <span class="success-ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+            <h3 class="success-title">Thanks.</h3>
+            <p class="success-body">Setting up your distributor account…</p>
+          </div>
+
+          <form class="apply-form" novalidate>
+            <label class="field">
+              <span class="field-label">Company name</span>
+              <input type="text" name="company" placeholder="Acme Networks" autocomplete="organization">
+              <span class="field-err" hidden></span>
+            </label>
+            <label class="field">
+              <span class="field-label">Contact name</span>
+              <input type="text" name="contact" placeholder="Jordan Lee" autocomplete="name">
+              <span class="field-err" hidden></span>
+            </label>
+            <label class="field">
+              <span class="field-label">Role</span>
+              <input type="text" name="role" placeholder="VP, Growth" autocomplete="organization-title">
+              <span class="field-err" hidden></span>
+            </label>
+            <label class="field">
+              <span class="field-label">Work email</span>
+              <input type="email" name="email" placeholder="jordan@acme.ca" autocomplete="email">
+              <span class="field-err" hidden></span>
+            </label>
+            <label class="field field--full">
+              <span class="field-label">Province(s) / coverage regions</span>
+              <input type="text" name="regions" placeholder="e.g. ON, QC, Atlantic">
+              <span class="field-err" hidden></span>
+            </label>
+            <label class="field">
+              <span class="field-label">Network type</span>
+              <select name="network">
+                <option value="">Select…</option>
+                <option value="Fibre">Fibre</option>
+                <option value="Cable">Cable</option>
+                <option value="Fixed wireless">Fixed wireless</option>
+                <option value="Reseller">Reseller</option>
+                <option value="Other">Other</option>
+              </select>
+              <span class="field-err" hidden></span>
+            </label>
+            <label class="field">
+              <span class="field-label">Approx. subscriber base</span>
+              <select name="subs">
+                <option value="">Select…</option>
+                <option value="Under 1,000">Under 1,000</option>
+                <option value="1,000 – 10,000">1,000 – 10,000</option>
+                <option value="10,000 – 50,000">10,000 – 50,000</option>
+                <option value="50,000 – 250,000">50,000 – 250,000</option>
+                <option value="250,000+">250,000+</option>
+              </select>
+              <span class="field-err" hidden></span>
+            </label>
+            <label class="field field--full">
+              <span class="field-label">Message <span class="field-optional">(optional)</span></span>
+              <textarea name="message" rows="3" placeholder="Anything we should know about your footprint or goals."></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="btn btn--coral btn--block">Apply to bid</button>
+              <p class="form-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a96a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Compliant with PIPEDA and Québec Law 25. We never share your data.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- end main (reopen below for portal) -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       DISTRIBUTOR PORTAL — shown after "Apply to bid" form is submitted
+       All steps live here and are toggled via JS. The marketing <main> above
+       gets hidden; this portal wrapper becomes visible instead.
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="portal" class="portal-root" hidden aria-label="Distributor onboarding portal">
+
+    <!-- Portal header (replaces site-header while portal is active) -->
+    <header class="portal-header">
+      <div class="portal-header-inner">
+        <a href="#" class="brand portal-brand" onclick="return false">
+          <span class="brand-mark" aria-hidden="true">
+            <i class="dot dot--white"></i>
+            <i class="dot dot--coral"></i>
+            <i class="dot dot--white"></i>
+          </span>
+          <span class="brand-name">
+            <span class="brand-word">Whollar</span>
+            <span class="brand-pill portal-badge">Distributor Portal</span>
+          </span>
+        </a>
+        <div class="portal-header-right">
+          <span class="portal-save-label">Progress saved</span>
+          <button type="button" class="btn btn--ghost btn--sm" id="portal-exit-btn">Save &amp; exit</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Step progress bar -->
+    <div class="portal-progress-wrap">
+      <div class="portal-progress-inner">
+        <div class="portal-steps" role="list" aria-label="Onboarding steps">
+          <div class="p-step p-step--done" data-step="1" role="listitem">
+            <div class="p-step-dot"><span class="p-step-check" aria-hidden="true">✓</span><span class="p-step-num" aria-hidden="true">1</span></div>
+            <span class="p-step-label">Company</span>
+          </div>
+          <div class="p-step-line"></div>
+          <div class="p-step" data-step="2" role="listitem">
+            <div class="p-step-dot"><span class="p-step-check" aria-hidden="true">✓</span><span class="p-step-num" aria-hidden="true">2</span></div>
+            <span class="p-step-label">Coverage</span>
+          </div>
+          <div class="p-step-line"></div>
+          <div class="p-step" data-step="3" role="listitem">
+            <div class="p-step-dot"><span class="p-step-check" aria-hidden="true">✓</span><span class="p-step-num" aria-hidden="true">3</span></div>
+            <span class="p-step-label">Documents</span>
+          </div>
+          <div class="p-step-line"></div>
+          <div class="p-step" data-step="4" role="listitem">
+            <div class="p-step-dot"><span class="p-step-check" aria-hidden="true">✓</span><span class="p-step-num" aria-hidden="true">4</span></div>
+            <span class="p-step-label">Browse cohorts</span>
+          </div>
+          <div class="p-step-line"></div>
+          <div class="p-step" data-step="5" role="listitem">
+            <div class="p-step-dot"><span class="p-step-check" aria-hidden="true">✓</span><span class="p-step-num" aria-hidden="true">5</span></div>
+            <span class="p-step-label">Place bid</span>
+          </div>
+          <div class="p-step-line"></div>
+          <div class="p-step" data-step="6" role="listitem">
+            <div class="p-step-dot"><span class="p-step-check" aria-hidden="true">✓</span><span class="p-step-num" aria-hidden="true">6</span></div>
+            <span class="p-step-label">Confirmed</span>
+          </div>
+        </div>
+        <div class="p-track"><div class="p-fill" id="portal-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Portal body — one screen per step -->
+    <div class="portal-body">
+
+      <!-- ── STEP 1: Company ─────────────────────────────────────────── -->
+      <section class="p-screen" id="ps-1" data-screen="1">
+        <div class="p-screen-inner">
+          <div class="p-eyebrow">Step 1 of 6 — Company profile</div>
+          <h2 class="p-title">Register your company</h2>
+          <p class="p-sub">Tell us about your ISP so Whollar can verify your eligibility to bid on cohorts.</p>
+
+          <div class="p-card">
+            <div class="p-grid p-grid--2">
+              <div class="p-field p-field--full">
+                <label class="p-label" for="p-company">Legal company name</label>
+                <input class="p-input" type="text" id="p-company" name="p_company" placeholder="Acme Networks Inc." autocomplete="organization">
+              </div>
+              <div class="p-field">
+                <label class="p-label" for="p-bn">Business number (BN)</label>
+                <input class="p-input" type="text" id="p-bn" name="p_bn" placeholder="123456789 RT0001">
+              </div>
+              <div class="p-field">
+                <label class="p-label" for="p-province">Province of incorporation</label>
+                <select class="p-input p-select" id="p-province" name="p_province">
+                  <option value="">Select…</option>
+                  <option>Ontario</option>
+                  <option>British Columbia</option>
+                  <option>Alberta</option>
+                  <option>Québec</option>
+                  <option>Manitoba</option>
+                  <option>Saskatchewan</option>
+                  <option>Nova Scotia</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="p-field">
+                <label class="p-label" for="p-email">Primary contact email</label>
+                <input class="p-input" type="email" id="p-email" name="p_email" placeholder="bids@yourcompany.ca" autocomplete="email">
+              </div>
+              <div class="p-field">
+                <label class="p-label" for="p-phone">Phone number</label>
+                <input class="p-input" type="tel" id="p-phone" name="p_phone" placeholder="+1 (416) 555-0000">
+              </div>
+            </div>
+          </div>
+
+          <div class="p-card">
+            <div class="p-label" style="margin-bottom:14px">ISP type</div>
+            <div class="p-isp-grid">
+              <button type="button" class="p-isp-btn p-isp-btn--active" data-isp="fibre">
+                <span class="p-isp-icon">🏗️</span>
+                <span class="p-isp-name">Fibre</span>
+                <span class="p-isp-sub">FTTH / FTTP</span>
+              </button>
+              <button type="button" class="p-isp-btn" data-isp="cable">
+                <span class="p-isp-icon">📡</span>
+                <span class="p-isp-name">Cable</span>
+                <span class="p-isp-sub">HFC / DOCSIS</span>
+              </button>
+              <button type="button" class="p-isp-btn" data-isp="wireless">
+                <span class="p-isp-icon">📶</span>
+                <span class="p-isp-name">Fixed wireless</span>
+                <span class="p-isp-sub">FWA / LTE</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-nav">
+            <span></span>
+            <button type="button" class="btn btn--coral p-next-btn" data-target="2">Continue →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STEP 2: Coverage ───────────────────────────────────────── -->
+      <section class="p-screen" id="ps-2" data-screen="2" hidden>
+        <div class="p-screen-inner">
+          <div class="p-eyebrow">Step 2 of 6 — Coverage area</div>
+          <h2 class="p-title">Where can you serve?</h2>
+          <p class="p-sub">Declare your coverage so Whollar only shows you cohorts you can actually win.</p>
+
+          <div class="p-card">
+            <div class="p-grid p-grid--2">
+              <div class="p-field">
+                <label class="p-label" for="p-prov2">Province(s)</label>
+                <select class="p-input p-select" id="p-prov2">
+                  <option>Ontario</option>
+                  <option>British Columbia</option>
+                  <option>Alberta</option>
+                  <option>Québec</option>
+                  <option>All provinces</option>
+                </select>
+              </div>
+              <div class="p-field p-field--2col">
+                <div class="p-field" style="flex:1">
+                  <label class="p-label" for="p-minhh">Min households</label>
+                  <input class="p-input" type="number" id="p-minhh" placeholder="50" min="1">
+                </div>
+                <div class="p-field" style="flex:1">
+                  <label class="p-label" for="p-maxhh">Max households</label>
+                  <input class="p-input" type="number" id="p-maxhh" placeholder="2000" min="1">
+                </div>
+              </div>
+              <div class="p-field p-field--full">
+                <label class="p-label" for="p-fsas">Forward sortation areas (FSA) — e.g. M5V, K1A</label>
+                <input class="p-input" type="text" id="p-fsas" placeholder="M5V, M6H, K1A, K2P…">
+                <span class="p-hint">Separate FSAs with commas. Whollar matches cohorts within these postal prefixes.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-card">
+            <div class="p-label" style="margin-bottom:14px">Speed tiers you can offer</div>
+            <div class="p-speed-row">
+              <button type="button" class="p-speed-btn p-speed-btn--active" data-speed="50 Mbps">50 Mbps</button>
+              <button type="button" class="p-speed-btn p-speed-btn--active" data-speed="100 Mbps">100 Mbps</button>
+              <button type="button" class="p-speed-btn" data-speed="250 Mbps">250 Mbps</button>
+              <button type="button" class="p-speed-btn p-speed-btn--active" data-speed="500 Mbps">500 Mbps</button>
+              <button type="button" class="p-speed-btn" data-speed="1 Gbps">1 Gbps</button>
+            </div>
+          </div>
+
+          <div class="p-nav">
+            <button type="button" class="btn btn--ghost p-back-btn" data-target="1">← Back</button>
+            <button type="button" class="btn btn--coral p-next-btn" data-target="3">Continue →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STEP 3: Documents ─────────────────────────────────────── -->
+      <section class="p-screen" id="ps-3" data-screen="3" hidden>
+        <div class="p-screen-inner">
+          <div class="p-eyebrow">Step 3 of 6 — Verification</div>
+          <h2 class="p-title">Upload your documents</h2>
+          <p class="p-sub">Whollar verifies all distributors before they can bid. This protects cohort members from unqualified providers.</p>
+
+          <div class="p-card">
+            <div class="p-doc-row">
+              <div class="p-doc-info">
+                <span class="p-doc-icon" data-doc="crtc">📄</span>
+                <div>
+                  <div class="p-doc-name">CRTC registration or exemption letter</div>
+                  <div class="p-doc-status" data-doc-status="crtc">Required</div>
+                </div>
+              </div>
+              <button type="button" class="p-upload-btn" data-upload="crtc">Upload</button>
+            </div>
+            <div class="p-doc-row">
+              <div class="p-doc-info">
+                <span class="p-doc-icon" data-doc="articles">📄</span>
+                <div>
+                  <div class="p-doc-name">Articles of incorporation</div>
+                  <div class="p-doc-status" data-doc-status="articles">Required</div>
+                </div>
+              </div>
+              <button type="button" class="p-upload-btn" data-upload="articles">Upload</button>
+            </div>
+            <div class="p-doc-row">
+              <div class="p-doc-info">
+                <span class="p-doc-icon" data-doc="insurance">📄</span>
+                <div>
+                  <div class="p-doc-name">Liability insurance certificate</div>
+                  <div class="p-doc-status" data-doc-status="insurance">Required</div>
+                </div>
+              </div>
+              <button type="button" class="p-upload-btn" data-upload="insurance">Upload</button>
+            </div>
+            <div class="p-doc-row p-doc-row--last">
+              <div class="p-doc-info">
+                <span class="p-doc-icon" data-doc="coverage">📄</span>
+                <div>
+                  <div class="p-doc-name">Coverage map (GeoJSON or PDF)</div>
+                  <div class="p-doc-status" data-doc-status="coverage">Optional</div>
+                </div>
+              </div>
+              <button type="button" class="p-upload-btn" data-upload="coverage">Upload</button>
+            </div>
+          </div>
+
+          <div class="p-info-banner">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            <p>Verification typically takes 1–2 business days. You'll receive an email once approved. You can complete the rest of your profile in the meantime.</p>
+          </div>
+
+          <div class="p-nav">
+            <button type="button" class="btn btn--ghost p-back-btn" data-target="2">← Back</button>
+            <button type="button" class="btn btn--coral p-next-btn" data-target="4" id="p-docs-next">Continue →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STEP 4: Browse cohorts ─────────────────────────────────── -->
+      <section class="p-screen" id="ps-4" data-screen="4" hidden>
+        <div class="p-screen-inner p-screen-inner--wide">
+          <div class="p-eyebrow">Step 4 of 6 — Cohort marketplace</div>
+          <h2 class="p-title">Active cohorts in your area</h2>
+          <p class="p-sub">These groups are ready for bids. Select one to review details and place your offer.</p>
+
+          <div class="p-cohort-filters">
+            <select class="p-filter-select" id="p-filter-speed">
+              <option value="">All speeds</option>
+              <option>100 Mbps</option>
+              <option>500 Mbps</option>
+              <option>1 Gbps</option>
+            </select>
+            <select class="p-filter-select" id="p-filter-deadline">
+              <option value="">All deadlines</option>
+              <option value="closing">Closing soon</option>
+              <option value="open">4+ days</option>
+            </select>
+          </div>
+
+          <div class="p-cohort-list" id="p-cohort-list">
+
+            <button type="button" class="p-cohort-card p-cohort-card--selected" data-cohort="a">
+              <div class="p-cohort-top">
+                <div class="p-cohort-head">
+                  <div class="p-cohort-name">Bloor West Village</div>
+                  <div class="p-cohort-meta-id">Toronto, ON · M6R, M6S · #WH-2847</div>
+                </div>
+                <span class="p-cohort-badge p-cohort-badge--closing">Closing in 18h</span>
+              </div>
+              <div class="p-cohort-stats">
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Households</div>
+                  <div class="p-cohort-stat-val">487</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Current low bid</div>
+                  <div class="p-cohort-stat-val p-cohort-stat-val--teal">$38.20/mo</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Contract</div>
+                  <div class="p-cohort-stat-val">24 months</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Speed</div>
+                  <div class="p-cohort-stat-val">500 Mbps</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">ISP type</div>
+                  <div class="p-cohort-stat-val">Fibre</div>
+                </div>
+              </div>
+            </button>
+
+            <button type="button" class="p-cohort-card" data-cohort="b">
+              <div class="p-cohort-top">
+                <div class="p-cohort-head">
+                  <div class="p-cohort-name">Plateau-Mont-Royal</div>
+                  <div class="p-cohort-meta-id">Montréal, QC · H2J, H2W · #WH-2851</div>
+                </div>
+                <span class="p-cohort-badge p-cohort-badge--live">4 days left</span>
+              </div>
+              <div class="p-cohort-stats">
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Households</div>
+                  <div class="p-cohort-stat-val">612</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Current low bid</div>
+                  <div class="p-cohort-stat-val p-cohort-stat-val--teal">$41.50/mo</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Contract</div>
+                  <div class="p-cohort-stat-val">12 months</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Speed</div>
+                  <div class="p-cohort-stat-val">100 Mbps</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">ISP type</div>
+                  <div class="p-cohort-stat-val">Cable</div>
+                </div>
+              </div>
+            </button>
+
+            <button type="button" class="p-cohort-card" data-cohort="c">
+              <div class="p-cohort-top">
+                <div class="p-cohort-head">
+                  <div class="p-cohort-name">Kensington Market</div>
+                  <div class="p-cohort-meta-id">Toronto, ON · M5T · #WH-2863</div>
+                </div>
+                <span class="p-cohort-badge p-cohort-badge--live">6 days left</span>
+              </div>
+              <div class="p-cohort-stats">
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Households</div>
+                  <div class="p-cohort-stat-val">294</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Current low bid</div>
+                  <div class="p-cohort-stat-val" style="color:#8a96a0">No bids yet</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Contract</div>
+                  <div class="p-cohort-stat-val">36 months</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">Speed</div>
+                  <div class="p-cohort-stat-val">1 Gbps</div>
+                </div>
+                <div class="p-cohort-stat">
+                  <div class="p-cohort-stat-label">ISP type</div>
+                  <div class="p-cohort-stat-val">Fibre</div>
+                </div>
+              </div>
+            </button>
+
+          </div>
+
+          <div class="p-nav">
+            <button type="button" class="btn btn--ghost p-back-btn" data-target="3">← Back</button>
+            <button type="button" class="btn btn--coral p-next-btn" data-target="5" id="p-cohort-next">Bid on selected cohort →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STEP 5: Place bid ──────────────────────────────────────── -->
+      <section class="p-screen" id="ps-5" data-screen="5" hidden>
+        <div class="p-screen-inner">
+          <div class="p-eyebrow">Step 5 of 6 — Sealed auction</div>
+          <h2 class="p-title">Place your sealed bid</h2>
+          <p class="p-sub">Your price per household per month. Bids are sealed — competitors see nothing until the auction closes.</p>
+
+          <div class="p-bid-layout">
+            <!-- Summary -->
+            <div class="p-bid-summary">
+              <div class="p-bid-summary-title">Cohort summary</div>
+              <div class="p-bid-rows">
+                <div class="p-bid-row"><span class="p-bid-lbl">Cohort</span><span class="p-bid-val" id="bid-cohort-name">Bloor West Village #WH-2847</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">Location</span><span class="p-bid-val" id="bid-cohort-loc">Toronto, ON</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">Postal codes</span><span class="p-bid-val" id="bid-cohort-fsas">M6R, M6S</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">Households</span><span class="p-bid-val" id="bid-cohort-hh">487</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">Current low bid</span><span class="p-bid-val p-bid-val--teal" id="bid-cohort-low">$38.20/mo</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">Speed tier</span><span class="p-bid-val" id="bid-cohort-speed">500 Mbps</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">ISP type</span><span class="p-bid-val" id="bid-cohort-isp">Fibre</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">Contract term</span><span class="p-bid-val" id="bid-cohort-term">24 months</span></div>
+                <div class="p-bid-row"><span class="p-bid-lbl">Auction closes</span><span class="p-bid-val p-bid-val--amber" id="bid-cohort-deadline">18h left</span></div>
+              </div>
+              <p class="p-bid-footnote">Winning distributor signs a binding service agreement with Whollar. SLAs apply from day 30 of activation.</p>
+            </div>
+
+            <!-- Bid input -->
+            <div class="p-bid-form">
+              <div class="p-sealed-warning">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+                Sealed auction — bids are final on submission
+              </div>
+
+              <label class="p-label" for="p-bid-input">Your bid — price per household / month</label>
+              <div class="p-bid-input-row">
+                <span class="p-bid-currency">$</span>
+                <input class="p-bid-input" type="number" id="p-bid-input" value="36.50" min="1" max="999" step="0.5">
+                <span class="p-bid-per">per household / month</span>
+              </div>
+
+              <div class="p-bid-estimate">
+                <div class="p-bid-est-row">
+                  <span class="p-bid-est-lbl">Monthly revenue</span>
+                  <span class="p-bid-est-val" id="bid-monthly">$17,796</span>
+                </div>
+                <div class="p-bid-est-row p-bid-est-row--total">
+                  <span class="p-bid-est-lbl">Contract value</span>
+                  <span class="p-bid-est-val p-bid-est-val--big" id="bid-total">$427,104</span>
+                </div>
+              </div>
+
+              <div class="p-bid-lock-note">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Bids are encrypted and disclosed only after the auction deadline. No competitor sees your offer before close.
+              </div>
+
+              <button type="button" class="btn btn--coral btn--block p-submit-bid" id="p-submit-bid">Submit sealed bid</button>
+            </div>
+          </div>
+
+          <div class="p-nav p-nav--bid">
+            <button type="button" class="btn btn--ghost p-back-btn" data-target="4">← Back</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STEP 6: Confirmation ───────────────────────────────────── -->
+      <section class="p-screen" id="ps-6" data-screen="6" hidden>
+        <div class="p-screen-inner">
+          <div class="p-eyebrow">Step 6 of 6 — Done</div>
+          <h2 class="p-title">Your bid is in the vault</h2>
+
+          <div class="p-confirm-banner">
+            <span class="p-confirm-icon" aria-hidden="true">🔒</span>
+            <div class="p-confirm-title">Sealed bid submitted</div>
+            <div class="p-confirm-sub" id="confirm-cohort-label">Bloor West Village · Cohort #WH-2847 · Closes in 18h</div>
+          </div>
+
+          <div class="p-confirm-grid">
+            <div class="p-confirm-item">
+              <div class="p-confirm-item-label">Your bid</div>
+              <div class="p-confirm-item-val" id="confirm-bid-val">$36.50 / household / month</div>
+            </div>
+            <div class="p-confirm-item">
+              <div class="p-confirm-item-label">Households in cohort</div>
+              <div class="p-confirm-item-val" id="confirm-hh">487</div>
+            </div>
+            <div class="p-confirm-item">
+              <div class="p-confirm-item-label">Estimated contract value</div>
+              <div class="p-confirm-item-val p-confirm-item-val--teal" id="confirm-total">$427,104</div>
+            </div>
+            <div class="p-confirm-item">
+              <div class="p-confirm-item-label">Result notification</div>
+              <div class="p-confirm-item-val" id="confirm-email">—</div>
+            </div>
+          </div>
+
+          <div class="p-what-next">
+            <div class="p-what-next-title">What happens next</div>
+            <div class="p-next-item">
+              <span class="p-next-num">1</span>
+              <div>
+                <strong>Auction closes.</strong> All sealed bids are revealed simultaneously to Whollar.
+              </div>
+            </div>
+            <div class="p-next-item">
+              <span class="p-next-num">2</span>
+              <div>
+                <strong>Winner determined.</strong> Lowest qualifying bid wins. You'll receive an email within 1 hour of close.
+              </div>
+            </div>
+            <div class="p-next-item">
+              <span class="p-next-num">3</span>
+              <div>
+                <strong>Service agreement.</strong> If you win, Whollar sends the agreement for e-signature. Activation begins within 30 days.
+              </div>
+            </div>
+          </div>
+
+          <div class="p-nav p-nav--end">
+            <button type="button" class="btn btn--coral" id="p-browse-more">Browse more cohorts →</button>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /portal-body -->
+  </div><!-- /portal -->
+
+  <!-- Restore <main> for footer -->
+  <main id="portal-footer-main" hidden>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <div class="foot-brand">
+              <span class="brand-mark brand-mark--sm" aria-hidden="true">
+                <i class="dot dot--white"></i><i class="dot dot--coral"></i><i class="dot dot--white"></i>
+              </span>
+              <span class="foot-brand-name"><span class="foot-word">Whollar</span><span class="foot-pill">for distributors</span></span>
+            </div>
+            <p class="foot-tag">Verified demand, delivered.</p>
+          </div>
+          <div>
+            <h4 class="foot-h">Distributors</h4>
+            <ul class="foot-links">
+              <li><a href="#how">How it works</a></li>
+              <li><a href="#economics">The economics</a></li>
+              <li><a href="#faq">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="foot-h">Whollar</h4>
+            <ul class="foot-links">
+              <li><a href="https://whollar.com">For households</a></li>
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span class="foot-copy">© 2026 Whollar. Now forming the first cohorts.</span>
+          <span class="foot-made">Made in Canada
+            <svg width="16" height="16" viewBox="0 0 512 512" fill="#d8443c" aria-hidden="true"><path d="M256 32l-28 92-72-44 28 104-84-12 56 64-40 36 96 16-8 56 64-44 64 44-8-56 96-16-40-36 56-64-84 12 28-104-72 44z"/></svg>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+  </main><!-- /portal-footer-main -->
+
+  <!-- THEME TWEAK PANEL -->
+  <div class="theme-dock">
+    <button type="button" class="theme-toggle" aria-expanded="false" aria-controls="theme-panel" title="Tweak theme">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="11" r="2.5"/><circle cx="17" cy="13" r="2.5"/><circle cx="9.5" cy="18" r="2.5"/><path d="M3 21h18"/></svg>
+    </button>
+    <div class="theme-panel" id="theme-panel" hidden>
+      <div class="theme-row">
+        <span class="theme-label">Coral accent</span>
+        <div class="swatches" data-swatch-group="coral">
+          <button type="button" class="swatch is-active" data-color="#ff6b4a" style="--sw:#ff6b4a" aria-label="#ff6b4a"></button>
+          <button type="button" class="swatch" data-color="#f4603f" style="--sw:#f4603f" aria-label="#f4603f"></button>
+          <button type="button" class="swatch" data-color="#e8553c" style="--sw:#e8553c" aria-label="#e8553c"></button>
+          <button type="button" class="swatch" data-color="#ff7a59" style="--sw:#ff7a59" aria-label="#ff7a59"></button>
+          <button type="button" class="swatch" data-color="#f2754a" style="--sw:#f2754a" aria-label="#f2754a"></button>
+        </div>
+      </div>
+      <div class="theme-row">
+        <span class="theme-label">Teal primary</span>
+        <div class="swatches" data-swatch-group="teal">
+          <button type="button" class="swatch is-active" data-color="#0f5e63" style="--sw:#0f5e63" aria-label="#0f5e63"></button>
+          <button type="button" class="swatch" data-color="#0c6b6f" style="--sw:#0c6b6f" aria-label="#0c6b6f"></button>
+          <button type="button" class="swatch" data-color="#114e63" style="--sw:#114e63" aria-label="#114e63"></button>
+          <button type="button" class="swatch" data-color="#13726e" style="--sw:#13726e" aria-label="#13726e"></button>
+          <button type="button" class="swatch" data-color="#0a4a52" style="--sw:#0a4a52" aria-label="#0a4a52"></button>
+        </div>
+      </div>
+      <div class="theme-row">
+        <span class="theme-label">Navy darks</span>
+        <div class="swatches" data-swatch-group="navy">
+          <button type="button" class="swatch is-active" data-color="#1f2d3d" style="--sw:#1f2d3d" aria-label="#1f2d3d"></button>
+          <button type="button" class="swatch" data-color="#16212c" style="--sw:#16212c" aria-label="#16212c"></button>
+          <button type="button" class="swatch" data-color="#1b2a3a" style="--sw:#1b2a3a" aria-label="#1b2a3a"></button>
+          <button type="button" class="swatch" data-color="#212d3e" style="--sw:#212d3e" aria-label="#212d3e"></button>
+        </div>
+      </div>
+      <div class="theme-row">
+        <span class="theme-label">Hero headline</span>
+        <select class="theme-select" data-headline-select>
+          <option value="Win a whole cohort in a single bid.">Win a whole cohort in a single bid.</option>
+          <option value="Win whole neighbourhoods, not one customer at a time.">Win whole neighbourhoods, not one customer at a time.</option>
+          <option value="Stop buying leads. Start winning cohorts.">Stop buying leads. Start winning cohorts.</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   WHOLLAR — combined marketing site + distributor portal script
+   Sections:
+     A. Original site JS (reveals, FAQ, theme panel, apply form)
+     B. Portal flow JS (step navigation, cohort selection, bid calc)
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── A. ORIGINAL SITE JS ──────────────────────────────────────────── */
+
+/* Scroll-reveal */
+(function(){
+  var els = document.querySelectorAll('[data-reveal]');
+  if(!els.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('is-revealed'); io.unobserve(e.target); }
+    });
+  },{threshold:0.12});
+  els.forEach(function(el){ io.observe(el); });
+})();
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-q').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var item = btn.closest('.faq-item');
+    var open = item.classList.contains('is-open');
+    document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('is-open'); i.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
+    if(!open){ item.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); }
+  });
+});
+
+/* Theme tweak panel */
+(function(){
+  var toggle = document.querySelector('.theme-toggle');
+  var panel  = document.getElementById('theme-panel');
+  if(!toggle||!panel) return;
+  toggle.addEventListener('click',function(){
+    var open = panel.hidden;
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('[data-swatch-group]').forEach(function(grp){
+    var key = grp.dataset.swatchGroup;
+    grp.querySelectorAll('.swatch').forEach(function(sw){
+      sw.addEventListener('click',function(){
+        grp.querySelectorAll('.swatch').forEach(function(s){ s.classList.remove('is-active'); });
+        sw.classList.add('is-active');
+        var c = sw.dataset.color;
+        if(key==='coral')      { document.documentElement.style.setProperty('--c',c); document.documentElement.style.setProperty('--coral',c); }
+        else if(key==='teal')  { document.documentElement.style.setProperty('--t',c); document.documentElement.style.setProperty('--teal',c); }
+        else if(key==='navy')  { document.documentElement.style.setProperty('--navy',c); }
+      });
+    });
+  });
+  var headSel = document.querySelector('[data-headline-select]');
+  if(headSel){
+    headSel.addEventListener('change',function(){
+      document.querySelectorAll('[data-headline]').forEach(function(el){ el.textContent = headSel.value; });
+    });
+  }
+})();
+
+/* Apply form validation + portal launch */
+(function(){
+  var form = document.querySelector('.apply-form');
+  if(!form) return;
+  var success = form.closest('.form-card').querySelector('.form-success');
+
+  function validate(){
+    var ok = true;
+    form.querySelectorAll('input[required], select[required]').forEach(function(f){
+      var err = f.parentElement.querySelector('.field-err');
+      if(!f.value.trim()){ if(err){ err.textContent='Required'; err.hidden=false; } f.setAttribute('aria-invalid','true'); ok=false; }
+      else { if(err) err.hidden=true; f.removeAttribute('aria-invalid'); }
+    });
+    return ok;
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!validate()) return;
+
+    /* Pre-fill portal step 1 from the application form */
+    var companyInput = document.getElementById('p-company');
+    var emailInput   = document.getElementById('p-email');
+    var formCompany  = form.querySelector('[name="company"]');
+    var formEmail    = form.querySelector('[name="email"]');
+    if(companyInput && formCompany) companyInput.value = formCompany.value;
+    if(emailInput   && formEmail)   emailInput.value   = formEmail.value;
+
+    /* Flash success, then launch portal */
+    form.hidden = true;
+    success.hidden = false;
+    setTimeout(launchPortal, 900);
+  });
+})();
+
+/* ── B. PORTAL FLOW JS ────────────────────────────────────────────── */
+
+/* Cohort data */
+var COHORTS = {
+  a: { name:'Bloor West Village', code:'WH-2847', loc:'Toronto, ON', fsas:'M6R, M6S', hh:487, lowBid:'$38.20/mo', speed:'500 Mbps', isp:'Fibre', term:'24 months', termMonths:24, deadline:'18h left' },
+  b: { name:'Plateau-Mont-Royal',  code:'WH-2851', loc:'Montréal, QC', fsas:'H2J, H2W', hh:612, lowBid:'$41.50/mo', speed:'100 Mbps', isp:'Cable', term:'12 months', termMonths:12, deadline:'4 days left' },
+  c: { name:'Kensington Market',   code:'WH-2863', loc:'Toronto, ON',  fsas:'M5T',     hh:294, lowBid:'No bids yet', speed:'1 Gbps',   isp:'Fibre', term:'36 months', termMonths:36, deadline:'6 days left' }
+};
+
+var portalState = { step: 1, selectedCohort: 'a', docs: {}, bidValue: 36.5 };
+
+function launchPortal(){
+  /* Hide the marketing page content */
+  var siteHeader = document.querySelector('.site-header');
+  var mainTop    = document.getElementById('top');
+  var footer     = document.getElementById('portal-footer-main');
+  if(siteHeader) siteHeader.hidden = true;
+  if(mainTop)    mainTop.hidden    = true;
+  if(footer)     footer.hidden     = false;
+
+  /* Show portal */
+  var portal = document.getElementById('portal');
+  portal.hidden = false;
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+
+  goToStep(1);
+}
+
+function goToStep(n){
+  portalState.step = n;
+
+  /* Update screens */
+  document.querySelectorAll('.p-screen').forEach(function(s){
+    s.hidden = (parseInt(s.dataset.screen) !== n);
+  });
+
+  /* Update step indicators */
+  document.querySelectorAll('.p-step').forEach(function(dot){
+    var sn = parseInt(dot.dataset.step);
+    dot.classList.remove('p-step--active','p-step--done');
+    if(sn < n)  dot.classList.add('p-step--done');
+    if(sn === n) dot.classList.add('p-step--active');
+  });
+
+  /* Update progress fill */
+  var fill = document.getElementById('portal-fill');
+  if(fill) fill.style.width = Math.round((n/6)*100)+'%';
+
+  /* Update step lines */
+  document.querySelectorAll('.p-step-line').forEach(function(line, i){
+    line.classList.toggle('p-step-line--done', i < n - 1);
+  });
+
+  window.scrollTo(0,0);
+}
+
+/* Step next/back wiring */
+document.addEventListener('click', function(e){
+  var next = e.target.closest('.p-next-btn');
+  var back = e.target.closest('.p-back-btn');
+  if(next){ goToStep(parseInt(next.dataset.target)); return; }
+  if(back){ goToStep(parseInt(back.dataset.target)); return; }
+});
+
+/* ISP type toggle */
+document.querySelectorAll('.p-isp-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.p-isp-btn').forEach(function(b){ b.classList.remove('p-isp-btn--active'); });
+    btn.classList.add('p-isp-btn--active');
+  });
+});
+
+/* Speed tier toggle */
+document.querySelectorAll('.p-speed-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    btn.classList.toggle('p-speed-btn--active');
+  });
+});
+
+/* Document upload simulation */
+document.querySelectorAll('.p-upload-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var key = btn.dataset.upload;
+    portalState.docs[key] = !portalState.docs[key];
+    var uploaded = portalState.docs[key];
+    btn.textContent = uploaded ? '✓ Uploaded' : 'Upload';
+    btn.classList.toggle('p-upload-btn--done', uploaded);
+    var icon   = document.querySelector('[data-doc="'+key+'"]');
+    var status = document.querySelector('[data-doc-status="'+key+'"]');
+    if(icon)   icon.textContent   = uploaded ? '✅' : '📄';
+    if(status){ status.textContent = uploaded ? 'Uploaded' : (key==='coverage' ? 'Optional' : 'Required'); status.classList.toggle('p-doc-status--done', uploaded); }
+  });
+});
+
+/* Cohort selection */
+document.querySelectorAll('.p-cohort-card').forEach(function(card){
+  card.addEventListener('click',function(){
+    document.querySelectorAll('.p-cohort-card').forEach(function(c){ c.classList.remove('p-cohort-card--selected'); });
+    card.classList.add('p-cohort-card--selected');
+    portalState.selectedCohort = card.dataset.cohort;
+    updateBidSummary();
+  });
+});
+
+/* Populate bid summary from selected cohort */
+function updateBidSummary(){
+  var c = COHORTS[portalState.selectedCohort];
+  if(!c) return;
+  function set(id, val){ var el = document.getElementById(id); if(el) el.textContent = val; }
+  set('bid-cohort-name',     c.name + ' #' + c.code);
+  set('bid-cohort-loc',      c.loc);
+  set('bid-cohort-fsas',     c.fsas);
+  set('bid-cohort-hh',       c.hh);
+  set('bid-cohort-low',      c.lowBid);
+  set('bid-cohort-speed',    c.speed);
+  set('bid-cohort-isp',      c.isp);
+  set('bid-cohort-term',     c.term);
+  set('bid-cohort-deadline', c.deadline);
+  calcBid();
+}
+
+/* Bid calculator */
+function calcBid(){
+  var c = COHORTS[portalState.selectedCohort];
+  if(!c) return;
+  var bid = parseFloat(document.getElementById('p-bid-input').value) || 0;
+  portalState.bidValue = bid;
+  var monthly  = Math.round(bid * c.hh);
+  var total    = Math.round(bid * c.hh * c.termMonths);
+  function set(id, val){ var el = document.getElementById(id); if(el) el.textContent = val; }
+  set('bid-monthly', '$' + monthly.toLocaleString());
+  set('bid-total',   '$' + total.toLocaleString());
+}
+
+var bidInput = document.getElementById('p-bid-input');
+if(bidInput) bidInput.addEventListener('input', calcBid);
+
+/* Submit bid → step 6 */
+var submitBtn = document.getElementById('p-submit-bid');
+if(submitBtn){
+  submitBtn.addEventListener('click', function(){
+    var c = COHORTS[portalState.selectedCohort];
+    var bid = parseFloat(document.getElementById('p-bid-input').value) || 0;
+    var total = Math.round(bid * c.hh * c.termMonths);
+    var email = document.getElementById('p-email') ? document.getElementById('p-email').value : '—';
+
+    function set(id, val){ var el = document.getElementById(id); if(el) el.textContent = val; }
+    set('confirm-cohort-label', c.name + ' · Cohort #' + c.code + ' · Closes in ' + c.deadline);
+    set('confirm-bid-val',  '$' + bid.toFixed(2) + ' / household / month');
+    set('confirm-hh',       c.hh);
+    set('confirm-total',    '$' + total.toLocaleString());
+    set('confirm-email',    email || '—');
+
+    goToStep(6);
+  });
+}
+
+/* Browse more cohorts → back to step 4 */
+var browseMore = document.getElementById('p-browse-more');
+if(browseMore){ browseMore.addEventListener('click', function(){ goToStep(4); }); }
+
+/* Exit portal → restore marketing site */
+var exitBtn = document.getElementById('portal-exit-btn');
+if(exitBtn){
+  exitBtn.addEventListener('click', function(){
+    document.getElementById('portal').hidden = true;
+    var siteHeader = document.querySelector('.site-header');
+    var mainTop    = document.getElementById('top');
+    var footer     = document.getElementById('portal-footer-main');
+    if(siteHeader) siteHeader.hidden = false;
+    if(mainTop)    mainTop.hidden    = false;
+    if(footer)     footer.hidden     = true;
+    /* Reset form so they see the landing page again */
+    var form    = document.querySelector('.apply-form');
+    var success = document.querySelector('.form-success');
+    if(form)    form.hidden    = false;
+    if(success) success.hidden = true;
+  });
+}
+
+/* Initialise bid summary on page load */
+updateBidSummary();
+</script>
+</body>
+</html>

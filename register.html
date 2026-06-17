@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Become a partner — Whollar</title>
+  <meta name="description" content="Register as a Whollar bidding partner. Win verified, coverage-matched cohorts of households. Pay only on activation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Hanken Grotesk', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      color: #1f2d3d;
+      background: #fbfaf7;
+      overflow-x: hidden;
+    }
+    ::selection { background: #ff6b4a; color: #fff; }
+
+    /* ── Page grid ───────────────────────────────── */
+    .page {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Left panel ──────────────────────────────── */
+    .panel-left {
+      position: sticky; top: 0; height: 100vh;
+      background: linear-gradient(160deg, #0f5e63 0%, #0b4448 55%, #16212c 100%);
+      color: #eaf5f3;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .left-inner {
+      display: flex; flex-direction: column; height: 100%;
+      padding: 40px 40px 0;
+    }
+
+    /* brand */
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit; }
+    .brand-mark {
+      width: 40px; height: 40px; border-radius: 11px;
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; display: block; }
+    .dot--w { background: #fff; }
+    .dot--c { background: #ff6b4a; }
+    .brand-word { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #fff; }
+    .brand-pill { font-size: 12px; font-weight: 600; color: #7fc9c5; background: rgba(127,201,197,0.15); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+
+    /* stepper */
+    .stepper { margin-top: 48px; display: flex; flex-direction: column; gap: 0; }
+    .step-item { display: flex; gap: 16px; align-items: flex-start; position: relative; }
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 18px; top: 40px;
+      width: 2px; height: 36px;
+      background: rgba(255,255,255,0.12);
+    }
+    .step-item.is-done:not(:last-child)::after { background: rgba(255,107,74,0.4); }
+    .step-circle {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 15px;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.5);
+      transition: all .3s ease;
+      margin-bottom: 36px;
+    }
+    .step-item.is-active .step-circle {
+      background: #ff6b4a; border-color: #ff6b4a; color: #fff;
+      box-shadow: 0 8px 20px -8px rgba(255,107,74,0.7);
+    }
+    .step-item.is-done .step-circle {
+      background: rgba(255,107,74,0.2); border-color: #ff6b4a; color: #ff6b4a;
+    }
+    .step-text { padding-top: 6px; }
+    .step-label { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.45); transition: color .3s; }
+    .step-item.is-active .step-label { color: #fff; }
+    .step-item.is-done .step-label { color: rgba(255,255,255,0.7); }
+    .step-desc { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+    .step-item.is-active .step-desc { color: rgba(255,255,255,0.55); }
+
+    /* tagline */
+    .left-tagline { margin-top: auto; }
+    .left-tagline p { font-size: 15px; color: rgba(255,255,255,0.45); line-height: 1.55; margin: 0 0 6px; }
+    .left-tagline strong { color: #fff; }
+
+    /* family photo */
+    .photo-family { margin-top: 24px; border-radius: 20px 20px 0 0; overflow: hidden; flex-shrink: 0; max-height: 240px; position: relative; }
+    .photo-family img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
+    .photo-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(11,68,72,0) 30%, rgba(11,68,72,0.75) 100%); }
+    .photo-pill {
+      position: absolute; bottom: 16px; left: 16px;
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(15,94,99,0.82); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 7px 14px; border-radius: 999px;
+      font-size: 12.5px; font-weight: 600; color: #fff;
+    }
+    .pulse { width: 7px; height: 7px; border-radius: 50%; background: #28b070; box-shadow: 0 0 0 3px rgba(40,176,112,0.25); animation: pulse 2.4s ease-out infinite; flex-shrink: 0; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(40,176,112,0.4)} 70%{box-shadow:0 0 0 6px rgba(40,176,112,0)} 100%{box-shadow:0 0 0 0 rgba(40,176,112,0)} }
+
+    /* ── Right panel ──────────────────────────────── */
+    .panel-right {
+      display: flex; flex-direction: column;
+      background: #fbfaf7;
+      overflow-y: auto;
+    }
+    .right-inner { flex: 1; padding: clamp(40px,6vw,72px) clamp(32px,5vw,64px); }
+
+    /* step panels */
+    .step-panel { display: none; }
+    .step-panel.is-active { display: block; }
+
+    .step-head { margin-bottom: 32px; }
+    .step-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #ff6b4a; margin: 0 0 8px; }
+    .step-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: clamp(26px,3vw,38px); letter-spacing: -0.02em; line-height: 1.08; color: #1f2d3d; margin: 0 0 10px; }
+    .step-sub { font-size: 15.5px; color: #5a6e7e; line-height: 1.55; margin: 0; }
+
+    /* form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field--full { grid-column: 1 / -1; }
+    .field-label { font-size: 13.5px; font-weight: 600; color: #1f2d3d; }
+    .field-hint { font-size: 12px; color: #8a96a0; font-weight: 400; margin-left: 4px; }
+    .field input, .field select, .field textarea {
+      font-family: inherit; font-size: 15px; color: #1f2d3d;
+      padding: 12px 14px; border: 1px solid #d7ddd9; border-radius: 11px;
+      outline: none; background: #fff; width: 100%;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field textarea { resize: vertical; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: #0f5e63; box-shadow: 0 0 0 3px rgba(15,94,99,0.14); }
+    .field.has-error input, .field.has-error select { border-color: #e0796a; }
+    .field-err { font-size: 12px; color: #d6543f; }
+
+    /* checkbox */
+    .check-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: #fff; border: 1px solid #e7ebe6; border-radius: 12px; cursor: pointer; }
+    .check-row input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; accent-color: #0f5e63; cursor: pointer; }
+    .check-row-text { font-size: 14.5px; color: #48586a; line-height: 1.45; }
+    .check-row-text strong { color: #1f2d3d; }
+
+    /* upload zones */
+    .upload-zone {
+      border: 2px dashed #d0d9d6; border-radius: 14px;
+      padding: 28px 20px; text-align: center; cursor: pointer;
+      transition: border-color .2s, background .2s;
+      background: #fff; position: relative;
+    }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: #0f5e63; background: rgba(15,94,99,0.04); }
+    .upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-ico { width: 44px; height: 44px; border-radius: 12px; background: rgba(15,94,99,0.08); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .upload-label { font-size: 14.5px; font-weight: 600; color: #1f2d3d; margin: 0 0 4px; }
+    .upload-sub { font-size: 12.5px; color: #8a96a0; margin: 0; }
+    .upload-filename { font-size: 13px; color: #0f5e63; font-weight: 600; margin-top: 8px; }
+    .upload-opt { font-size: 12px; color: #a0adb5; margin-top: 6px; }
+
+    /* nav buttons */
+    .step-nav { display: flex; align-items: center; gap: 16px; margin-top: 36px; }
+    .btn-primary {
+      background: #ff6b4a; color: #fff;
+      font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16px;
+      padding: 14px 32px; border: none; border-radius: 12px; cursor: pointer;
+      box-shadow: 0 12px 28px -10px rgba(255,107,74,0.6);
+      transition: background .18s; flex-shrink: 0;
+    }
+    .btn-primary:hover { background: #ef5530; }
+    .btn-secondary {
+      background: none; border: 1px solid #d7ddd9; color: #48586a;
+      font-family: 'Hanken Grotesk',sans-serif; font-weight: 600; font-size: 15px;
+      padding: 13px 24px; border-radius: 12px; cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+    .btn-secondary:hover { border-color: #0f5e63; color: #0f5e63; }
+    .step-note { font-size: 13px; color: #8a96a0; display: flex; align-items: center; gap: 6px; margin-left: auto; }
+
+    /* privacy */
+    .privacy-note { display: flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 13px; color: #8a96a0; }
+
+    /* ── Step 1 two-column split ─────────────────── */
+    .s1-split {
+      display: grid;
+      grid-template-columns: 55% 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .s1-value-col { position: sticky; top: 32px; }
+    .value-panel {
+      background: linear-gradient(155deg, #0f5e63 0%, #0b4448 100%);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 24px 48px -24px rgba(11,68,72,0.55);
+    }
+    .value-panel-heading {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 800; font-size: 20px; letter-spacing: -0.02em;
+      color: #fff; margin: 0 0 26px;
+    }
+    .value-perks { display: flex; flex-direction: column; gap: 22px; }
+    .value-perk { display: flex; gap: 14px; align-items: flex-start; }
+    .perk-num {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px;
+      background: #ff6b4a; color: #fff;
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 13px;
+      display: flex; align-items: center; justify-content: center; margin-top: 1px;
+      box-shadow: 0 6px 14px -6px rgba(255,107,74,0.65);
+    }
+    .perk-title {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 700; font-size: 15px; color: #fff; margin: 0 0 4px;
+    }
+    .perk-body { font-size: 13.5px; color: rgba(255,255,255,0.62); line-height: 1.5; margin: 0; }
+    .value-trust {
+      margin-top: 28px; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      font-size: 13px; color: rgba(255,255,255,0.48);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* ── Step 2 image panel ───────────────────────── */
+    .s2-img-panel {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 24px 48px -24px rgba(31,45,61,0.45);
+      aspect-ratio: 3 / 4;
+      background: #0b4448;
+    }
+    .s2-img-panel img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .s2-img-panel-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(11,44,55,0.72) 0%, transparent 55%);
+    }
+    .s2-img-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 22px 22px 24px;
+    }
+    .s2-img-caption-tag {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+      color: #ff9a84; margin: 0 0 6px;
+    }
+    .s2-img-caption-title {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 800; font-size: 17px; letter-spacing: -0.01em;
+      color: #fff; margin: 0 0 10px; line-height: 1.2;
+    }
+    .s2-img-caption-pills {
+      display: flex; gap: 7px; flex-wrap: wrap;
+    }
+    .s2-pill {
+      font-size: 12px; font-weight: 600; padding: 4px 10px;
+      border-radius: 999px; background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18); color: #fff;
+    }
+
+    /* ── Province searchable multi-select ─────────── */
+    .province-select { position: relative; }
+    .ps-trigger {
+      min-height: 46px; padding: 8px 38px 8px 12px;
+      border: 1px solid #d7ddd9; border-radius: 11px; background: #fff;
+      cursor: pointer; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+      transition: border-color .15s, box-shadow .15s; position: relative;
+    }
+    .ps-trigger:focus-within,
+    .ps-trigger.is-open { border-color: #0f5e63; box-shadow: 0 0 0 3px rgba(15,94,99,0.14); }
+    .ps-arrow {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 12px; color: #8a96a0; pointer-events: none; transition: transform .2s;
+    }
+    .ps-trigger.is-open .ps-arrow { transform: translateY(-50%) rotate(180deg); }
+    .ps-placeholder { font-size: 15px; color: #a0adb5; user-select: none; }
+    .ps-selected-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #e3f0ee; border: 1px solid #b3d4cf;
+      color: #0f5e63; font-size: 12.5px; font-weight: 600;
+      padding: 3px 8px; border-radius: 7px;
+    }
+    .ps-remove-btn {
+      background: none; border: none; cursor: pointer; padding: 0; margin: 0;
+      color: #6aada8; font-size: 14px; line-height: 1; display: flex; align-items: center;
+    }
+    .ps-remove-btn:hover { color: #0f5e63; }
+    .ps-dropdown {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 60;
+      background: #fff; border: 1px solid #d7ddd9; border-radius: 13px;
+      box-shadow: 0 16px 40px -16px rgba(31,45,61,0.45);
+      overflow: hidden;
+    }
+    .ps-search-wrap { padding: 10px 10px 6px; }
+    .ps-search {
+      width: 100%; font-family: inherit; font-size: 14px;
+      padding: 9px 12px; border: 1px solid #e2e8e4; border-radius: 9px;
+      outline: none; color: #1f2d3d; background: #f7faf9;
+      transition: border-color .15s;
+    }
+    .ps-search:focus { border-color: #0f5e63; }
+    .ps-list { list-style: none; margin: 0; padding: 6px 6px 8px; max-height: 220px; overflow-y: auto; }
+    .ps-item { }
+    .ps-item label {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 10px; border-radius: 8px; cursor: pointer; font-size: 14.5px; color: #1f2d3d;
+      transition: background .12s;
+    }
+    .ps-item label:hover { background: #f0f8f6; }
+    .ps-item input[type=checkbox] { width: 16px; height: 16px; accent-color: #0f5e63; flex-shrink: 0; }
+    .ps-item.is-hidden { display: none; }
+    .ps-no-results { padding: 12px 16px; font-size: 14px; color: #8a96a0; }
+
+    /* ── Radio group field ────────────────────────── */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 12px 14px; background: #fff; border: 1px solid #e7ebe6; border-radius: 11px;
+      cursor: pointer; transition: border-color .15s;
+    }
+    .radio-item:hover { border-color: #b3d4cf; }
+    .radio-item input[type=radio] { width: 17px; height: 17px; accent-color: #0f5e63; flex-shrink: 0; cursor: pointer; }
+    .radio-item-label { font-size: 14.5px; color: #1f2d3d; font-weight: 500; }
+    .radio-item input[type=radio]:checked ~ .radio-item-label { color: #0f5e63; font-weight: 600; }
+
+    /* ── Checkbox group field ─────────────────────── */
+    .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .checkbox-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 14px; background: #fff; border: 1px solid #e7ebe6; border-radius: 11px;
+      cursor: pointer; transition: border-color .15s;
+    }
+    .checkbox-item:hover { border-color: #b3d4cf; }
+    .checkbox-item input[type=checkbox] { width: 16px; height: 16px; accent-color: #0f5e63; flex-shrink: 0; cursor: pointer; }
+    .checkbox-item-label { font-size: 14px; color: #1f2d3d; font-weight: 500; }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media (max-width: 900px) {
+      .s1-split { grid-template-columns: 1fr; gap: 24px; }
+      .s1-value-col { position: static; order: -1; }
+      .s2-img-panel { aspect-ratio: 16 / 9; }
+      .page { grid-template-columns: 1fr; }
+      .panel-left { position: static; height: auto; }
+      .left-inner { padding: 28px 24px 0; }
+      .stepper { flex-direction: row; gap: 0; margin-top: 28px; overflow-x: auto; }
+      .step-item { flex-direction: column; align-items: center; text-align: center; flex: 1; }
+      .step-item:not(:last-child)::after { left: 50%; top: 18px; width: calc(100% - 36px); height: 2px; }
+      .step-circle { margin-bottom: 8px; }
+      .photo-family { max-height: 180px; }
+      .right-inner { padding: 28px 20px 40px; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════════ LEFT PANEL ══════════════ -->
+  <div class="panel-left">
+    <div class="left-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <span class="dot dot--w"></span><span class="dot dot--c"></span><span class="dot dot--w"></span>
+        </span>
+        <span style="display:flex;align-items:center;gap:9px;">
+          <span class="brand-word">Whollar</span>
+          <span class="brand-pill">for distributors</span>
+        </span>
+      </a>
+
+      <div class="stepper" id="stepper" aria-label="Registration steps">
+        <div class="step-item is-active" data-step="1">
+          <div class="step-circle">1</div>
+          <div class="step-text">
+            <div class="step-label">Register your company</div>
+            <div class="step-desc">Name, contact &amp; email</div>
+          </div>
+        </div>
+        <div class="step-item" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-text">
+            <div class="step-label">Where can you serve</div>
+            <div class="step-desc">Coverage &amp; network type</div>
+          </div>
+        </div>
+        <div class="step-item" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-text">
+            <div class="step-label">Upload your documents</div>
+            <div class="step-desc">Licence &amp; coverage proof</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="left-tagline">
+        <p><strong>Join Canada's first cohort bidding network.</strong><br>Win verified households — pay only on activation.</p>
+      </div>
+
+      <div class="photo-family">
+        <img src="jessica-rockowitz-5NLCaz2wJXE-unsplash.jpg" alt="A family — the verified households you'll win through Whollar" loading="eager">
+        <div class="photo-overlay"></div>
+        <span class="photo-pill">
+          <span class="pulse"></span>
+          50–250 verified households per cohort
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ RIGHT PANEL ══════════════ -->
+  <div class="panel-right">
+    <div class="right-inner">
+
+      <!-- ── STEP 1: Register your company ── -->
+      <div class="step-panel is-active" id="panel-1">
+        <div class="s1-split">
+
+          <!-- LEFT: form -->
+          <div class="s1-form-col">
+            <div class="step-head">
+              <p class="step-eyebrow">Step 1 of 3</p>
+              <h1 class="step-title">Become a partner.</h1>
+              <p class="step-sub">Tell us about your company. This takes about 2 minutes.</p>
+            </div>
+            <form class="form-grid" id="form-1" novalidate>
+              <label class="field">
+                <span class="field-label">Company name</span>
+                <input type="text" name="company" placeholder="Acme Networks Inc." autocomplete="organization">
+                <span class="field-err" hidden></span>
+              </label>
+              <label class="field">
+                <span class="field-label">Contact name</span>
+                <input type="text" name="contact" placeholder="Jordan Lee" autocomplete="name">
+                <span class="field-err" hidden></span>
+              </label>
+              <label class="field">
+                <span class="field-label">Your role</span>
+                <input type="text" name="role" placeholder="VP, Growth" autocomplete="organization-title">
+                <span class="field-err" hidden></span>
+              </label>
+              <label class="field">
+                <span class="field-label">Work email</span>
+                <input type="email" name="email" placeholder="jordan@acme.ca" autocomplete="email">
+                <span class="field-err" hidden></span>
+              </label>
+              <label class="field">
+                <span class="field-label">Phone number <span class="field-hint">(optional)</span></span>
+                <input type="tel" name="phone" placeholder="+1 (416) 000-0000" autocomplete="tel">
+              </label>
+              <label class="field">
+                <span class="field-label">Company website <span class="field-hint">(optional)</span></span>
+                <input type="url" name="website" placeholder="https://acmenetworks.ca">
+              </label>
+              <div class="field field--full">
+                <label class="check-row">
+                  <input type="checkbox" name="terms" required>
+                  <span class="check-row-text">I agree to the <strong>Whollar Partner Agreement</strong> and confirm this application is made on behalf of a registered Canadian company.</span>
+                </label>
+                <span class="field-err" id="terms-err" hidden></span>
+              </div>
+            </form>
+            <div class="step-nav">
+              <button type="button" class="btn-primary" onclick="goNext(1)">Continue →</button>
+              <span class="step-note">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a96a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Secure &amp; encrypted
+              </span>
+            </div>
+          </div>
+
+          <!-- RIGHT: value prop panel -->
+          <div class="s1-value-col">
+            <div class="value-panel">
+              <h2 class="value-panel-heading">Why join as a partner?</h2>
+              <div class="value-perks">
+                <div class="value-perk">
+                  <span class="perk-num">1</span>
+                  <div>
+                    <p class="perk-title">Zero cost to bid</p>
+                    <p class="perk-body">No upfront fees. You pay a success fee only when a household activates.</p>
+                  </div>
+                </div>
+                <div class="value-perk">
+                  <span class="perk-num">2</span>
+                  <div>
+                    <p class="perk-title">Pre-qualified demand</p>
+                    <p class="perk-body">Every cohort is address-verified and in your coverage area before you see it.</p>
+                  </div>
+                </div>
+                <div class="value-perk">
+                  <span class="perk-num">3</span>
+                  <div>
+                    <p class="perk-title">Win groups, not individuals</p>
+                    <p class="perk-body">One bid, 50–500 households. Lower CAC than any door-to-door or digital channel.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="value-trust">
+                🔒 PIPEDA compliant — we never share your data.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── STEP 2: Where can you serve ── -->
+      <div class="step-panel" id="panel-2">
+        <div class="s1-split">
+
+          <!-- LEFT: form -->
+          <div class="s1-form-col">
+            <div class="step-head">
+              <p class="step-eyebrow">Step 2 of 3</p>
+              <h2 class="step-title">Where can you serve?</h2>
+              <p class="step-sub">We use this to match your bids to cohorts inside your coverage footprint.</p>
+            </div>
+            <form class="form-grid" id="form-2" novalidate>
+
+              <!-- Province multi-select -->
+              <div class="field field--full">
+                <span class="field-label">Province(s) / coverage regions</span>
+                <div class="province-select" id="province-select">
+                  <div class="ps-trigger" id="ps-trigger" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+                    <span class="ps-placeholder" id="ps-placeholder">Select provinces or territories…</span>
+                    <span class="ps-arrow">&#9660;</span>
+                  </div>
+                  <div class="ps-dropdown" id="ps-dropdown" hidden>
+                    <div class="ps-search-wrap">
+                      <input type="text" class="ps-search" id="ps-search" placeholder="Search provinces…" autocomplete="off">
+                    </div>
+                    <ul class="ps-list" id="ps-list" role="listbox" aria-multiselectable="true"></ul>
+                    <p class="ps-no-results" id="ps-no-results" hidden>No results</p>
+                  </div>
+                </div>
+                <input type="hidden" name="regions" id="regions-value">
+                <span class="field-err" id="regions-err" hidden></span>
+              </div>
+
+              <!-- Network type -->
+              <label class="field field--full">
+                <span class="field-label">Primary network type</span>
+                <select name="network">
+                  <option value="">Select…</option>
+                  <option>Fibre</option>
+                  <option>Cable (DOCSIS)</option>
+                  <option>Fixed wireless</option>
+                  <option>DSL / copper</option>
+                  <option>Reseller / MVNO</option>
+                  <option>Other</option>
+                </select>
+                <span class="field-err" hidden></span>
+              </label>
+
+              <!-- PIPEDA question -->
+              <div class="field field--full">
+                <span class="field-label">Are you registered under PIPEDA and Québec Law 25?</span>
+                <div class="radio-group" role="radiogroup">
+                  <label class="radio-item">
+                    <input type="radio" name="pipeda" value="yes">
+                    <span class="radio-item-label">Yes — fully compliant</span>
+                  </label>
+                  <label class="radio-item">
+                    <input type="radio" name="pipeda" value="in-progress">
+                    <span class="radio-item-label">In progress — working on it</span>
+                  </label>
+                  <label class="radio-item">
+                    <input type="radio" name="pipeda" value="no">
+                    <span class="radio-item-label">No — not yet</span>
+                  </label>
+                </div>
+                <span class="field-err" id="pipeda-err" hidden></span>
+              </div>
+
+              <!-- Bundled services -->
+              <div class="field field--full">
+                <span class="field-label">Do you offer any bundled services alongside internet?</span>
+                <div class="checkbox-group">
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="bundle" value="tv">
+                    <span class="checkbox-item-label">📺 TV</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="bundle" value="phone">
+                    <span class="checkbox-item-label">📞 Phone</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="bundle" value="smarthome">
+                    <span class="checkbox-item-label">🏠 Smart home</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="bundle" value="none">
+                    <span class="checkbox-item-label">Internet only</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Activation time (optional) -->
+              <label class="field field--full">
+                <span class="field-label">On average, how long does it take to activate a new residential customer after sign-up? <span class="field-hint">(optional)</span></span>
+                <select name="activationtime">
+                  <option value="">Select…</option>
+                  <option>Under 1 week</option>
+                  <option>1–2 weeks</option>
+                  <option>2–4 weeks</option>
+                  <option>Over a month</option>
+                </select>
+              </label>
+
+            </form>
+            <div class="step-nav">
+              <button type="button" class="btn-secondary" onclick="goBack(2)">← Back</button>
+              <button type="button" class="btn-primary" onclick="goNext(2)">Continue →</button>
+            </div>
+          </div>
+
+          <!-- RIGHT: coverage image -->
+          <div class="s1-value-col">
+            <div class="s2-img-panel">
+              <img src="Gemini_Generated_Image_y9pgopy9pgopy9pg.png" alt="Coverage map illustration">
+              <div class="s2-img-panel-overlay"></div>
+              <div class="s2-img-caption">
+                <p class="s2-img-caption-tag">Coverage matching</p>
+                <p class="s2-img-caption-title">Cohorts routed to your exact footprint</p>
+                <div class="s2-img-caption-pills">
+                  <span class="s2-pill">Ontario</span>
+                  <span class="s2-pill">Quebec</span>
+                  <span class="s2-pill">Atlantic</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Upload documents ── -->
+      <div class="step-panel" id="panel-3">
+        <div class="step-head">
+          <p class="step-eyebrow">Step 3 of 3</p>
+          <h2 class="step-title">Upload your documents.</h2>
+          <p class="step-sub">We review these to verify your company before opening bidding access. Secure upload — encrypted at rest.</p>
+        </div>
+        <div class="form-grid">
+          <div class="field field--full">
+            <span class="field-label">Business registration / incorporation <span class="field-hint">Required</span></span>
+            <div class="upload-zone" id="zone-1">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="fileSelected(this,'zone-1','name-1')">
+              <div class="upload-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+              <p class="upload-label">Upload business registration</p>
+              <p class="upload-sub">PDF, JPG or PNG · max 10 MB</p>
+              <p class="upload-filename" id="name-1" hidden></p>
+            </div>
+            <span class="field-err" id="doc1-err" hidden>Please upload your business registration.</span>
+          </div>
+          <div class="field">
+            <span class="field-label">CRTC registration <span class="field-hint">If applicable</span></span>
+            <div class="upload-zone" id="zone-2">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="fileSelected(this,'zone-2','name-2')">
+              <div class="upload-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+              <p class="upload-label">Upload CRTC document</p>
+              <p class="upload-sub">PDF, JPG or PNG · max 10 MB</p>
+              <p class="upload-filename" id="name-2" hidden></p>
+              <p class="upload-opt">Optional — skip if not registered</p>
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Proof of coverage area <span class="field-hint">Required</span></span>
+            <div class="upload-zone" id="zone-3">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png,.kml,.geojson" onchange="fileSelected(this,'zone-3','name-3')">
+              <div class="upload-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <p class="upload-label">Upload coverage map</p>
+              <p class="upload-sub">PDF, image or KML/GeoJSON</p>
+              <p class="upload-filename" id="name-3" hidden></p>
+            </div>
+            <span class="field-err" id="doc3-err" hidden>Please upload your coverage proof.</span>
+          </div>
+          <div class="field field--full" style="margin-top:4px;">
+            <label class="check-row">
+              <input type="checkbox" name="accuracy" id="accuracy-check">
+              <span class="check-row-text">I confirm that all documents uploaded are accurate, current, and belong to the company I represent.</span>
+            </label>
+            <span class="field-err" id="accuracy-err" hidden>Please confirm document accuracy to continue.</span>
+          </div>
+        </div>
+        <div class="step-nav">
+          <button type="button" class="btn-secondary" onclick="goBack(3)">← Back</button>
+          <button type="button" class="btn-primary" onclick="submitRegistration()">Submit application →</button>
+        </div>
+        <div class="privacy-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a96a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Documents are encrypted in transit and at rest. Reviewed only by the Whollar compliance team.</span>
+        </div>
+      </div>
+
+    </div><!-- /right-inner -->
+  </div><!-- /panel-right -->
+
+</div><!-- /page -->
+
+<script>
+(function(){
+  var currentStep = 1;
+
+  /* ── Step navigation ─────────────────────────── */
+  function setStep(n) {
+    // Panels
+    document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('is-active'); });
+    var target = document.getElementById('panel-' + n);
+    if (target) target.classList.add('is-active');
+
+    // Stepper
+    document.querySelectorAll('.step-item').forEach(function(el){
+      var s = parseInt(el.getAttribute('data-step'));
+      el.classList.remove('is-active','is-done');
+      if (s === n) el.classList.add('is-active');
+      if (s < n) el.classList.add('is-done');
+      // Replace number with checkmark for done steps
+      var circle = el.querySelector('.step-circle');
+      if (s < n) {
+        circle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff6b4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
+      } else {
+        circle.textContent = s;
+      }
+    });
+
+    currentStep = n;
+    // Scroll right panel to top
+    var pr = document.querySelector('.panel-right');
+    if (pr) pr.scrollTop = 0;
+  }
+
+  /* ── Validation helpers ──────────────────────── */
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function showErr(inputEl, msg) {
+    var field = inputEl.closest ? inputEl.closest('.field') : null;
+    if (field) {
+      field.classList.add('has-error');
+      var err = field.querySelector('.field-err');
+      if (err) { err.textContent = msg; err.removeAttribute('hidden'); }
+    }
+    return false;
+  }
+  function clearErr(inputEl) {
+    var field = inputEl.closest ? inputEl.closest('.field') : null;
+    if (field) {
+      field.classList.remove('has-error');
+      var err = field.querySelector('.field-err');
+      if (err) { err.textContent = ''; err.setAttribute('hidden',''); }
+    }
+  }
+  function req(form, name) { return form.elements[name] ? String(form.elements[name].value).trim() : ''; }
+
+  function validateStep1() {
+    var f = document.getElementById('form-1');
+    var ok = true;
+    ['company','contact','role','email'].forEach(function(n){
+      var el = f.elements[n]; if (!el) return;
+      clearErr(el);
+      var v = String(el.value).trim();
+      if (!v) { showErr(el,'Required'); ok = false; }
+      else if (n==='email' && !EMAIL.test(v)) { showErr(el,'Enter a valid email'); ok = false; }
+    });
+    var terms = f.elements['terms'];
+    var termsErr = document.getElementById('terms-err');
+    if (!terms.checked) {
+      termsErr.textContent = 'Please agree to the Partner Agreement to continue.';
+      termsErr.removeAttribute('hidden');
+      ok = false;
+    } else { termsErr.setAttribute('hidden',''); }
+    return ok;
+  }
+
+  function validateStep2() {
+    var f = document.getElementById('form-2');
+    var ok = true;
+
+    /* provinces */
+    var regionsVal = document.getElementById('regions-value').value;
+    var regionsErr = document.getElementById('regions-err');
+    if (!regionsVal) {
+      regionsErr.textContent = 'Please select at least one province or territory.';
+      regionsErr.removeAttribute('hidden'); ok = false;
+    } else { regionsErr.setAttribute('hidden',''); }
+
+    /* network */
+    var netEl = f.elements['network'];
+    clearErr(netEl);
+    if (!String(netEl.value).trim()) { showErr(netEl,'Required'); ok = false; }
+
+    /* PIPEDA */
+    var pipedaErr = document.getElementById('pipeda-err');
+    var pipedaChecked = f.querySelector('input[name="pipeda"]:checked');
+    if (!pipedaChecked) {
+      pipedaErr.textContent = 'Please select one option.';
+      pipedaErr.removeAttribute('hidden'); ok = false;
+    } else { pipedaErr.setAttribute('hidden',''); }
+
+    return ok;
+  }
+
+  /* ── Province multi-select ───────────────────────── */
+  (function(){
+    var PROVINCES = [
+      {code:'AB', name:'Alberta'},
+      {code:'BC', name:'British Columbia'},
+      {code:'MB', name:'Manitoba'},
+      {code:'NB', name:'New Brunswick'},
+      {code:'NL', name:'Newfoundland and Labrador'},
+      {code:'NT', name:'Northwest Territories'},
+      {code:'NS', name:'Nova Scotia'},
+      {code:'NU', name:'Nunavut'},
+      {code:'ON', name:'Ontario'},
+      {code:'PE', name:'Prince Edward Island'},
+      {code:'QC', name:'Québec'},
+      {code:'SK', name:'Saskatchewan'},
+      {code:'YT', name:'Yukon'}
+    ];
+
+    var selected = [];
+    var trigger  = document.getElementById('ps-trigger');
+    var dropdown = document.getElementById('ps-dropdown');
+    var list     = document.getElementById('ps-list');
+    var search   = document.getElementById('ps-search');
+    var noRes    = document.getElementById('ps-no-results');
+    var hidden   = document.getElementById('regions-value');
+    var placeholder = document.getElementById('ps-placeholder');
+
+    /* build list items */
+    PROVINCES.forEach(function(p){
+      var li = document.createElement('li');
+      li.className = 'ps-item';
+      li.setAttribute('data-name', p.name.toLowerCase());
+      var id = 'ps-' + p.code;
+      li.innerHTML = '<label for="' + id + '">' +
+        '<input type="checkbox" id="' + id + '" value="' + p.code + '"> ' + p.name + ' (' + p.code + ')' +
+        '</label>';
+      li.querySelector('input').addEventListener('change', function(){ toggleProvince(p.code, p.name, this.checked); });
+      list.appendChild(li);
+    });
+
+    function toggleProvince(code, name, add) {
+      if (add) {
+        if (selected.indexOf(code) === -1) selected.push(code);
+      } else {
+        selected = selected.filter(function(c){ return c !== code; });
+      }
+      renderPills();
+      hidden.value = selected.join(',');
+    }
+
+    function renderPills() {
+      /* clear trigger content except arrow */
+      var arrow = trigger.querySelector('.ps-arrow');
+      trigger.innerHTML = '';
+      trigger.appendChild(arrow);
+      if (selected.length === 0) {
+        var ph = document.createElement('span');
+        ph.className = 'ps-placeholder'; ph.id = 'ps-placeholder';
+        ph.textContent = 'Select provinces or territories…';
+        trigger.insertBefore(ph, arrow);
+        placeholder = ph;
+      } else {
+        selected.forEach(function(code){
+          var pill = document.createElement('span');
+          pill.className = 'ps-selected-pill';
+          pill.innerHTML = code + ' <button type="button" class="ps-remove-btn" data-code="' + code + '" aria-label="Remove ' + code + '">&#x2715;</button>';
+          pill.querySelector('.ps-remove-btn').addEventListener('click', function(e){
+            e.stopPropagation();
+            var c = this.getAttribute('data-code');
+            var cb = list.querySelector('input[value="' + c + '"]');
+            if (cb) cb.checked = false;
+            toggleProvince(c, '', false);
+          });
+          trigger.insertBefore(pill, arrow);
+        });
+      }
+    }
+
+    function openDropdown() {
+      dropdown.removeAttribute('hidden');
+      trigger.classList.add('is-open');
+      trigger.setAttribute('aria-expanded','true');
+      search.value = '';
+      filterList('');
+      search.focus();
+    }
+
+    function closeDropdown() {
+      dropdown.setAttribute('hidden','');
+      trigger.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded','false');
+    }
+
+    function filterList(q) {
+      var any = false;
+      list.querySelectorAll('.ps-item').forEach(function(li){
+        var match = li.getAttribute('data-name').indexOf(q.toLowerCase()) !== -1;
+        li.classList.toggle('is-hidden', !match);
+        if (match) any = true;
+      });
+      noRes.hidden = any;
+    }
+
+    trigger.addEventListener('click', function(){ dropdown.hasAttribute('hidden') ? openDropdown() : closeDropdown(); });
+    trigger.addEventListener('keydown', function(e){ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); dropdown.hasAttribute('hidden') ? openDropdown() : closeDropdown(); }});
+    search.addEventListener('input', function(){ filterList(this.value); });
+    document.addEventListener('click', function(e){
+      if (!trigger.contains(e.target) && !dropdown.contains(e.target)) closeDropdown();
+    });
+  })();
+
+  function validateStep3() {
+    var ok = true;
+    if (!window._uploaded1) {
+      document.getElementById('doc1-err').removeAttribute('hidden'); ok = false;
+    } else { document.getElementById('doc1-err').setAttribute('hidden',''); }
+    if (!window._uploaded3) {
+      document.getElementById('doc3-err').removeAttribute('hidden'); ok = false;
+    } else { document.getElementById('doc3-err').setAttribute('hidden',''); }
+    var acc = document.getElementById('accuracy-check');
+    var accErr = document.getElementById('accuracy-err');
+    if (!acc.checked) { accErr.removeAttribute('hidden'); ok = false; }
+    else { accErr.setAttribute('hidden',''); }
+    return ok;
+  }
+
+  /* ── Public navigation ───────────────────────── */
+  window.goNext = function(from) {
+    if (from === 1 && !validateStep1()) return;
+    if (from === 2 && !validateStep2()) return;
+    setStep(from + 1);
+  };
+  window.goBack = function(from) { setStep(from - 1); };
+
+  window.submitRegistration = function() {
+    if (!validateStep3()) return;
+    window.location.href = 'dashboard.html';
+  };
+
+  /* ── File upload UI ──────────────────────────── */
+  window.fileSelected = function(input, zoneId, nameId) {
+    var file = input.files[0];
+    if (!file) return;
+    var nameEl = document.getElementById(nameId);
+    if (nameEl) { nameEl.textContent = '✓ ' + file.name; nameEl.removeAttribute('hidden'); }
+    var zone = document.getElementById(zoneId);
+    if (zone) zone.style.borderColor = '#0f5e63';
+    if (zoneId === 'zone-1') { window._uploaded1 = true; document.getElementById('doc1-err').setAttribute('hidden',''); }
+    if (zoneId === 'zone-3') { window._uploaded3 = true; document.getElementById('doc3-err').setAttribute('hidden',''); }
+  };
+
+  /* drag-and-drop visual */
+  document.querySelectorAll('.upload-zone').forEach(function(zone){
+    zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', function(){ zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', function(e){ e.preventDefault(); zone.classList.remove('drag-over'); });
+  });
+
+  /* live re-validate */
+  document.querySelectorAll('#form-1 input, #form-1 select, #form-2 input, #form-2 select').forEach(function(el){
+    el.addEventListener('input', function(){ clearErr(el); });
+    el.addEventListener('change', function(){ clearErr(el); });
+  });
+
+})();
+</script>
+</body>
+</html>
