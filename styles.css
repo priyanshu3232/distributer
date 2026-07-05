@@ -1,22 +1,20 @@
 /* =========================================================================
-   Whollar for distributors — stylesheet
-   Theme variables are derived from three base colors (coral / teal / navy)
-   exactly like the source design's runtime: shade() darkens, mix() tints.
-   Defaults below are the computed values for the default palette; script.js
-   re-derives them live when the theme is tweaked.
+   Whollar — shared stylesheet
+   Hardcoded palette; no runtime theme derivation.
    ========================================================================= */
 
 :root {
   --c:    #ff6b4a;   /* coral */
-  --ch:   #d65a3e;   /* coral, shaded -16% (hover) */
-  --cs:   #ff9a84;   /* coral, tinted 32% toward white */
+  --ch:   #d65a3e;   /* coral hover */
+  --cs:   #ff9a84;   /* coral soft */
   --t:    #0f5e63;   /* teal */
-  --td:   #0b4447;   /* teal, shaded -28% (deep) */
-  --tb:   #448185;   /* teal, tinted 22% toward white */
+  --td:   #0b4447;   /* teal deep */
+  --tb:   #448185;   /* teal bright */
   --nv:   #1f2d3d;   /* navy */
-  --nvd:  #182330;   /* navy, shaded -22% */
-  --mist: #e7efef;   /* teal, tinted 90% toward white */
+  --nvd:  #182330;   /* navy deep */
+  --mist: #e7efef;   /* mist */
   --green:#28b070;
+  --cream:#fbfaf7;
 }
 
 * { box-sizing: border-box; }
@@ -621,62 +619,19 @@ body.reveal [data-reveal] {
 }
 body.reveal [data-reveal].is-visible { transform: none; }
 
-/* ---- Theme tweak panel ------------------------------------------------- */
-.theme-dock {
-  position: fixed;
-  right: 20px; bottom: 20px;
-  z-index: 80;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+/* ---- Header actions ---------------------------------------------------- */
+.header-actions {
+  display: flex; align-items: center; gap: 12px;
 }
-.theme-toggle {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  border: none; cursor: pointer;
-  background: var(--t);
-  box-shadow: 0 14px 30px -10px rgba(15, 94, 99, 0.7);
-  display: flex; align-items: center; justify-content: center;
-  transition: background-color .18s ease, transform .18s ease;
+.btn--outline-sm {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-weight: 600; font-size: 14px;
+  color: var(--nv); background: transparent;
+  border: 1px solid #d7ddd9; border-radius: 10px;
+  padding: 9px 16px; text-decoration: none;
+  transition: border-color .15s, color .15s;
 }
-.theme-toggle:hover { background: var(--td); transform: translateY(-1px); }
-.theme-panel {
-  background: #fff;
-  border: 1px solid #e7ebe6;
-  border-radius: 18px;
-  box-shadow: 0 30px 60px -28px rgba(31, 45, 61, 0.55);
-  padding: 18px;
-  width: 268px;
-  display: flex; flex-direction: column; gap: 16px;
-}
-.theme-panel[hidden] { display: none; }
-.theme-row { display: flex; flex-direction: column; gap: 9px; }
-.theme-label {
-  font-size: 12px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  color: #8a96a0;
-}
-.swatches { display: flex; gap: 8px; flex-wrap: wrap; }
-.swatch {
-  width: 30px; height: 30px;
-  border-radius: 9px;
-  border: none; cursor: pointer;
-  background: var(--sw);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-  transition: box-shadow .15s ease, transform .15s ease;
-}
-.swatch:hover { transform: translateY(-1px); }
-.swatch.is-active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--nv); }
-.theme-select {
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--nv);
-  padding: 9px 10px;
-  border: 1px solid #d7ddd9;
-  border-radius: 9px;
-  background: #fff;
-  outline: none;
-  width: 100%;
-}
-.theme-select:focus { border-color: var(--t); box-shadow: 0 0 0 3px rgba(15, 94, 99, 0.14); }
+.btn--outline-sm:hover { border-color: var(--t); color: var(--t); }
 
 /* ---- Responsive -------------------------------------------------------- */
 @media (max-width: 940px) {
@@ -700,5 +655,5 @@ body.reveal [data-reveal].is-visible { transform: none; }
   html { scroll-behavior: auto; }
   body.reveal [data-reveal] { transform: none !important; transition: none !important; }
   .pulse { animation: none; }
-  .theme-toggle, .swatch { transition: none; }
+  .faq-icon { transition: none; }
 }

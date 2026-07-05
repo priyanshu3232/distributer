@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Browse cohorts — Whollar for distributors</title>
+  <title>Browse cohorts — Whollar</title>
+  <meta name="description" content="Browse active Ottawa cohorts. Place a sealed bid on verified, density-clustered households. Pay only on activation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,194 +14,153 @@
     body { margin: 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; color: #1f2d3d; background: #fbfaf7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     ::selection { background: #ff6b4a; color: #fff; }
 
-    /* ── Utility ───────────────────────────── */
+    /* ── Util ─ */
     .wrap { max-width: 1180px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
-    .wrap--narrow { max-width: 840px; }
 
-    /* ── Header ────────────────────────────── */
-    .site-header {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px);
-      background: rgba(251,250,247,0.88);
-      border-bottom: 1px solid rgba(31,45,61,0.07);
-    }
-    .header-inner {
-      padding: 14px 24px; max-width: 1180px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
+    /* ── Header ─ */
+    .site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); background: rgba(251,250,247,0.88); border-bottom: 1px solid rgba(31,45,61,0.07); }
+    .header-inner { padding: 14px 24px; max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit; }
     .brand-mark { width: 40px; height: 40px; border-radius: 11px; background: #0f5e63; display: flex; align-items: center; justify-content: center; gap: 4px; }
     .dot { width: 7px; height: 7px; border-radius: 50%; display: block; }
     .dot--w { background: #fff; }
     .dot--c { background: #ff6b4a; }
     .brand-word { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #1f2d3d; }
-    .brand-pill { font-size: 12px; font-weight: 600; color: #0f5e63; background: #e3f0ee; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
-    .nav { display: flex; align-items: center; gap: 28px; }
+    .nav { display: flex; align-items: center; gap: 26px; }
     .nav a { text-decoration: none; color: #48586a; font-weight: 500; font-size: 15px; transition: color .15s; }
     .nav a:hover { color: #1f2d3d; }
-    .header-right { display: flex; align-items: center; gap: 14px; }
-    .partner-badge { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: #0f5e63; background: #e3f0ee; padding: 7px 14px; border-radius: 999px; }
-    .partner-badge span { width: 8px; height: 8px; border-radius: 50%; background: #28b070; }
+    .nav a.active { color: #0f5e63; font-weight: 600; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .partner-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #0f5e63; background: #e3f0ee; padding: 7px 14px; border-radius: 999px; }
+    .partner-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #28b070; }
 
-    /* ── Hero (browse cohorts) ─────────────── */
+    /* ── Hero ─ */
     .cohort-hero { position: relative; overflow: hidden; }
-    .cohort-hero-img { height: 320px; position: relative; }
+    .cohort-hero-img { height: 280px; position: relative; }
     .cohort-hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
-    .cohort-hero-img::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(15,94,99,0.72) 0%, rgba(11,68,72,0.88) 100%);
-    }
-    .cohort-hero-content {
-      position: absolute; inset: 0; z-index: 2;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: clamp(24px,4vw,40px) 24px;
-      max-width: 1180px; margin: 0 auto; left: 0; right: 0;
-    }
+    .cohort-hero-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15,94,99,0.72) 0%, rgba(11,68,72,0.9) 100%); }
+    .cohort-hero-content { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(24px,4vw,40px) 24px; max-width: 1180px; margin: 0 auto; left: 0; right: 0; }
     .cohort-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: #ff9a84; margin: 0 0 10px; }
-    .cohort-hero-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: clamp(32px,4vw,52px); letter-spacing: -0.03em; color: #fff; margin: 0 0 12px; line-height: 1.04; }
-    .cohort-hero-sub { font-size: 17px; color: rgba(255,255,255,0.72); margin: 0; max-width: 44em; }
+    .cohort-hero-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: clamp(28px,3.8vw,48px); letter-spacing: -0.03em; color: #fff; margin: 0 0 10px; line-height: 1.06; }
+    .cohort-hero-sub { font-size: 16.5px; color: rgba(255,255,255,0.7); margin: 0; max-width: 44em; }
 
-    /* ── Cohort cards section ──────────────── */
+    /* ── Cohort section ─ */
     .cohort-section { padding: clamp(40px,6vw,64px) 0; background: #fbfaf7; }
-    .cohort-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
-    .cohort-header-left h2 { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.02em; color: #1f2d3d; margin: 0 0 4px; }
-    .cohort-header-left p { font-size: 15px; color: #5a6e7e; margin: 0; }
-    .cohort-filter { display: flex; gap: 10px; flex-wrap: wrap; }
-    .filter-chip { font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 999px; border: 1px solid #d7ddd9; background: #fff; color: #48586a; cursor: pointer; transition: all .15s; }
+    .cohort-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 28px; flex-wrap: wrap; }
+    .cohort-header-left h2 { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.02em; color: #1f2d3d; margin: 0 0 4px; }
+    .cohort-header-left p { font-size: 14.5px; color: #5a6e7e; margin: 0; }
+    .cohort-filter { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-chip { font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 999px; border: 1px solid #d7ddd9; background: #fff; color: #48586a; cursor: pointer; transition: all .15s; }
     .filter-chip.is-active, .filter-chip:hover { background: #0f5e63; border-color: #0f5e63; color: #fff; }
 
     .cohort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
-    .cohort-card {
-      background: #fff; border: 1px solid #e7ebe6; border-radius: 20px;
-      overflow: hidden; box-shadow: 0 14px 36px -28px rgba(31,45,61,0.45);
-      display: flex; flex-direction: column;
-      transition: box-shadow .2s, transform .2s;
-    }
+    .cohort-card { background: #fff; border: 1px solid #e7ebe6; border-radius: 20px; overflow: hidden; box-shadow: 0 14px 36px -28px rgba(31,45,61,0.45); display: flex; flex-direction: column; transition: box-shadow .2s, transform .2s; }
     .cohort-card:hover { box-shadow: 0 22px 44px -24px rgba(31,45,61,0.55); transform: translateY(-2px); }
 
-    .cohort-card-map {
-      height: 130px; background: #e3f0ee; position: relative; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
+    /* map area */
+    .cohort-card-map { height: 130px; background: #e3f0ee; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .cohort-map-svg { opacity: 0.55; }
-    .cohort-status {
-      position: absolute; top: 12px; right: 12px;
-      font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
-    }
-    .cohort-status--open { background: rgba(40,176,112,0.15); color: #1a9058; }
-    .cohort-status--closing { background: rgba(255,107,74,0.15); color: #c94a30; }
-    .cohort-status--new { background: rgba(15,94,99,0.12); color: #0f5e63; }
+    .cohort-status { position: absolute; top: 12px; right: 12px; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+    .cohort-status--urgent { background: rgba(255,107,74,0.15); color: #c94a30; }
+    .cohort-status--forming { background: rgba(15,94,99,0.12); color: #0f5e63; }
 
-    .cohort-card-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
-    .cohort-id { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8a96a0; margin: 0 0 6px; }
-    .cohort-name { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.01em; color: #1f2d3d; margin: 0 0 14px; }
-    .cohort-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-    .cohort-stat-item { }
-    .cohort-stat-label { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #8a96a0; margin: 0 0 2px; }
-    .cohort-stat-value { font-size: 15px; font-weight: 700; color: #1f2d3d; margin: 0; }
+    /* card body */
+    .cohort-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .cohort-id { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8a96a0; margin: 0 0 4px; }
+    .cohort-name { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.01em; color: #1f2d3d; margin: 0 0 4px; }
+    .cohort-fsas { font-size: 12px; color: #6aada8; font-weight: 600; margin: 0 0 14px; }
+    .cohort-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .cohort-stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #8a96a0; margin: 0 0 2px; }
+    .cohort-stat-value { font-size: 14.5px; font-weight: 700; color: #1f2d3d; margin: 0; }
     .cohort-stat-value--teal { color: #0f5e63; }
-    .cohort-timer { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: #c94a30; margin-bottom: 18px; }
+
+    /* progress bar */
+    .cohort-progress-wrap { margin-bottom: 12px; }
+    .cohort-progress-label { display: flex; justify-content: space-between; font-size: 12px; color: #5a6e7e; margin-bottom: 6px; font-weight: 500; }
+    .cohort-progress-track { height: 6px; background: #e7ebe6; border-radius: 999px; overflow: hidden; }
+    .cohort-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #0f5e63, #448185); transition: width .8s ease; }
+
+    /* timer / econ */
+    .cohort-timer { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: #c94a30; margin-bottom: 14px; }
     .cohort-timer--ok { color: #1a9058; }
     .cohort-timer svg { flex-shrink: 0; }
-    .cohort-divider { border: none; border-top: 1px solid #f1f3f0; margin: 0 0 16px; }
-    .cohort-households { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .cohort-econ { background: rgba(15,94,99,0.05); border: 1px solid rgba(15,94,99,0.1); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cohort-econ-item-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: #8a96a0; margin: 0 0 2px; font-weight: 600; }
+    .cohort-econ-item-value { font-size: 13.5px; font-weight: 700; color: #0f5e63; margin: 0; }
+
+    .cohort-divider { border: none; border-top: 1px solid #f1f3f0; margin: 0 0 14px; }
+    .cohort-households { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
     .hh-avatars { display: flex; }
-    .hh-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; background: #e3f0ee; display: flex; align-items: center; justify-content: center; margin-left: -8px; font-size: 11px; font-weight: 700; color: #0f5e63; }
+    .hh-avatar { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; background: #e3f0ee; display: flex; align-items: center; justify-content: center; margin-left: -7px; font-size: 10px; font-weight: 700; color: #0f5e63; }
     .hh-avatar:first-child { margin-left: 0; }
-    .hh-count { font-size: 13.5px; color: #48586a; }
+    .hh-count { font-size: 13px; color: #48586a; }
     .hh-count strong { color: #1f2d3d; }
-    .btn-bid { width: 100%; background: #ff6b4a; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 15px; padding: 13px; border: none; border-radius: 11px; cursor: pointer; box-shadow: 0 10px 24px -10px rgba(255,107,74,0.6); transition: background .18s; }
+    .btn-bid { width: 100%; background: #ff6b4a; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 15px; padding: 13px; border: none; border-radius: 11px; cursor: pointer; box-shadow: 0 10px 24px -10px rgba(255,107,74,0.6); transition: background .18s; margin-top: auto; }
     .btn-bid:hover { background: #ef5530; }
 
-    /* ── Divider between cohorts and marketing ─ */
-    .section-divider { border: none; border-top: 2px solid #e7ebe6; margin: 0; }
+    /* ── Modal ─ */
+    .modal-overlay { position: fixed; inset: 0; z-index: 200; display: none; }
+    .modal-overlay.is-open { display: flex; align-items: center; justify-content: center; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(15,33,44,0.62); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+    .modal { position: relative; z-index: 1; background: #fff; border-radius: 24px; width: min(660px, calc(100vw - 40px)); max-height: calc(100vh - 60px); overflow-y: auto; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6); }
+    .modal-header { padding: 26px 30px 20px; border-bottom: 1px solid #f0f3f1; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .modal-kicker { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #ff6b4a; margin: 0 0 5px; }
+    .modal-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #1f2d3d; margin: 0; }
+    .modal-close { background: none; border: none; cursor: pointer; color: #8a96a0; padding: 4px; border-radius: 8px; transition: color .15s; flex-shrink: 0; }
+    .modal-close:hover { color: #1f2d3d; }
+    .modal-body { padding: 22px 30px 30px; }
 
-    /* ── Marketing sections (reused from about) ─ */
-    .sec > .wrap { padding-block: clamp(60px,8.5vw,104px); }
-    .sec--cream { background: #fbfaf7; }
-    .sec--deep  { background: #0b4448; color: #dfeeec; }
-    .sec--mist  { background: #e7efef; }
-    .sec--teal  { background: #0f5e63; color: #e3f2f0; }
-    .sec--navy  { background: #1f2d3d; color: #dfe6ec; }
+    .cohort-summary { background: #f5f8f7; border-radius: 12px; padding: 16px; margin-bottom: 22px; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .cs-item-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #8a96a0; margin: 0 0 3px; }
+    .cs-item-val { font-size: 15px; font-weight: 700; color: #1f2d3d; margin: 0; }
+    .cs-item-val--teal { color: #0f5e63; }
 
-    .kicker { text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 700; margin: 0; }
-    .kicker--coral { color: #ff6b4a; }
-    .kicker--soft  { color: #ff9a84; }
-    .h2 { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; font-size: clamp(30px,3.8vw,46px); margin: 14px 0 0; }
-    .h2--navy  { color: #1f2d3d; }
-    .h2--white { color: #fff; }
-    .sec-head { max-width: 46rem; }
-    .sec-sub  { font-size: 18px; line-height: 1.55; margin: 16px 0 0; color: #a9cecb; }
+    /* bid input */
+    .bid-section-label { font-size: 13px; font-weight: 700; color: #48586a; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 12px; }
+    .bid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .bid-field { display: flex; flex-direction: column; gap: 6px; }
+    .bid-label { font-size: 13px; font-weight: 600; color: #1f2d3d; }
+    .bid-input-wrap { position: relative; }
+    .bid-input-wrap .prefix { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; font-weight: 700; color: #8a96a0; pointer-events: none; }
+    .bid-input { width: 100%; font-family: inherit; font-size: 20px; font-weight: 800; color: #1f2d3d; padding: 12px 14px 12px 28px; border: 2px solid #d7ddd9; border-radius: 11px; outline: none; transition: border-color .15s, box-shadow .15s; }
+    .bid-input:focus { border-color: #0f5e63; box-shadow: 0 0 0 3px rgba(15,94,99,0.14); }
 
-    .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-top: 46px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-top: 46px; }
-    .grid-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; margin-top: 48px; }
+    /* live math display */
+    .bid-math { background: rgba(15,94,99,0.05); border: 1px solid rgba(15,94,99,0.12); border-radius: 12px; padding: 16px; margin-bottom: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bid-math-item-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #8a96a0; margin: 0 0 2px; }
+    .bid-math-item-value { font-size: 16px; font-weight: 800; color: #0f5e63; margin: 0; }
 
-    .card { background: #fff; border: 1px solid #e7ebe6; border-radius: 18px; padding: 30px; box-shadow: 0 18px 40px -32px rgba(31,45,61,0.5); }
-    .card--sm { padding: 26px; }
-    .icon-chip { display: flex; align-items: center; justify-content: center; border-radius: 12px; }
-    .icon-chip--coral { width: 46px; height: 46px; background: rgba(255,107,74,0.1); }
-    .icon-chip--mist  { width: 44px; height: 44px; background: #e3f0ee; }
-    .card-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #1f2d3d; margin: 18px 0 8px; }
-    .card-title--sm { font-size: 18px; margin: 16px 0 7px; }
-    .card-body { font-size: 15.5px; line-height: 1.55; color: #48586a; margin: 0; }
-    .card-body--sm { font-size: 15px; line-height: 1.52; }
-    .muted { color: #8a96a0; }
+    /* sliders */
+    .slider-row { margin-bottom: 16px; }
+    .slider-label-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
+    .slider-label { font-weight: 600; color: #1f2d3d; }
+    .slider-val { font-weight: 700; color: #0f5e63; }
+    input[type=range] { width: 100%; accent-color: #0f5e63; cursor: pointer; }
 
-    .step-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 24px; }
-    .step-num { width: 42px; height: 42px; border-radius: 11px; background: #ff6b4a; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 19px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 22px -10px rgba(255,107,74,0.7); }
-    .step-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 17.5px; line-height: 1.2; color: #fff; margin: 18px 0 8px; }
-    .step-body { font-size: 14.5px; line-height: 1.5; color: #a9cecb; margin: 0; }
+    .bid-note { font-size: 13px; color: #8a96a0; line-height: 1.5; margin-bottom: 20px; }
+    .bid-check { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 22px; cursor: pointer; }
+    .bid-check input { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; accent-color: #0f5e63; cursor: pointer; }
+    .bid-check-text { font-size: 13.5px; color: #48586a; line-height: 1.5; }
+    .bid-check-text strong { color: #1f2d3d; }
+    .btn-place-bid { width: 100%; background: #ff6b4a; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16px; padding: 15px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 14px 30px -12px rgba(255,107,74,0.65); transition: background .18s; }
+    .btn-place-bid:hover { background: #ef5530; }
 
-    .table-wrap { margin-top: 44px; overflow-x: auto; border: 1px solid #e7ebe6; border-radius: 20px; background: #fff; box-shadow: 0 22px 50px -38px rgba(31,45,61,0.55); }
-    .cmp { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 15px; }
-    .cmp th, .cmp td { padding: 18px 14px; border-bottom: 1px solid #f1f3f0; }
-    .cmp thead th { border-bottom-color: #e7ebe6; }
-    .cmp th:first-child, .cmp td:first-child { text-align: left; padding-left: 22px; }
-    .cmp-whl-head span { display: inline-flex; align-items: center; gap: 8px; background: #0f5e63; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 15px; padding: 9px 16px; border-radius: 11px; }
-    .cmp-cell--whl { background: rgba(15,94,99,0.05); text-align: center; }
-    .cmp-cell--other { text-align: center; }
-    .label-cell { font-weight: 600; color: #1f2d3d; }
-    .ico-tick { display: inline-block; vertical-align: middle; }
-    .ico-cross { display: inline-block; vertical-align: middle; }
-    .ico-partial { font-size: 13px; color: #8a96a0; font-weight: 600; }
-    .ico-txt { font-size: 14px; font-weight: 500; color: #48586a; }
-    .ico-txt--strong { font-weight: 700; color: #1f2d3d; }
+    /* confirmed */
+    .confirmed-screen { padding: 40px 30px 48px; text-align: center; }
+    .confirmed-ico { width: 68px; height: 68px; border-radius: 50%; background: rgba(40,176,112,0.12); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .confirmed-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: 28px; letter-spacing: -0.02em; color: #1f2d3d; margin: 0 0 10px; }
+    .confirmed-sub { font-size: 16px; color: #48586a; line-height: 1.6; margin: 0 0 28px; max-width: 36em; margin-left: auto; margin-right: auto; }
+    .confirmed-detail { background: #f5f8f7; border-radius: 12px; padding: 16px; margin-bottom: 26px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: left; }
+    .btn-done { background: #0f5e63; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 15px; padding: 13px 30px; border: none; border-radius: 11px; cursor: pointer; transition: background .18s; }
+    .btn-done:hover { background: #0b4448; }
 
-    .chips { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
-    .chip { display: inline-flex; align-items: center; gap: 10px; background: #fff; border: 1px solid #d9e6e3; color: #1f2d3d; font-weight: 600; font-size: 16px; padding: 14px 22px; border-radius: 14px; box-shadow: 0 10px 26px -22px rgba(31,45,61,0.6); }
-    .who-foot { font-size: 18px; line-height: 1.55; color: #48586a; margin: 30px 0 0; max-width: 40rem; }
-
-    .fair-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 28px; display: flex; gap: 18px; }
-    .fair-ico { width: 40px; height: 40px; flex-shrink: 0; border-radius: 11px; background: rgba(255,142,116,0.18); display: flex; align-items: center; justify-content: center; }
-    .fair-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 19px; color: #fff; margin: 2px 0 8px; }
-    .fair-body { font-size: 15.5px; line-height: 1.55; color: #bcdedb; margin: 0; }
-    .fair-foot { margin: 28px 0 0; font-size: 15px; color: #9fcecb; display: inline-flex; align-items: center; gap: 10px; }
-
-    .model-panel { margin-top: 36px; background: linear-gradient(135deg,#0f5e63,#0b4448); color: #eaf5f3; border-radius: 22px; padding: clamp(32px,5vw,52px); box-shadow: 0 30px 60px -40px rgba(15,94,99,0.8); display: grid; grid-template-columns: auto 1fr; gap: clamp(24px,4vw,44px); align-items: center; }
-    .model-pills { display: flex; gap: 18px; }
-    .model-stat { text-align: center; }
-    .model-num { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: clamp(34px,4.4vw,52px); color: #fff; letter-spacing: -0.03em; }
-    .model-cap { font-size: 13px; color: #9fcecb; margin-top: 4px; }
-    .model-div { width: 1px; background: rgba(255,255,255,0.16); }
-    .model-copy { font-size: clamp(18px,1.8vw,22px); line-height: 1.5; margin: 0; }
-    .model-em { color: #ff9a84; font-weight: 600; }
-
-    .faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
-    .faq-item { background: #fff; border: 1px solid #e2eae8; border-radius: 16px; overflow: hidden; }
-    .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 18px; text-align: left; background: none; border: none; cursor: pointer; padding: 22px 24px; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 17.5px; letter-spacing: -0.01em; color: #1f2d3d; }
-    .faq-icon { font-size: 26px; font-weight: 400; color: #ff6b4a; line-height: 1; transition: transform .3s ease; flex-shrink: 0; }
-    .faq-item.is-open .faq-icon { transform: rotate(45deg); }
-    .faq-a { display: grid; grid-template-rows: 0fr; opacity: 0; overflow: hidden; transition: grid-template-rows .32s ease, opacity .32s ease; }
-    .faq-item.is-open .faq-a { grid-template-rows: 1fr; opacity: 1; }
-    .faq-a p { margin: 0; min-height: 0; padding: 0 24px 24px; font-size: 15.5px; line-height: 1.6; color: #48586a; }
-
+    /* ── Footer ─ */
     .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 36px; }
     .foot-brand { display: flex; align-items: center; gap: 11px; }
     .foot-word { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 20px; color: #fff; letter-spacing: -0.02em; }
     .foot-pill { font-size: 11.5px; font-weight: 600; color: #448185; background: rgba(25,146,154,0.16); padding: 3px 9px; border-radius: 999px; }
-    .foot-tag { font-size: 16px; color: #8fa1b0; margin: 18px 0 0; max-width: 24rem; }
+    .foot-tag { font-size: 15px; color: #8fa1b0; margin: 14px 0 0; line-height: 1.55; max-width: 24rem; }
     .foot-h { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #5f7384; margin: 0 0 16px; }
     .foot-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
     .foot-links a { color: #9fb0bf; text-decoration: none; font-size: 15px; transition: color .15s; }
@@ -209,132 +169,78 @@
     .foot-copy { font-size: 13.5px; color: #6f8290; }
     .foot-made { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: #6f8290; }
 
-    /* ── Bid modal ──────────────────────────── */
-    .modal-overlay { position: fixed; inset: 0; z-index: 200; display: none; }
-    .modal-overlay.is-open { display: flex; align-items: center; justify-content: center; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(15,33,44,0.62); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
-    .modal { position: relative; z-index: 1; background: #fff; border-radius: 24px; width: min(640px, calc(100vw - 40px)); max-height: calc(100vh - 60px); overflow-y: auto; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6); }
-    .modal-header { padding: 28px 32px 22px; border-bottom: 1px solid #f0f3f1; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-    .modal-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #ff6b4a; margin: 0 0 6px; }
-    .modal-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.02em; color: #1f2d3d; margin: 0; }
-    .modal-close { background: none; border: none; cursor: pointer; color: #8a96a0; padding: 4px; border-radius: 8px; transition: color .15s; flex-shrink: 0; }
-    .modal-close:hover { color: #1f2d3d; }
-    .modal-body { padding: 24px 32px 32px; }
-
-    /* cohort summary strip */
-    .cohort-summary { background: #f5f8f7; border-radius: 14px; padding: 18px; margin-bottom: 24px; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
-    .cs-item-label { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #8a96a0; margin: 0 0 3px; }
-    .cs-item-val { font-size: 16px; font-weight: 700; color: #1f2d3d; margin: 0; }
-    .cs-item-val--teal { color: #0f5e63; }
-
-    /* bid input */
-    .bid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-    .bid-field { display: flex; flex-direction: column; gap: 7px; }
-    .bid-label { font-size: 13.5px; font-weight: 600; color: #1f2d3d; }
-    .bid-input-wrap { position: relative; }
-    .bid-input-wrap .prefix { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; font-weight: 700; color: #8a96a0; pointer-events: none; }
-    .bid-input { width: 100%; font-family: inherit; font-size: 22px; font-weight: 800; color: #1f2d3d; padding: 13px 14px 13px 28px; border: 2px solid #d7ddd9; border-radius: 12px; outline: none; transition: border-color .15s, box-shadow .15s; }
-    .bid-input:focus { border-color: #0f5e63; box-shadow: 0 0 0 3px rgba(15,94,99,0.14); }
-    .bid-total { background: rgba(15,94,99,0.06); border: 1px solid rgba(15,94,99,0.14); border-radius: 12px; padding: 16px 18px; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between; }
-    .bid-total-label { font-size: 14px; color: #5a6e7e; }
-    .bid-total-amount { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 22px; color: #0f5e63; }
-    .bid-note { font-size: 13.5px; color: #8a96a0; line-height: 1.5; margin-bottom: 22px; }
-    .bid-check { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 24px; cursor: pointer; }
-    .bid-check input { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; accent-color: #0f5e63; cursor: pointer; }
-    .bid-check-text { font-size: 14px; color: #48586a; line-height: 1.5; }
-    .bid-check-text strong { color: #1f2d3d; }
-    .btn-place-bid { width: 100%; background: #ff6b4a; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 17px; padding: 16px; border: none; border-radius: 13px; cursor: pointer; box-shadow: 0 14px 30px -12px rgba(255,107,74,0.65); transition: background .18s; }
-    .btn-place-bid:hover { background: #ef5530; }
-
-    /* confirmed state */
-    .confirmed-screen { padding: 40px 32px 48px; text-align: center; }
-    .confirmed-ico { width: 72px; height: 72px; border-radius: 50%; background: rgba(40,176,112,0.12); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 22px; }
-    .confirmed-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: 30px; letter-spacing: -0.02em; color: #1f2d3d; margin: 0 0 10px; }
-    .confirmed-sub { font-size: 16.5px; color: #48586a; line-height: 1.6; margin: 0 0 32px; max-width: 36em; margin-left: auto; margin-right: auto; }
-    .confirmed-detail { background: #f5f8f7; border-radius: 14px; padding: 18px; margin-bottom: 28px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; text-align: left; }
-    .btn-done { background: #0f5e63; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16px; padding: 14px 32px; border: none; border-radius: 12px; cursor: pointer; transition: background .18s; }
-    .btn-done:hover { background: #0b4448; }
-
-    /* ── Responsive ──────────────────────── */
-    @media (max-width:940px){
-      .nav{display:none}
-      .cohort-grid{grid-template-columns:repeat(2,1fr)}
-      .grid-5{grid-template-columns:repeat(2,1fr)}
-      .grid-4{grid-template-columns:repeat(2,1fr)}
-      .model-panel{grid-template-columns:1fr}
-      .foot-grid{grid-template-columns:1fr 1fr}
+    /* ── Responsive ─ */
+    @media (max-width: 940px) {
+      .nav { display: none; }
+      .cohort-grid { grid-template-columns: repeat(2,1fr); }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width:620px){
-      .cohort-grid{grid-template-columns:1fr}
-      .grid-2{grid-template-columns:1fr}
-      .grid-4{grid-template-columns:1fr}
-      .cohort-summary{grid-template-columns:1fr 1fr}
-      .confirmed-detail{grid-template-columns:1fr}
-      .bid-row{grid-template-columns:1fr}
-      .foot-grid{grid-template-columns:1fr}
+    @media (max-width: 620px) {
+      .cohort-grid { grid-template-columns: 1fr; }
+      .bid-row { grid-template-columns: 1fr; }
+      .bid-math { grid-template-columns: 1fr 1fr; }
+      .cohort-summary { grid-template-columns: 1fr 1fr; }
+      .confirmed-detail { grid-template-columns: 1fr; }
+      .foot-grid { grid-template-columns: 1fr; }
     }
-    @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
 </head>
 <body>
 
-<!-- ══════════════════ HEADER ══════════════════ -->
+<!-- ══════ HEADER ══════ -->
 <header class="site-header">
   <div class="header-inner">
-    <a href="index.html" class="brand" aria-label="Whollar for distributors">
+    <a href="index.html" class="brand" aria-label="Whollar">
       <span class="brand-mark" aria-hidden="true">
         <span class="dot dot--w"></span><span class="dot dot--c"></span><span class="dot dot--w"></span>
       </span>
-      <span style="display:flex;align-items:center;gap:9px;">
-        <span class="brand-word">Whollar</span>
-        <span class="brand-pill">for distributors</span>
-      </span>
+      <span class="brand-word">Whollar</span>
     </a>
     <nav class="nav">
-      <a href="#cohorts">Browse cohorts</a>
-      <a href="#how">How it works</a>
-      <a href="#economics">The economics</a>
-      <a href="#faq">FAQ</a>
+      <a href="index.html">Households</a>
+      <a href="neighbourhoods.html">Neighbourhoods</a>
+      <a href="distributors.html">For providers</a>
+      <a href="dashboard.html" class="active">Browse cohorts</a>
     </nav>
     <div class="header-right">
-      <span class="partner-badge"><span></span>Founding partner</span>
+      <span class="partner-badge"><span class="partner-badge-dot"></span>Founding partner</span>
     </div>
   </div>
 </header>
 
 <main>
 
-<!-- ══════════════════ COHORT HERO ══════════════════ -->
+<!-- ══════ HERO ══════ -->
 <div class="cohort-hero" id="cohorts">
   <div class="cohort-hero-img">
-    <img src="bruce-mars-FWVMhUa_wbY-unsplash.jpg" alt="A distributor reviewing available cohorts on a phone and laptop" loading="eager">
+    <img src="bruce-mars-FWVMhUa_wbY-unsplash.jpg" alt="Reviewing available Ottawa cohorts" loading="eager">
   </div>
   <div class="cohort-hero-content">
-    <p class="cohort-eyebrow">Your dashboard</p>
+    <p class="cohort-eyebrow">Your dashboard · Ottawa pilot</p>
     <h1 class="cohort-hero-title">Browse available cohorts.</h1>
-    <p class="cohort-hero-sub">Verified, coverage-matched groups of households ready to switch — matched to your footprint. Place one sealed bid per cohort.</p>
+    <p class="cohort-hero-sub">Verified Ottawa households, grouped by FSA. One sealed bid per cohort. Pay only on activation.</p>
   </div>
 </div>
 
-<!-- ══════════════════ COHORT CARDS ══════════════════ -->
+<!-- ══════ COHORT CARDS ══════ -->
 <section class="cohort-section">
   <div class="wrap">
     <div class="cohort-header">
       <div class="cohort-header-left">
-        <h2>3 cohorts match your coverage</h2>
-        <p>Showing Ontario · Quebec · Atlantic — sorted by closing soonest</p>
+        <h2>3 Ottawa cohorts available</h2>
+        <p>Beacon Hill/Cardinal Heights · Orléans · Barrhaven — sorted by closing soonest</p>
       </div>
       <div class="cohort-filter">
-        <button class="filter-chip is-active">All regions</button>
-        <button class="filter-chip">Ontario</button>
-        <button class="filter-chip">Quebec</button>
-        <button class="filter-chip">Atlantic</button>
+        <button class="filter-chip is-active">All</button>
+        <button class="filter-chip">Closing soon</button>
+        <button class="filter-chip">Forming</button>
       </div>
     </div>
 
     <div class="cohort-grid">
 
-      <!-- Cohort 1 -->
+      <!-- ── WHL-ON-001 ── -->
       <div class="cohort-card">
         <div class="cohort-card-map" style="background:linear-gradient(135deg,#e3f0ee,#c8e2df);">
           <svg class="cohort-map-svg" width="120" height="80" viewBox="0 0 120 80" fill="none">
@@ -346,32 +252,52 @@
               <circle cx="82" cy="54" r="3"/><circle cx="54" cy="18" r="3"/>
             </g>
           </svg>
-          <span class="cohort-status cohort-status--closing">Closing in 5 days</span>
+          <span class="cohort-status cohort-status--urgent">Closes in 5 days</span>
         </div>
         <div class="cohort-card-body">
           <p class="cohort-id">WHL-ON-001</p>
-          <p class="cohort-name">Ottawa East — Residential</p>
+          <p class="cohort-name">Ottawa East — Beacon Hill / Cardinal Heights</p>
+          <p class="cohort-fsas">FSAs: K1J · K1K</p>
           <div class="cohort-stats">
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Households</p>
-              <p class="cohort-stat-value cohort-stat-value--teal">87</p>
+              <p class="cohort-stat-value cohort-stat-value--teal">87 / 150</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Avg. bill</p>
               <p class="cohort-stat-value">$92/mo</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Current provider</p>
               <p class="cohort-stat-value">Rogers</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Contracts ending</p>
               <p class="cohort-stat-value">Q3 2026</p>
             </div>
           </div>
-          <div class="cohort-timer">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Auction closes Jun 22
+          <div class="cohort-progress-wrap">
+            <div class="cohort-progress-label">
+              <span>87 households verified</span>
+              <span>150 threshold</span>
+            </div>
+            <div class="cohort-progress-track">
+              <div class="cohort-progress-fill" style="width:58%;"></div>
+            </div>
+          </div>
+          <div class="cohort-econ">
+            <div>
+              <p class="cohort-econ-item-label">Est. first-year rev.</p>
+              <p class="cohort-econ-item-value" id="rev1">—</p>
+            </div>
+            <div>
+              <p class="cohort-econ-item-label">Est. CAC at $60 fee</p>
+              <p class="cohort-econ-item-value">$60</p>
+            </div>
+          </div>
+          <div class="cohort-timer" id="timer1">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span id="timer1-text">Auction closes in 5 days</span>
           </div>
           <hr class="cohort-divider">
           <div class="cohort-households">
@@ -380,107 +306,147 @@
             </div>
             <span class="hh-count"><strong>87 households</strong> verified &amp; opted in</span>
           </div>
-          <button class="btn-bid" onclick="openBid({id:'WHL-ON-001',name:'Ottawa East — Residential',homes:87,avgBill:92,provider:'Rogers'})">Place a bid →</button>
+          <button class="btn-bid" onclick="openBid({id:'WHL-ON-001',name:'Ottawa East — Beacon Hill/Cardinal Heights',homes:87,avgBill:92,provider:'Rogers',fsas:'K1J · K1K'})">Place a bid →</button>
         </div>
       </div>
 
-      <!-- Cohort 2 -->
+      <!-- ── WHL-ON-002 ── -->
       <div class="cohort-card">
-        <div class="cohort-card-map" style="background:linear-gradient(135deg,#f0ece3,#e2dcce);">
+        <div class="cohort-card-map" style="background:linear-gradient(135deg,#e3eef0,#c5d8dc);">
           <svg class="cohort-map-svg" width="120" height="80" viewBox="0 0 120 80" fill="none">
-            <circle cx="60" cy="40" r="32" stroke="#8a6840" stroke-width="1.5" stroke-dasharray="4 5"/>
-            <circle cx="60" cy="40" r="16" fill="rgba(138,104,64,0.1)" stroke="#8a6840" stroke-width="1.5"/>
-            <circle cx="60" cy="40" r="5" fill="#8a6840"/>
-            <g fill="#8a6840" opacity="0.6">
+            <circle cx="60" cy="40" r="32" stroke="#0b6070" stroke-width="1.5" stroke-dasharray="4 5"/>
+            <circle cx="60" cy="40" r="18" fill="rgba(11,96,112,0.10)" stroke="#0b6070" stroke-width="1.5"/>
+            <circle cx="60" cy="40" r="5" fill="#0b6070"/>
+            <g fill="#0b6070" opacity="0.6">
               <circle cx="36" cy="32" r="3"/><circle cx="44" cy="55" r="3"/><circle cx="75" cy="22" r="3"/>
-              <circle cx="83" cy="50" r="3"/><circle cx="52" cy="16" r="3"/><circle cx="70" cy="60" r="3"/>
+              <circle cx="83" cy="50" r="3"/><circle cx="52" cy="16" r="3"/><circle cx="72" cy="60" r="3"/>
             </g>
           </svg>
-          <span class="cohort-status cohort-status--new">New · 12 days left</span>
+          <span class="cohort-status cohort-status--forming">Now forming</span>
         </div>
         <div class="cohort-card-body">
-          <p class="cohort-id">WHL-QC-004</p>
-          <p class="cohort-name">Montréal Nord — Mixed</p>
+          <p class="cohort-id">WHL-ON-002</p>
+          <p class="cohort-name">Orléans</p>
+          <p class="cohort-fsas">FSAs: K1C · K4A</p>
           <div class="cohort-stats">
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Households</p>
-              <p class="cohort-stat-value cohort-stat-value--teal">142</p>
+              <p class="cohort-stat-value cohort-stat-value--teal">112 / 150</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Avg. bill</p>
-              <p class="cohort-stat-value">$78/mo</p>
+              <p class="cohort-stat-value">$85/mo</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Current provider</p>
               <p class="cohort-stat-value">Bell</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Contracts ending</p>
-              <p class="cohort-stat-value">Q4 2026</p>
+              <p class="cohort-stat-value">Q3 2026</p>
+            </div>
+          </div>
+          <div class="cohort-progress-wrap">
+            <div class="cohort-progress-label">
+              <span>112 households verified</span>
+              <span>150 threshold</span>
+            </div>
+            <div class="cohort-progress-track">
+              <div class="cohort-progress-fill" style="width:75%;"></div>
+            </div>
+          </div>
+          <div class="cohort-econ">
+            <div>
+              <p class="cohort-econ-item-label">Est. first-year rev.</p>
+              <p class="cohort-econ-item-value" id="rev2">—</p>
+            </div>
+            <div>
+              <p class="cohort-econ-item-label">Est. CAC at $60 fee</p>
+              <p class="cohort-econ-item-value">$60</p>
             </div>
           </div>
           <div class="cohort-timer cohort-timer--ok">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Auction closes Jun 29
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Auction opens when cohort fills
           </div>
           <hr class="cohort-divider">
           <div class="cohort-households">
             <div class="hh-avatars">
-              <div class="hh-avatar">D</div><div class="hh-avatar">E</div><div class="hh-avatar">F</div><div class="hh-avatar">+139</div>
+              <div class="hh-avatar">D</div><div class="hh-avatar">E</div><div class="hh-avatar">F</div><div class="hh-avatar">+109</div>
             </div>
-            <span class="hh-count"><strong>142 households</strong> verified &amp; opted in</span>
+            <span class="hh-count"><strong>112 households</strong> verified &amp; opted in</span>
           </div>
-          <button class="btn-bid" onclick="openBid({id:'WHL-QC-004',name:'Montréal Nord — Mixed',homes:142,avgBill:78,provider:'Bell'})">Place a bid →</button>
+          <button class="btn-bid" onclick="openBid({id:'WHL-ON-002',name:'Orléans',homes:112,avgBill:85,provider:'Bell',fsas:'K1C · K4A'})">Place a bid →</button>
         </div>
       </div>
 
-      <!-- Cohort 3 -->
+      <!-- ── WHL-ON-003 ── -->
       <div class="cohort-card">
-        <div class="cohort-card-map" style="background:linear-gradient(135deg,#e3eaf0,#c8d5e2);">
+        <div class="cohort-card-map" style="background:linear-gradient(135deg,#e7efef,#d0e4e2);">
           <svg class="cohort-map-svg" width="120" height="80" viewBox="0 0 120 80" fill="none">
-            <circle cx="60" cy="40" r="32" stroke="#2d5f8a" stroke-width="1.5" stroke-dasharray="4 5"/>
-            <circle cx="60" cy="40" r="16" fill="rgba(45,95,138,0.1)" stroke="#2d5f8a" stroke-width="1.5"/>
-            <circle cx="60" cy="40" r="5" fill="#2d5f8a"/>
-            <g fill="#2d5f8a" opacity="0.6">
+            <circle cx="60" cy="40" r="32" stroke="#0f5e63" stroke-width="1.5" stroke-dasharray="4 5"/>
+            <circle cx="60" cy="40" r="14" fill="rgba(15,94,99,0.10)" stroke="#0f5e63" stroke-width="1.5"/>
+            <circle cx="60" cy="40" r="5" fill="#0f5e63"/>
+            <g fill="#0f5e63" opacity="0.6">
               <circle cx="40" cy="30" r="3"/><circle cx="48" cy="54" r="3"/><circle cx="76" cy="26" r="3"/>
               <circle cx="80" cy="52" r="3"/>
             </g>
           </svg>
-          <span class="cohort-status cohort-status--open">Open · 8 days left</span>
+          <span class="cohort-status cohort-status--forming">Now forming</span>
         </div>
         <div class="cohort-card-body">
-          <p class="cohort-id">WHL-NS-002</p>
-          <p class="cohort-name">Halifax Suburbs — Residential</p>
+          <p class="cohort-id">WHL-ON-003</p>
+          <p class="cohort-name">Barrhaven</p>
+          <p class="cohort-fsas">FSAs: K2J</p>
           <div class="cohort-stats">
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Households</p>
-              <p class="cohort-stat-value cohort-stat-value--teal">63</p>
+              <p class="cohort-stat-value cohort-stat-value--teal">41 / 150</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Avg. bill</p>
-              <p class="cohort-stat-value">$105/mo</p>
+              <p class="cohort-stat-value">$98/mo</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Current provider</p>
-              <p class="cohort-stat-value">Eastlink</p>
+              <p class="cohort-stat-value">Rogers</p>
             </div>
-            <div class="cohort-stat-item">
+            <div>
               <p class="cohort-stat-label">Contracts ending</p>
-              <p class="cohort-stat-value">Q2 2026</p>
+              <p class="cohort-stat-value">Q4 2026</p>
+            </div>
+          </div>
+          <div class="cohort-progress-wrap">
+            <div class="cohort-progress-label">
+              <span>41 households verified</span>
+              <span>150 threshold</span>
+            </div>
+            <div class="cohort-progress-track">
+              <div class="cohort-progress-fill" style="width:27%;"></div>
+            </div>
+          </div>
+          <div class="cohort-econ">
+            <div>
+              <p class="cohort-econ-item-label">Est. first-year rev.</p>
+              <p class="cohort-econ-item-value" id="rev3">—</p>
+            </div>
+            <div>
+              <p class="cohort-econ-item-label">Est. CAC at $60 fee</p>
+              <p class="cohort-econ-item-value">$60</p>
             </div>
           </div>
           <div class="cohort-timer cohort-timer--ok">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Auction closes Jun 25
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Q4 2026 target · still forming
           </div>
           <hr class="cohort-divider">
           <div class="cohort-households">
             <div class="hh-avatars">
-              <div class="hh-avatar">G</div><div class="hh-avatar">H</div><div class="hh-avatar">I</div><div class="hh-avatar">+60</div>
+              <div class="hh-avatar">G</div><div class="hh-avatar">H</div><div class="hh-avatar">I</div><div class="hh-avatar">+38</div>
             </div>
-            <span class="hh-count"><strong>63 households</strong> verified &amp; opted in</span>
+            <span class="hh-count"><strong>41 households</strong> verified &amp; opted in</span>
           </div>
-          <button class="btn-bid" onclick="openBid({id:'WHL-NS-002',name:'Halifax Suburbs — Residential',homes:63,avgBill:105,provider:'Eastlink'})">Place a bid →</button>
+          <button class="btn-bid" onclick="openBid({id:'WHL-ON-003',name:'Barrhaven',homes:41,avgBill:98,provider:'Rogers',fsas:'K2J'})">Place a bid →</button>
         </div>
       </div>
 
@@ -488,106 +454,52 @@
   </div>
 </section>
 
-<hr class="section-divider">
+</main>
 
-<!-- ══════════ MARKETING SECTIONS ══════════ -->
-
-<!-- HOW IT WORKS -->
-<section id="how" class="sec sec--deep">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker kicker--soft">How it works</p>
-      <h2 class="h2 h2--white">Demand, delivered. You just bid.</h2>
-      <p class="sec-sub">A sealed, coverage-matched auction.</p>
-    </div>
-    <div class="grid-5">
-      <article class="step-card"><span class="step-num">1</span><h3 class="step-title">Tell us your footprint</h3><p class="step-body">Your coverage areas and the kind of customers you want.</p></article>
-      <article class="step-card"><span class="step-num">2</span><h3 class="step-title">We bring you a matched cohort</h3><p class="step-body">Verified, in-coverage households opted in and ready to switch.</p></article>
-      <article class="step-card"><span class="step-num">3</span><h3 class="step-title">Place one sealed bid</h3><p class="step-body">Your best all-in offer for the whole group, one chance to sharpen it.</p></article>
-      <article class="step-card"><span class="step-num">4</span><h3 class="step-title">Win the cohort, we handle the switch</h3><p class="step-body">We onboard every household and manage the cutover.</p></article>
-      <article class="step-card"><span class="step-num">5</span><h3 class="step-title">Pay only on activation</h3><p class="step-body">A success fee per household that switches. Nothing on losing bids.</p></article>
-    </div>
-  </div>
-</section>
-
-<!-- THE ECONOMICS -->
-<section id="economics" class="sec sec--cream">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker kicker--coral">Why Whollar</p>
-      <h2 class="h2 h2--navy">A predictable cost per customer, finally.</h2>
-    </div>
-    <div class="grid-4">
-      <article class="card card--sm"><span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="#0f5e63"/></svg></span><h3 class="card-title card-title--sm">Pay for outcomes, not attempts.</h3><p class="card-body card-body--sm">A fixed success fee per activated household. No upfront spend, nothing on losing bids.</p></article>
-      <article class="card card--sm"><span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></span><h3 class="card-title card-title--sm">Whole cohorts, dense routes.</h3><p class="card-body card-body--sm">Clustered installs cut truck-rolls and rollout cost.</p></article>
-      <article class="card card--sm"><span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><path d="M8.5 11.5l2.2 2.2 4.3-4.7"/></svg></span><h3 class="card-title card-title--sm">Verified, in-coverage demand.</h3><p class="card-body card-body--sm">Every household address-qualified and ready — no bid is wasted.</p></article>
-      <article class="card card--sm"><span class="icon-chip icon-chip--mist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 7h18M5 7l-2 6a4 4 0 0 0 8 0L9 7M15 7l-2 6a4 4 0 0 0 8 0l-2-6"/></svg></span><h3 class="card-title card-title--sm">A level field.</h3><p class="card-body card-body--sm">Sealed bidding lets independents win on value, not ad budget.</p></article>
-    </div>
-    <div class="table-wrap">
-      <table class="cmp">
-        <thead>
-          <tr>
-            <th style="text-align:left;padding:20px 22px;font-weight:500;color:#8a96a0;font-size:13px;border-bottom:1px solid #e7ebe6;"></th>
-            <th class="cmp-whl-head" style="padding:18px;border-bottom:1px solid #e7ebe6;"><span><span style="width:6px;height:6px;border-radius:50%;background:#ff6b4a;display:inline-block;margin-right:4px;"></span>Whollar</span></th>
-            <th style="padding:18px 14px;font-family:'Schibsted Grotesk',sans-serif;font-weight:700;color:#48586a;font-size:14.5px;border-bottom:1px solid #e7ebe6;">Door-to-door</th>
-            <th style="padding:18px 14px;font-family:'Schibsted Grotesk',sans-serif;font-weight:700;color:#48586a;font-size:14.5px;border-bottom:1px solid #e7ebe6;">Digital ads</th>
-            <th style="padding:18px 14px;font-family:'Schibsted Grotesk',sans-serif;font-weight:700;color:#48586a;font-size:14.5px;border-bottom:1px solid #e7ebe6;">Retail / channel</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td class="label-cell">Predictable cost per customer</td><td class="cmp-cell--whl"><svg class="ico-tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td></tr>
-          <tr><td class="label-cell">High-intent, verified households</td><td class="cmp-cell--whl"><svg class="ico-tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td><td class="cmp-cell--other"><span class="ico-partial">Partial</span></td></tr>
-          <tr><td class="label-cell">No spend on losing bids</td><td class="cmp-cell--whl"><svg class="ico-tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td><td class="cmp-cell--other"><svg class="ico-cross" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td></tr>
-          <tr><td class="label-cell">You pay</td><td class="cmp-cell--whl"><span class="ico-txt ico-txt--strong">Only on activation</span></td><td class="cmp-cell--other"><span class="ico-txt">Commission per door</span></td><td class="cmp-cell--other"><span class="ico-txt">Per click</span></td><td class="cmp-cell--other"><span class="ico-txt">Slotting + commission</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" class="sec sec--mist">
-  <div class="wrap wrap--narrow">
-    <div class="sec-head" style="text-align:center;max-width:none;">
-      <p class="kicker kicker--coral">FAQ</p>
-      <h2 class="h2 h2--navy">Questions from providers.</h2>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item is-open"><button class="faq-q" aria-expanded="true">What does it cost?<span class="faq-icon">+</span></button><div class="faq-a"><p>No upfront cost. You pay a success fee only on households that activate. Your exact fee is confirmed in your partner agreement.</p></div></div>
-      <div class="faq-item"><button class="faq-q" aria-expanded="false">Isn't this a race to the bottom on price?<span class="faq-icon">+</span></button><div class="faq-a"><p>No. You set your own floor and bid only what's profitable. Cohorts are won on overall value and service commitment, not lowest price alone.</p></div></div>
-      <div class="faq-item"><button class="faq-q" aria-expanded="false">How do I know the demand is real?<span class="faq-icon">+</span></button><div class="faq-a"><p>Every household is address-qualified, inside your coverage, opted in, with a known current plan and contract timing.</p></div></div>
-      <div class="faq-item"><button class="faq-q" aria-expanded="false">Who handles the switching?<span class="faq-icon">+</span></button><div class="faq-a"><p>We do. We onboard every household in the cohort and manage the cutover end to end.</p></div></div>
-      <div class="faq-item"><button class="faq-q" aria-expanded="false">What data do I receive?<span class="faq-icon">+</span></button><div class="faq-a"><p>Only the consented, PIPEDA and Law 25-compliant household details needed to serve the cohort. Nothing more.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="sec sec--navy" style="background:#16212c;color:#9fb0bf;">
-  <div class="wrap" style="padding-top:clamp(48px,6vw,72px);padding-bottom:30px;">
+<!-- ══════ FOOTER ══════ -->
+<footer style="background:#182330;color:#9fb0bf;">
+  <div style="max-width:1180px;margin:0 auto;padding:clamp(48px,6vw,72px) 24px 30px;">
     <div class="foot-grid">
       <div>
         <div class="foot-brand">
-          <span class="brand-mark" style="width:36px;height:36px;border-radius:10px;gap:3.5px;" aria-hidden="true">
-            <span class="dot dot--w" style="width:6px;height:6px;"></span><span class="dot dot--c" style="width:6px;height:6px;"></span><span class="dot dot--w" style="width:6px;height:6px;"></span>
+          <span style="width:36px;height:36px;border-radius:10px;background:#0f5e63;display:flex;align-items:center;justify-content:center;gap:3px;" aria-hidden="true">
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#ff6b4a;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
           </span>
-          <span style="display:flex;align-items:center;gap:8px;"><span class="foot-word">Whollar</span><span class="foot-pill">for distributors</span></span>
+          <span class="foot-word">Whollar</span>
+          <span class="foot-pill">Ottawa pilot</span>
         </div>
-        <p class="foot-tag">Verified demand, delivered.</p>
+        <p class="foot-tag">Pooling Ottawa neighbourhoods into cohorts — ISPs bid for the whole group.</p>
+        <p style="font-size:14px;color:#6f8290;margin:10px 0 0;">Who runs Whollar: a small Ottawa-based team.<br><a href="mailto:hello@whollar.ca" style="color:#9fb0bf;">hello@whollar.ca</a></p>
       </div>
-      <div><h4 class="foot-h">Distributors</h4><ul class="foot-links"><li><a href="#cohorts">Browse cohorts</a></li><li><a href="#how">How it works</a></li><li><a href="#faq">FAQ</a></li></ul></div>
-      <div><h4 class="foot-h">Whollar</h4><ul class="foot-links"><li><a href="#">For households</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div>
+        <h4 class="foot-h">Households</h4>
+        <ul class="foot-links">
+          <li><a href="index.html">Check your neighbourhood</a></li>
+          <li><a href="neighbourhoods.html">Live progress</a></li>
+          <li><a href="index.html#how">How it works</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="foot-h">Providers</h4>
+        <ul class="foot-links">
+          <li><a href="distributors.html">Why bid on Whollar</a></li>
+          <li><a href="dashboard.html">Browse cohorts</a></li>
+          <li><a href="register.html">Apply to bid</a></li>
+          <li><a href="#" title="Coming soon">Privacy</a></li>
+          <li><a href="#" title="Coming soon">Terms</a></li>
+        </ul>
+      </div>
     </div>
     <div class="foot-bottom">
-      <span class="foot-copy">© 2026 Whollar. Now forming the first cohorts.</span>
+      <span class="foot-copy">© 2026 Whollar. Ottawa's first cohort — forming now.</span>
       <span class="foot-made">Made in Canada <svg width="16" height="16" viewBox="0 0 512 512" fill="#d8443c" aria-hidden="true"><path d="M256 32l-28 92-72-44 28 104-84-12 56 64-40 36 96 16-8 56 64-44 64 44-8-56 96-16-40-36 56-64-84 12 28-104-72 44z"/></svg></span>
     </div>
   </div>
 </footer>
 
-</main>
-
-<!-- ══════════════════ BID MODAL ══════════════════ -->
+<!-- ══════ BID MODAL ══════ -->
 <div class="modal-overlay" id="bid-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-backdrop" onclick="closeModal()"></div>
   <div class="modal">
@@ -596,8 +508,8 @@
     <div id="bid-step">
       <div class="modal-header">
         <div>
-          <p class="modal-kicker">Step 5 — Place your bid</p>
-          <h2 class="modal-title" id="modal-title">Place a sealed bid</h2>
+          <p class="modal-kicker">Sealed bid · Ottawa cohort</p>
+          <h2 class="modal-title" id="modal-title">Place your bid</h2>
         </div>
         <button class="modal-close" onclick="closeModal()" aria-label="Close">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -609,22 +521,60 @@
           <div><p class="cs-item-label">Households</p><p class="cs-item-val cs-item-val--teal" id="cs-homes">—</p></div>
           <div><p class="cs-item-label">Avg. monthly bill</p><p class="cs-item-val" id="cs-bill">—</p></div>
         </div>
+
+        <p class="bid-section-label">Your bid</p>
         <div class="bid-row">
           <div class="bid-field">
-            <label class="bid-label" for="bid-per-home">Your bid per household</label>
+            <label class="bid-label" for="bid-per-home">Bid per household / mo</label>
             <div class="bid-input-wrap">
               <span class="prefix">$</span>
-              <input class="bid-input" type="number" id="bid-per-home" min="50" max="9999" placeholder="200" oninput="updateTotal()">
+              <input class="bid-input" type="number" id="bid-per-home" min="30" max="9999" placeholder="75" oninput="updateMath()">
             </div>
           </div>
-          <div class="bid-field">
-            <label class="bid-label">Estimated total bid</label>
-            <div class="bid-total" style="height:56px;margin-bottom:0;align-items:center;">
-              <span class="bid-total-amount" id="bid-total-display">—</span>
-            </div>
+          <div class="bid-field" style="display:flex;flex-direction:column;justify-content:flex-end;">
+            <p class="bid-label" style="margin:0 0 6px;">Winner rubric</p>
+            <p style="font-size:13px;color:#48586a;margin:0;line-height:1.5;">60% price · 25% service terms · 15% activation speed</p>
           </div>
         </div>
-        <p class="bid-note">You pay this amount <strong>only on households that activate</strong>. Nothing is charged on homes that don't switch or if you don't win the cohort.</p>
+
+        <div class="slider-row">
+          <div class="slider-label-row">
+            <span class="slider-label">Your success fee (Whollar)</span>
+            <span class="slider-val">$<span id="fee-val">60</span>/activation</span>
+          </div>
+          <input type="range" id="fee-slider" min="40" max="80" value="60" step="5" oninput="updateMath()">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#8a96a0;margin-top:4px;"><span>$40</span><span>$80</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-label-row">
+            <span class="slider-label">Expected activation rate</span>
+            <span class="slider-val"><span id="act-val">85</span>%</span>
+          </div>
+          <input type="range" id="act-slider" min="70" max="95" value="85" step="5" oninput="updateMath()">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#8a96a0;margin-top:4px;"><span>70%</span><span>95%</span></div>
+        </div>
+
+        <div class="bid-math" id="bid-math">
+          <div>
+            <p class="bid-math-item-label">Monthly revenue</p>
+            <p class="bid-math-item-value" id="math-monthly">—</p>
+          </div>
+          <div>
+            <p class="bid-math-item-label">Annual revenue</p>
+            <p class="bid-math-item-value" id="math-annual">—</p>
+          </div>
+          <div>
+            <p class="bid-math-item-label">Total Whollar fees</p>
+            <p class="bid-math-item-value" id="math-fees">—</p>
+          </div>
+          <div>
+            <p class="bid-math-item-label">Payback</p>
+            <p class="bid-math-item-value" id="math-payback">—</p>
+          </div>
+        </div>
+
+        <p class="bid-note">You pay the Whollar success fee <strong>only on households that activate</strong>. Nothing is charged on non-activating homes or if you don't win the cohort.</p>
         <label class="bid-check">
           <input type="checkbox" id="bid-terms">
           <span class="bid-check-text">I confirm this is my best sealed bid for <strong id="bid-cohort-name-confirm">this cohort</strong> and I agree to the <strong>Whollar Bidding Terms</strong>.</span>
@@ -638,7 +588,7 @@
     <div id="confirmed-step" hidden>
       <div class="confirmed-screen">
         <div class="confirmed-ico">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#28b070" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#28b070" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
         </div>
         <h2 class="confirmed-title">Bid submitted.</h2>
         <p class="confirmed-sub">Your sealed bid has been received. Results are announced when the auction closes. You'll be notified by email — and you owe nothing unless you win and households activate.</p>
@@ -656,20 +606,7 @@
 
 <script>
 (function(){
-  /* ── FAQ accordion ─────────────────── */
-  document.querySelectorAll('.faq-q').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var item = btn.closest('.faq-item');
-      var open = item.classList.contains('is-open');
-      document.querySelectorAll('.faq-item').forEach(function(i){
-        i.classList.remove('is-open');
-        var b = i.querySelector('.faq-q'); if(b) b.setAttribute('aria-expanded','false');
-      });
-      if (!open){ item.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); }
-    });
-  });
-
-  /* ── Filter chips (visual only) ─────── */
+  /* ── Filter chips ─ */
   document.querySelectorAll('.filter-chip').forEach(function(chip){
     chip.addEventListener('click', function(){
       document.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('is-active'); });
@@ -677,25 +614,48 @@
     });
   });
 
-  /* ── Bid modal ───────────────────────── */
+  /* ── Est. first-year revenue (at $75/mo, 85% activation) ─ */
+  var cohorts = [
+    {id:'rev1', homes:87},
+    {id:'rev2', homes:112},
+    {id:'rev3', homes:41}
+  ];
+  cohorts.forEach(function(c){
+    var activated = Math.round(c.homes * 0.85);
+    var annual = activated * 75 * 12;
+    var el = document.getElementById(c.id);
+    if (el) el.textContent = '$' + annual.toLocaleString('en-CA', {maximumFractionDigits:0}) + '/yr';
+  });
+
+  /* ── Countdown timer for WHL-ON-001 ─ */
+  var deadlineMs = Date.now() + 5 * 24 * 60 * 60 * 1000;
+  function updateTimer() {
+    var diff = deadlineMs - Date.now();
+    if (diff <= 0) { document.getElementById('timer1-text').textContent = 'Auction closed'; return; }
+    var days  = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins  = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('timer1-text').textContent =
+      days + 'd ' + hours + 'h ' + mins + 'm remaining';
+  }
+  updateTimer();
+  setInterval(updateTimer, 30000);
+
+  /* ── Modal ─ */
   var activeCohort = null;
 
   window.openBid = function(cohort) {
     activeCohort = cohort;
-    // Reset to bid step
     document.getElementById('bid-step').removeAttribute('hidden');
     document.getElementById('confirmed-step').setAttribute('hidden','');
-    // Populate summary
     document.getElementById('cs-name').textContent = cohort.name;
     document.getElementById('cs-homes').textContent = cohort.homes + ' homes';
     document.getElementById('cs-bill').textContent = '$' + cohort.avgBill + '/mo avg';
     document.getElementById('bid-cohort-name-confirm').textContent = cohort.name;
-    // Reset inputs
     document.getElementById('bid-per-home').value = '';
     document.getElementById('bid-terms').checked = false;
-    document.getElementById('bid-total-display').textContent = '—';
     document.getElementById('bid-err').style.display = 'none';
-    // Open modal
+    resetMath();
     var modal = document.getElementById('bid-modal');
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
@@ -707,40 +667,61 @@
     document.body.style.overflow = '';
   };
 
-  window.updateTotal = function() {
-    var perHome = parseFloat(document.getElementById('bid-per-home').value);
-    var total = document.getElementById('bid-total-display');
-    if (!activeCohort || isNaN(perHome) || perHome <= 0) { total.textContent = '—'; return; }
-    var t = perHome * activeCohort.homes;
-    total.textContent = '$' + t.toLocaleString('en-CA', {maximumFractionDigits:0});
+  function resetMath() {
+    ['math-monthly','math-annual','math-fees','math-payback'].forEach(function(id){
+      var el = document.getElementById(id); if (el) el.textContent = '—';
+    });
+  }
+
+  window.updateMath = function() {
+    var fee = parseInt(document.getElementById('fee-slider').value) || 60;
+    var act = parseInt(document.getElementById('act-slider').value) / 100 || 0.85;
+    document.getElementById('fee-val').textContent = fee;
+    document.getElementById('act-val').textContent = Math.round(act * 100);
+
+    if (!activeCohort) return;
+    var bid = parseFloat(document.getElementById('bid-per-home').value);
+    var activated = Math.round(activeCohort.homes * act);
+    var totalFees = activated * fee;
+
+    if (isNaN(bid) || bid <= 0) { resetMath(); return; }
+
+    var monthly = activated * bid;
+    var annual  = monthly * 12;
+    var payback = bid > 0 ? (fee / bid).toFixed(1) : '—';
+
+    document.getElementById('math-monthly').textContent  = '$' + monthly.toLocaleString('en-CA', {maximumFractionDigits:0}) + '/mo';
+    document.getElementById('math-annual').textContent   = '$' + annual.toLocaleString('en-CA', {maximumFractionDigits:0}) + '/yr';
+    document.getElementById('math-fees').textContent     = '$' + totalFees.toLocaleString('en-CA', {maximumFractionDigits:0});
+    document.getElementById('math-payback').textContent  = payback + ' mo';
   };
 
   window.submitBid = function() {
     var err = document.getElementById('bid-err');
-    var perHome = parseFloat(document.getElementById('bid-per-home').value);
+    var bid = parseFloat(document.getElementById('bid-per-home').value);
     var terms = document.getElementById('bid-terms').checked;
     err.style.display = 'none';
-    if (!perHome || perHome < 10) {
-      err.textContent = 'Please enter a valid bid amount (min $10 per household).';
+    if (!bid || bid < 10) {
+      err.textContent = 'Please enter a valid bid (minimum $10/household/mo).';
       err.style.display = 'block'; return;
     }
     if (!terms) {
       err.textContent = 'Please agree to the Whollar Bidding Terms to continue.';
       err.style.display = 'block'; return;
     }
-    // Show confirmed
     document.getElementById('bid-step').setAttribute('hidden','');
-    var confirmed = document.getElementById('confirmed-step');
-    confirmed.removeAttribute('hidden');
+    document.getElementById('confirmed-step').removeAttribute('hidden');
+    var fee = parseInt(document.getElementById('fee-slider').value) || 60;
+    var act = parseInt(document.getElementById('act-slider').value) / 100 || 0.85;
+    var activated = Math.round(activeCohort.homes * act);
+    var total = bid * activated;
     document.getElementById('conf-name').textContent = activeCohort.name;
-    var total = perHome * activeCohort.homes;
-    document.getElementById('conf-bid').textContent = '$' + perHome + '/home · $' + total.toLocaleString('en-CA',{maximumFractionDigits:0}) + ' total';
-    document.getElementById('conf-ref').textContent = activeCohort.id + '-BID-' + Math.floor(Math.random()*9000+1000);
+    document.getElementById('conf-bid').textContent = '$' + bid + '/home · $' + total.toLocaleString('en-CA',{maximumFractionDigits:0}) + '/mo';
+    var ref = activeCohort.id + '-BID-' + (Math.floor(Date.now() / 1000) % 9000 + 1000);
+    document.getElementById('conf-ref').textContent = ref;
   };
 
-  /* close on Escape */
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') window.closeModal(); });
-
 })();
 </script>
 </body>

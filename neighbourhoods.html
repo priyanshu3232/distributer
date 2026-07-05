@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neighbourhoods — Whollar</title>
+  <meta name="description" content="Live progress for Ottawa's three active Whollar cohorts. See how many households have joined, and when auctions open.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ───────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Hanken Grotesk', system-ui, sans-serif;
+      color: #1f2d3d;
+      background: #fbfaf7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::selection { background: #ff6b4a; color: #fff; }
+
+    /* ── Layout helpers ──────────────────────────────────────────────────── */
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    /* ── Mobile: hide nav ───────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      header nav { display: none !important; }
+    }
+    @media (max-width: 400px) {
+      /* hide "Browse cohorts" ghost button on very small screens */
+      header > div > div:last-child > a:first-child { display: none !important; }
+    }
+
+    /* ── Shared section typography ───────────────────────────────────────── */
+    .sec-kicker {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #ff6b4a;
+      margin: 0 0 10px;
+      display: block;
+    }
+    .sec-h2 {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.04;
+      font-size: clamp(28px, 3.6vw, 44px);
+      color: #1f2d3d;
+      margin: 0 0 12px;
+      text-wrap: balance;
+    }
+    .sec-sub {
+      font-size: clamp(15.5px, 1.3vw, 17.5px);
+      line-height: 1.6;
+      color: #48586a;
+      margin: 0;
+      max-width: 54em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════════════════════ */
+    .page-hero {
+      background: radial-gradient(120% 130% at 85% 0%, #448185 0%, #0f5e63 38%, #0b4447 78%, #182330 100%);
+      padding: clamp(60px, 8vw, 100px) 0 clamp(52px, 7vw, 80px);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 10% 90%, rgba(255,107,74,0.05) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 50% at 92% 20%, rgba(68,129,133,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #ff9a84;
+      background: rgba(255, 107, 74, 0.12);
+      border: 1px solid rgba(255, 107, 74, 0.26);
+      padding: 7px 14px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+    }
+    .hero-eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #28b070;
+      flex-shrink: 0;
+      animation: livepulse 2.5s ease-out infinite;
+    }
+    @keyframes livepulse {
+      0%   { box-shadow: 0 0 0 0 rgba(40, 176, 112, 0.5); }
+      65%  { box-shadow: 0 0 0 7px rgba(40, 176, 112, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(40, 176, 112, 0); }
+    }
+    .hero-h1 {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      font-size: clamp(34px, 5vw, 62px);
+      color: #fff;
+      margin: 0 0 18px;
+      text-wrap: balance;
+    }
+    .hero-sub {
+      font-size: clamp(15.5px, 1.5vw, 18.5px);
+      line-height: 1.62;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 50em;
+      margin: 0 0 36px;
+    }
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 12px;
+      padding: 11px 16px;
+    }
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .pill-dot--coral { background: #ff6b4a; }
+    .pill-dot--green { background: #28b070; }
+    .pill-dot--teal  { background: #7fc9c5; }
+    .pill-frac {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    .pill-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.54);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       COHORTS SECTION
+    ═══════════════════════════════════════════════════════════════════════ */
+    .cohorts-sec {
+      background: #fbfaf7;
+      padding: clamp(52px, 7vw, 84px) 0;
+    }
+    .cohorts-head {
+      margin-bottom: 32px;
+    }
+    .cohorts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 767px) {
+      .cohorts-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Progress cards ──────────────────────────────────────────────────── */
+    .prog-card {
+      background: #fff;
+      border: 1px solid #e3e9e6;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px -18px rgba(31, 45, 61, 0.4);
+      transition: box-shadow 0.22s, transform 0.22s;
+    }
+    .prog-card:hover {
+      box-shadow: 0 20px 44px -16px rgba(31, 45, 61, 0.44);
+      transform: translateY(-2px);
+    }
+    /* Status-coded top accent strips */
+    .prog-card--coral { border-top: 3px solid #ff6b4a; }
+    .prog-card--green { border-top: 3px solid #28b070; }
+    .prog-card--teal  { border-top: 3px solid #0f5e63; }
+
+    .card-body {
+      padding: 22px 22px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Card header */
+    .card-hd {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .card-cohort-id {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #7090a0;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .card-name {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -0.02em;
+      color: #1f2d3d;
+      margin: 0 0 2px;
+      line-height: 1.1;
+    }
+    .card-subname {
+      font-size: 13px;
+      color: #8fa5b2;
+      display: block;
+      line-height: 1.3;
+    }
+    .status-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+    .status-badge--coral {
+      color: #bf4528;
+      background: #fff2ed;
+      border: 1px solid #ffd5c5;
+    }
+    .status-badge--green {
+      color: #1a8752;
+      background: #e7faf2;
+      border: 1px solid #b0ecd0;
+    }
+    .status-badge--teal {
+      color: #0f5e63;
+      background: #e3f0ee;
+      border: 1px solid #b5d8d3;
+    }
+
+    /* Progress bar */
+    .card-progress { margin-bottom: 16px; }
+    .progress-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .progress-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4a6370;
+    }
+    .progress-pct {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+      color: #0f5e63;
+      font-variant-numeric: tabular-nums;
+    }
+    .prog-card--coral .progress-pct { color: #d65a3e; }
+    .progress-track {
+      height: 10px;
+      background: #e7efef;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      width: 0;
+      transition: width 1.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .prog-card--coral .bar-fill {
+      background: linear-gradient(90deg, #0f5e63 0%, #d65a3e 160%);
+    }
+    .prog-card--green .bar-fill,
+    .prog-card--teal  .bar-fill {
+      background: linear-gradient(90deg, #0b4447 0%, #448185 100%);
+    }
+
+    /* Stats grid 2×2 */
+    .card-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #eaeff0;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 13px;
+    }
+    .stat-cell {
+      background: #f6f9f8;
+      padding: 11px 13px;
+    }
+    .stat-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #90a8b2;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .stat-val {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 14.5px;
+      color: #1f2d3d;
+      letter-spacing: -0.01em;
+      font-variant-numeric: tabular-nums;
+      display: block;
+    }
+
+    /* Savings strip */
+    .savings-strip {
+      background: linear-gradient(130deg, #eaf5f1 0%, #e2eff0 100%);
+      border: 1px solid #c0ddd7;
+      border-radius: 10px;
+      padding: 11px 13px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #2b5e5a;
+      margin-bottom: 13px;
+    }
+    .savings-strip strong {
+      font-weight: 700;
+      color: #0f5e63;
+    }
+
+    /* Share box */
+    .share-box {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      background: #f3f7f5;
+      border: 1px solid #d8e5e0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .share-link {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: #3e5a68;
+      padding: 10px 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: ui-monospace, 'Menlo', monospace;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+    }
+    .copy-btn {
+      flex-shrink: 0;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0f5e63;
+      background: #fff;
+      border: none;
+      border-left: 1px solid #d8e5e0;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .copy-btn:hover { background: #0f5e63; color: #fff; }
+    .copy-btn:disabled { opacity: 0.65; cursor: default; }
+    .copy-btn:focus-visible { outline: 2px solid #0f5e63; outline-offset: -2px; }
+
+    /* CTA at the bottom */
+    .card-cta-wrap { padding: 0 22px 22px; }
+    .card-cta {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      background: #ff6b4a;
+      border-radius: 11px;
+      padding: 12px 16px;
+      text-decoration: none;
+      box-shadow: 0 8px 20px -8px rgba(255, 107, 74, 0.55);
+      transition: background 0.16s;
+    }
+    .card-cta:hover { background: #d65a3e; }
+    .card-cta:focus-visible { outline: 2px solid #ff6b4a; outline-offset: 2px; }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       TIMELINE SECTION
+    ═══════════════════════════════════════════════════════════════════════ */
+    .timeline-sec {
+      background: #e7efef;
+      padding: clamp(52px, 7vw, 84px) 0;
+    }
+    .timeline-sec .sec-h2 {
+      margin-bottom: 44px;
+    }
+    .timeline-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    /* Horizontal connector line between all markers */
+    .timeline-steps::before {
+      content: '';
+      position: absolute;
+      top: 23px; /* half of 46px marker */
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, #9fc8c4 0%, #7ab4b0 50%, #9fc8c4 100%);
+      z-index: 0;
+    }
+    .timeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 14px;
+    }
+    .step-marker {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #0f5e63;
+      color: #fff;
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+      /* "gap" effect — ring punched out against mist background */
+      box-shadow: 0 0 0 4px #e7efef, 0 0 0 6px rgba(15,94,99,0.18);
+    }
+    .step-body {}
+    .step-title {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      color: #1f2d3d;
+      margin: 0 0 7px;
+    }
+    .step-desc {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #5a6e7e;
+      margin: 0;
+    }
+    /* Mobile: vertical stack */
+    @media (max-width: 767px) {
+      .timeline-steps {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .timeline-steps::before { display: none; }
+      .timeline-step {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        padding: 0 0 28px 0;
+        gap: 18px;
+        position: relative;
+      }
+      /* Vertical connector */
+      .timeline-step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 22px; /* center of 46px marker */
+        top: 46px;
+        bottom: 0;
+        width: 2px;
+        background: #9fc8c4;
+      }
+      .step-marker { margin-bottom: 0; }
+      .step-body { flex: 1; padding-top: 10px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       NOT IN OTTAWA SECTION
+    ═══════════════════════════════════════════════════════════════════════ */
+    .waitlist-sec {
+      background: #0f5e63;
+      padding: clamp(52px, 7vw, 76px) 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .waitlist-sec::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 120% at 50% -10%, rgba(68,129,133,0.4) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .waitlist-sec .sec-h2 {
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .waitlist-sub {
+      font-size: clamp(15.5px, 1.3vw, 17.5px);
+      line-height: 1.62;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 46em;
+      margin: 0 auto 32px;
+    }
+    .waitlist-form-wrap {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .waitlist-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .waitlist-input {
+      flex: 1;
+      min-width: 200px;
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: 15.5px;
+      color: #1f2d3d;
+      background: #fff;
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      border-radius: 12px;
+      padding: 13px 18px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .waitlist-input:focus {
+      border-color: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+    }
+    .waitlist-input::placeholder { color: #a0c0be; }
+    .waitlist-btn {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0f5e63;
+      background: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 26px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, transform 0.12s;
+      box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.22);
+    }
+    .waitlist-btn:hover { background: #e7efef; }
+    .waitlist-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+    .waitlist-success {
+      display: none;
+      font-size: 17px;
+      font-weight: 600;
+      color: #b4e8e0;
+      padding: 14px 0 2px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       FAQ SECTION
+    ═══════════════════════════════════════════════════════════════════════ */
+    .faq-sec {
+      background: #fbfaf7;
+      padding: clamp(52px, 7vw, 84px) 0;
+    }
+    .faq-sec .wrap { max-width: 840px; }
+    .faq-list {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .faq-item {
+      background: #fff;
+      border: 1px solid #e2eae8;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 22px 24px;
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+      color: #1f2d3d;
+    }
+    .faq-q:focus-visible { outline: 2px solid #0f5e63; outline-offset: -2px; border-radius: 14px; }
+    .faq-icon {
+      font-size: 26px;
+      font-weight: 400;
+      color: #ff6b4a;
+      line-height: 1;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .faq-item.is-open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      overflow: hidden;
+      transition: grid-template-rows 0.32s ease, opacity 0.32s ease;
+    }
+    .faq-item.is-open .faq-a {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+    .faq-a p {
+      margin: 0;
+      min-height: 0;
+      padding: 0 24px 24px;
+      font-size: 15.5px;
+      line-height: 1.62;
+      color: #48586a;
+    }
+
+    /* ── Footer grid ─────────────────────────────────────────────────────── */
+    .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 36px; }
+    @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .foot-grid { grid-template-columns: 1fr; } }
+
+    /* ── Responsive tweaks ───────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .hero-pills { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+    @media (max-width: 360px) {
+      .card-stats { grid-template-columns: 1fr; }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .bar-fill { transition: none; }
+      .hero-eyebrow-dot { animation: none; }
+      .faq-a { transition: none; }
+      .faq-icon { transition: none; }
+      .prog-card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ═══════════════════════════════════════════════════════════════ -->
+<header style="position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);-webkit-backdrop-filter:saturate(140%) blur(12px);background:rgba(251,250,247,0.88);border-bottom:1px solid rgba(31,45,61,0.07);">
+  <div style="max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;">
+      <span style="width:40px;height:40px;border-radius:11px;background:#0f5e63;display:flex;align-items:center;justify-content:center;gap:4px;" aria-hidden="true">
+        <span style="width:7px;height:7px;border-radius:50%;background:#fff;display:block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#ff6b4a;display:block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#fff;display:block;"></span>
+      </span>
+      <span style="font-family:'Schibsted Grotesk',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.02em;color:#1f2d3d;">Whollar</span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:28px;">
+      <a href="index.html" style="text-decoration:none;color:#48586a;font-weight:500;font-size:15px;">Households</a>
+      <a href="neighbourhoods.html" style="text-decoration:none;color:#0f5e63;font-weight:600;font-size:15px;">Neighbourhoods</a>
+      <a href="distributors.html" style="text-decoration:none;color:#48586a;font-weight:500;font-size:15px;">For providers</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="dashboard.html" style="font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:14px;color:#1f2d3d;background:transparent;border:1px solid #d7ddd9;border-radius:10px;padding:9px 16px;text-decoration:none;">Browse cohorts</a>
+      <a href="register.html" style="font-family:'Schibsted Grotesk',sans-serif;font-weight:700;font-size:14px;color:#fff;background:#ff6b4a;border-radius:10px;padding:9px 16px;text-decoration:none;box-shadow:0 6px 16px -6px rgba(255,107,74,0.55);">Apply to bid</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot" aria-hidden="true"></span>
+      Ottawa pilot · Live progress
+    </div>
+    <h1 class="hero-h1">Ottawa cohorts,<br>forming in real time.</h1>
+    <p class="hero-sub">Three Ottawa neighbourhoods are grouping up now. When each reaches 150 verified households, the sealed auction opens and ISPs compete for the whole cohort.</p>
+    <div class="hero-pills">
+      <div class="hero-pill">
+        <span class="pill-dot pill-dot--coral" aria-hidden="true"></span>
+        <span class="pill-frac">87/150</span>
+        <span class="pill-name">Ottawa East</span>
+      </div>
+      <div class="hero-pill">
+        <span class="pill-dot pill-dot--green" aria-hidden="true"></span>
+        <span class="pill-frac">112/150</span>
+        <span class="pill-name">Orléans</span>
+      </div>
+      <div class="hero-pill">
+        <span class="pill-dot pill-dot--teal" aria-hidden="true"></span>
+        <span class="pill-frac">41/150</span>
+        <span class="pill-name">Barrhaven</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COHORT CARDS ══════════════════════════════════════════════════════════ -->
+<section class="cohorts-sec">
+  <div class="wrap">
+    <div class="cohorts-head">
+      <h2 class="sec-h2">Active cohorts</h2>
+      <p class="sec-sub">Each cohort needs 150 verified households. When threshold is reached, the sealed ISP auction opens within 72 hours.</p>
+    </div>
+    <div class="cohorts-grid">
+
+      <!-- ── WHL-ON-001 Ottawa East ─────────────────────────────────────── -->
+      <article class="prog-card prog-card--coral" aria-label="WHL-ON-001 Ottawa East cohort">
+        <div class="card-body">
+          <div class="card-hd">
+            <div>
+              <span class="card-cohort-id">WHL-ON-001</span>
+              <h3 class="card-name">Ottawa East</h3>
+              <span class="card-subname">Beacon Hill / Cardinal Heights</span>
+            </div>
+            <span class="status-badge status-badge--coral">Closes in 5 days</span>
+          </div>
+
+          <div class="card-progress">
+            <div class="progress-meta">
+              <span class="progress-label">87 of 150 households joined</span>
+              <span class="progress-pct">58%</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100" aria-label="58% of threshold reached">
+              <div class="bar-fill" data-pct="58"></div>
+            </div>
+          </div>
+
+          <div class="card-stats">
+            <div class="stat-cell">
+              <span class="stat-label">FSAs</span>
+              <span class="stat-val">K1J K1K</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Avg bill</span>
+              <span class="stat-val">$92/mo</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Current provider</span>
+              <span class="stat-val">Rogers</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Contracts ending</span>
+              <span class="stat-val">Q3 2026</span>
+            </div>
+          </div>
+
+          <div class="savings-strip">
+            If 85% activate: 74 households × $25/mo saved = <strong>$22,200/yr</strong> back in Ottawa East pockets
+          </div>
+
+          <div class="share-box">
+            <span class="share-link">whollar.ca/n/K1J</span>
+            <button class="copy-btn" aria-label="Copy invite link for Ottawa East cohort">Copy link</button>
+          </div>
+        </div>
+        <div class="card-cta-wrap">
+          <a href="index.html" class="card-cta">Join this cohort →</a>
+        </div>
+      </article>
+
+      <!-- ── WHL-ON-002 Orléans ─────────────────────────────────────────── -->
+      <article class="prog-card prog-card--green" aria-label="WHL-ON-002 Orléans cohort">
+        <div class="card-body">
+          <div class="card-hd">
+            <div>
+              <span class="card-cohort-id">WHL-ON-002</span>
+              <h3 class="card-name">Orléans</h3>
+              <span class="card-subname">FSAs K1C · K4A</span>
+            </div>
+            <span class="status-badge status-badge--green">74% to threshold</span>
+          </div>
+
+          <div class="card-progress">
+            <div class="progress-meta">
+              <span class="progress-label">112 of 150 households joined</span>
+              <span class="progress-pct">75%</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="75% of threshold reached">
+              <div class="bar-fill" data-pct="75"></div>
+            </div>
+          </div>
+
+          <div class="card-stats">
+            <div class="stat-cell">
+              <span class="stat-label">FSAs</span>
+              <span class="stat-val">K1C K4A</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Avg bill</span>
+              <span class="stat-val">$85/mo</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Current provider</span>
+              <span class="stat-val">Bell</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Contracts ending</span>
+              <span class="stat-val">Q3 2026</span>
+            </div>
+          </div>
+
+          <div class="savings-strip">
+            If 85% activate: 95 households × $25/mo saved = <strong>$28,500/yr</strong> back in Orléans pockets
+          </div>
+
+          <div class="share-box">
+            <span class="share-link">whollar.ca/n/K1C</span>
+            <button class="copy-btn" aria-label="Copy invite link for Orléans cohort">Copy link</button>
+          </div>
+        </div>
+        <div class="card-cta-wrap">
+          <a href="index.html" class="card-cta">Join this cohort →</a>
+        </div>
+      </article>
+
+      <!-- ── WHL-ON-003 Barrhaven ───────────────────────────────────────── -->
+      <article class="prog-card prog-card--teal" aria-label="WHL-ON-003 Barrhaven cohort">
+        <div class="card-body">
+          <div class="card-hd">
+            <div>
+              <span class="card-cohort-id">WHL-ON-003</span>
+              <h3 class="card-name">Barrhaven</h3>
+              <span class="card-subname">FSA K2J</span>
+            </div>
+            <span class="status-badge status-badge--teal">Now forming</span>
+          </div>
+
+          <div class="card-progress">
+            <div class="progress-meta">
+              <span class="progress-label">41 of 150 households joined</span>
+              <span class="progress-pct">27%</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100" aria-label="27% of threshold reached">
+              <div class="bar-fill" data-pct="27"></div>
+            </div>
+          </div>
+
+          <div class="card-stats">
+            <div class="stat-cell">
+              <span class="stat-label">FSAs</span>
+              <span class="stat-val">K2J</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Avg bill</span>
+              <span class="stat-val">$98/mo</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Current provider</span>
+              <span class="stat-val">Rogers</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-label">Contracts ending</span>
+              <span class="stat-val">Q4 2026</span>
+            </div>
+          </div>
+
+          <div class="savings-strip">
+            If 85% activate: 35 households × $25/mo saved = <strong>$10,500/yr</strong> back in Barrhaven pockets
+          </div>
+
+          <div class="share-box">
+            <span class="share-link">whollar.ca/n/K2J</span>
+            <button class="copy-btn" aria-label="Copy invite link for Barrhaven cohort">Copy link</button>
+          </div>
+        </div>
+        <div class="card-cta-wrap">
+          <a href="index.html" class="card-cta">Join this cohort →</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ TIMELINE ══════════════════════════════════════════════════════════════ -->
+<section class="timeline-sec">
+  <div class="wrap">
+    <span class="sec-kicker">Timeline</span>
+    <h2 class="sec-h2">What happens when a cohort fills.</h2>
+    <div class="timeline-steps">
+
+      <div class="timeline-step">
+        <div class="step-marker" aria-hidden="true">1</div>
+        <div class="step-body">
+          <p class="step-title">Cohort reaches 150</p>
+          <p class="step-desc">Threshold met. Whollar verifies all addresses against the coverage map before proceeding.</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="step-marker" aria-hidden="true">2</div>
+        <div class="step-body">
+          <p class="step-title">Auction opens</p>
+          <p class="step-desc">Registered ISPs place sealed bids within 7 days. No bidder sees a competing offer.</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="step-marker" aria-hidden="true">3</div>
+        <div class="step-body">
+          <p class="step-title">Winner announced</p>
+          <p class="step-desc">Scored 60% on price, 25% on service commitment, 15% on activation speed.</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="step-marker" aria-hidden="true">4</div>
+        <div class="step-body">
+          <p class="step-title">You decide</p>
+          <p class="step-desc">Each household chooses to switch or stay. No obligation, no penalty either way.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ NOT IN OTTAWA ══════════════════════════════════════════════════════════ -->
+<section class="waitlist-sec">
+  <div class="wrap">
+    <h2 class="sec-h2">Not in Ottawa?</h2>
+    <p class="waitlist-sub">Ottawa is our launch city. We're proving the model here before expanding. Add your email and we'll notify you when your city opens.</p>
+    <div class="waitlist-form-wrap">
+      <form class="waitlist-form" id="waitlist-form" novalidate>
+        <input
+          class="waitlist-input"
+          type="email"
+          id="waitlist-email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          required
+          aria-label="Your email address"
+        >
+        <button class="waitlist-btn" type="submit">Notify me →</button>
+      </form>
+      <p class="waitlist-success" id="waitlist-success" role="status" aria-live="polite">
+        Got it. We'll reach you when your city opens.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ════════════════════════════════════════════════════════════════════ -->
+<section class="faq-sec">
+  <div class="wrap">
+    <h2 class="sec-h2">Neighbourhood FAQ</h2>
+    <div class="faq-list">
+
+      <div class="faq-item is-open">
+        <button class="faq-q" aria-expanded="true">
+          What does 150 mean?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <p>150 verified households is the minimum cohort size. Below that, ISPs don't see enough density to justify the bid. 150 is the floor; cohorts can be up to 250.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          When does my cohort's auction close?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <p>WHL-ON-001 (Ottawa East) closes in 5 days. WHL-ON-002 (Orléans) and WHL-ON-003 (Barrhaven) are still forming — no close date until threshold.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Can I be in only one cohort?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Yes — one household, one cohort, based on your postal code. You can't join multiple cohorts.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          What if I miss the auction?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <p>If you join before the cohort hits threshold, you're in the auction. After the auction closes, the cohort is locked. New members join the next cohort for their FSA.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer style="background:#182330;color:#9fb0bf;">
+  <div style="max-width:1180px;margin:0 auto;padding:clamp(48px,6vw,72px) 24px 30px;">
+    <div class="foot-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
+          <span style="width:36px;height:36px;border-radius:10px;background:#0f5e63;display:flex;align-items:center;justify-content:center;gap:3px;" aria-hidden="true"><span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span><span style="width:6px;height:6px;border-radius:50%;background:#ff6b4a;display:block;"></span><span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span></span>
+          <span style="font-family:'Schibsted Grotesk',sans-serif;font-weight:800;font-size:20px;color:#fff;letter-spacing:-0.02em;">Whollar</span>
+          <span style="font-size:11.5px;font-weight:600;color:#448185;background:rgba(25,146,154,0.16);padding:3px 9px;border-radius:999px;">Ottawa pilot</span>
+        </div>
+        <p style="font-size:15px;color:#8fa1b0;line-height:1.6;max-width:24rem;margin:0 0 10px;">Pooling Ottawa neighbourhoods into cohorts — ISPs bid for the whole group.</p>
+        <p style="font-size:14px;color:#6f8290;margin:0;">Who runs Whollar: a small Ottawa-based team.<br><a href="mailto:hello@whollar.ca" style="color:#9fb0bf;">hello@whollar.ca</a></p>
+      </div>
+      <div>
+        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#5f7384;margin:0 0 16px;">Households</h4>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="index.html" style="color:#9fb0bf;text-decoration:none;font-size:15px;">Check your neighbourhood</a></li>
+          <li><a href="neighbourhoods.html" style="color:#9fb0bf;text-decoration:none;font-size:15px;">Live progress</a></li>
+          <li><a href="index.html#how" style="color:#9fb0bf;text-decoration:none;font-size:15px;">How it works</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#5f7384;margin:0 0 16px;">Providers</h4>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="distributors.html" style="color:#9fb0bf;text-decoration:none;font-size:15px;">Why bid on Whollar</a></li>
+          <li><a href="dashboard.html" style="color:#9fb0bf;text-decoration:none;font-size:15px;">Browse cohorts</a></li>
+          <li><a href="register.html" style="color:#9fb0bf;text-decoration:none;font-size:15px;">Apply to bid</a></li>
+          <li><a href="#" title="Coming soon" style="color:#9fb0bf;text-decoration:none;font-size:15px;">Privacy</a></li>
+          <li><a href="#" title="Coming soon" style="color:#9fb0bf;text-decoration:none;font-size:15px;">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;">
+      <span style="font-size:13.5px;color:#6f8290;">© 2026 Whollar. Ottawa's first cohort — forming now.</span>
+      <span style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:#6f8290;">Made in Canada <svg width="16" height="16" viewBox="0 0 512 512" fill="#d8443c" aria-hidden="true"><path d="M256 32l-28 92-72-44 28 104-84-12 56 64-40 36 96 16-8 56 64-44 64 44-8-56 96-16-40-36 56-64-84 12 28-104-72 44z"/></svg></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── Progress bar animation ─────────────────────────────────────────── */
+  setTimeout(function () {
+    document.querySelectorAll('.bar-fill[data-pct]').forEach(function (bar) {
+      bar.style.width = bar.getAttribute('data-pct') + '%';
+    });
+  }, 300);
+
+  /* ── Copy-link buttons ──────────────────────────────────────────────── */
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var box = btn.closest('.share-box');
+      var linkEl = box && box.querySelector('.share-link');
+      var text = linkEl ? linkEl.textContent.trim() : '';
+      if (navigator.clipboard && text) {
+        navigator.clipboard.writeText(text).catch(function () {});
+      }
+      var orig = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      btn.disabled = true;
+      setTimeout(function () {
+        btn.textContent = orig;
+        btn.disabled = false;
+      }, 2000);
+    });
+  });
+
+  /* ── Waitlist form ──────────────────────────────────────────────────── */
+  var wForm   = document.getElementById('waitlist-form');
+  var wSuccess = document.getElementById('waitlist-success');
+  if (wForm && wSuccess) {
+    wForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      wForm.style.display = 'none';
+      wSuccess.style.display = 'block';
+    });
+  }
+
+})();
+</script>
+</body>
+</html>

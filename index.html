@@ -3,729 +3,557 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Whollar — Win a whole cohort in a single bid</title>
+  <title>Join the cohort — Whollar</title>
+  <meta name="description" content="Ottawa neighbours are grouping up by postal code. ISPs bid to win the whole block. Check if your neighbourhood has an active cohort.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; height: 100%; }
+    html { scroll-behavior: smooth; }
     body { margin: 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; color: #1f2d3d; background: #fbfaf7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     ::selection { background: #ff6b4a; color: #fff; }
 
-    /* ── HEADER ──────────────────────────────────────── */
-    .site-header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 80;
-      padding: 0 clamp(20px,4vw,44px);
-      height: 64px; display: flex; align-items: center; justify-content: space-between;
-      background: rgba(251,250,247,0.94);
-      backdrop-filter: saturate(140%) blur(12px);
-      -webkit-backdrop-filter: saturate(140%) blur(12px);
-      border-bottom: 1px solid rgba(31,45,61,0.06);
-    }
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .brand-mark {
-      width: 38px; height: 38px; border-radius: 10px; background: #0f5e63;
-      display: flex; align-items: center; justify-content: center; gap: 4px;
-    }
-    .dot { width: 6.5px; height: 6.5px; border-radius: 50%; }
-    .dot--w { background: #fff; }
-    .dot--c { background: #ff6b4a; }
-    .brand-label { display: flex; align-items: center; gap: 8px; }
-    .brand-word { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: #1f2d3d; }
-    .brand-sub { font-size: 11.5px; font-weight: 600; color: #0f5e63; background: #e3f0ee; padding: 3px 9px; border-radius: 999px; }
-    .header-nav { display: flex; align-items: center; gap: 10px; }
-    .btn-login {
-      font-family: 'Hanken Grotesk',sans-serif; font-weight: 600; font-size: 14.5px;
-      padding: 9px 20px; border-radius: 10px; border: 1.5px solid #d0d7d5;
-      background: transparent; color: #1f2d3d; cursor: pointer; text-decoration: none;
-      transition: border-color .15s, color .15s; display: inline-block;
-    }
-    .btn-login:hover { border-color: #0f5e63; color: #0f5e63; }
-    .btn-signup {
-      font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 14.5px;
-      padding: 9px 22px; border-radius: 10px; border: none;
-      background: #ff6b4a; color: #fff; cursor: pointer; text-decoration: none; display: inline-block;
-      box-shadow: 0 8px 20px -8px rgba(255,107,74,0.6);
-      transition: background .16s;
-    }
-    .btn-signup:hover { background: #ef5530; }
-
-    /* ── HERO SPLIT ──────────────────────────────────── */
-    .hero {
-      min-height: 100vh; display: flex;
-      padding-top: 64px;
-    }
-    .hero-left {
-      flex: 0 0 54%;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: clamp(40px,6vw,80px) clamp(28px,5vw,72px) clamp(40px,6vw,64px);
-    }
-    .hero-h1 {
-      font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900;
-      font-size: clamp(36px,4.6vw,62px); letter-spacing: -0.03em; line-height: 1.02;
-      color: #1f2d3d; margin: 0 0 18px;
-    }
-    .hero-h1 em { font-style: normal; color: #ff6b4a; }
-    .hero-sub {
-      font-size: clamp(16px,1.4vw,18px); line-height: 1.6; color: #48586a;
-      margin: 0 0 28px; max-width: 36em;
-    }
-
-    /* stats */
-    .hero-stats {
-      display: flex; align-items: stretch; gap: 0;
-      border: 1px solid #e2eae6; border-radius: 14px;
-      overflow: hidden; width: fit-content; margin-bottom: 32px;
-    }
-    .hero-stat {
-      padding: 14px 22px; display: flex; flex-direction: column; gap: 3px;
-      border-right: 1px solid #e2eae6;
-    }
-    .hero-stat:last-child { border-right: none; }
-    .hs-icon { display: flex; align-items: center; margin-bottom: 6px; }
-    .hs-value { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.01em; color: #1f2d3d; }
-    .hs-label { font-size: 12px; font-weight: 500; color: #8a96a0; white-space: nowrap; }
-
-    /* ── TAB FEATURES ─────── */
-    .feature-tabs { margin-bottom: 36px; }
-    .tab-list {
-      display: flex; gap: 0;
-      border-bottom: 2px solid #e7ebe6;
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
-    }
-    .tab-list::-webkit-scrollbar { display: none; }
-    .tab-btn {
-      flex-shrink: 0; background: none; border: none; cursor: pointer;
-      font-family: 'Hanken Grotesk',sans-serif; font-weight: 600; font-size: 14px;
-      color: #8a96a0; padding: 10px 20px 12px;
-      border-bottom: 2.5px solid transparent; margin-bottom: -2px;
-      transition: color .15s, border-color .15s;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .tab-btn.is-active { color: #0f5e63; border-bottom-color: #0f5e63; }
-    .tab-btn:hover:not(.is-active) { color: #1f2d3d; }
-    .tab-panel { display: none; padding: 24px 0 4px; }
-    .tab-panel.is-active { display: flex; align-items: flex-start; gap: 18px; }
-    .tab-icon-wrap {
-      flex-shrink: 0; width: 52px; height: 52px; border-radius: 14px;
-      background: #e3f0ee; display: flex; align-items: center; justify-content: center;
-    }
-    .tab-title {
-      font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800;
-      font-size: 18px; letter-spacing: -0.01em; color: #1f2d3d; margin: 0 0 7px;
-    }
-    .tab-desc { font-size: 15px; line-height: 1.6; color: #48586a; margin: 0; }
-
-    /* CTA */
-    .hero-cta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16px;
-      padding: 15px 28px; border-radius: 13px; border: none;
-      background: #ff6b4a; color: #fff; text-decoration: none;
-      box-shadow: 0 12px 26px -10px rgba(255,107,74,0.65);
-      transition: background .16s;
-    }
-    .btn-primary:hover { background: #ef5530; }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'Hanken Grotesk',sans-serif; font-weight: 600; font-size: 15.5px;
-      padding: 15px 22px; border-radius: 13px; border: 1.5px solid #d0d7d5;
-      background: #fff; color: #1f2d3d; text-decoration: none;
-      transition: border-color .16s;
-    }
-    .btn-secondary:hover { border-color: #0f5e63; }
-
-    /* RIGHT video panel */
-    .hero-right { flex: 0 0 46%; position: relative; overflow: hidden; }
-    .hero-right video {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; object-position: center center;
-    }
-    .hero-right-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to right, rgba(251,250,247,0.32) 0%, transparent 22%),
-                  linear-gradient(to top, rgba(10,30,38,0.62) 0%, transparent 65%),
-                  rgba(10,30,38,0.28);
-    }
-    /* floating live cohort card */
-    .cohort-float {
-      position: absolute; bottom: clamp(24px,4vw,40px); left: clamp(18px,3vw,30px);
-      background: rgba(255,255,255,0.96); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border-radius: 16px; padding: 16px 20px; box-shadow: 0 20px 44px -18px rgba(31,45,61,0.5);
-      max-width: 280px; width: calc(100% - 36px);
-    }
-    .cf-tag { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #ff6b4a; margin: 0 0 5px; }
-    .cf-name { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 16px; letter-spacing: -0.01em; color: #1f2d3d; margin: 0 0 10px; }
-    .cf-pills { display: flex; gap: 7px; flex-wrap: wrap; }
-    .cf-pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
-    .cf-pill--teal { background: #e3f0ee; color: #0f5e63; }
-    .cf-pill--warn { background: rgba(255,107,74,0.1); color: #c84a30; }
-    .cf-divider { border: none; border-top: 1px solid #f0f3f1; margin: 11px 0; }
-    .cf-progress-label { font-size: 11.5px; color: #8a96a0; margin: 0 0 6px; display: flex; justify-content: space-between; }
-    .cf-bar { height: 5px; background: #e7ebe6; border-radius: 999px; overflow: hidden; }
-    .cf-bar-fill { height: 100%; background: #28b070; border-radius: 999px; width: 72%; }
-
-    /* ── SECTIONS BELOW ─────────────────────────── */
     .wrap { max-width: 1180px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
-    .wrap--narrow { max-width: 860px; }
-    .sec > .wrap { padding-block: clamp(60px,8vw,100px); }
+    .sec > .wrap { padding-block: clamp(60px,8.5vw,100px); }
     .sec--cream { background: #fbfaf7; }
-    .sec--deep  { background: #0b4448; color: #dfeeec; }
     .sec--mist  { background: #e7efef; }
+    .sec--teal  { background: #0b4447; color: #daecea; }
+    .sec--navy  { background: #182330; color: #9fb0bf; }
 
-    .kicker { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; margin: 0; }
+    .kicker { text-transform: uppercase; letter-spacing: 0.14em; font-size: 12.5px; font-weight: 700; margin: 0; }
     .kicker--coral { color: #ff6b4a; }
     .kicker--soft  { color: #ff9a84; }
-    .kicker--teal  { color: #448185; }
-    .h2 { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; font-size: clamp(28px,3.6vw,44px); margin: 14px 0 0; }
+    .h2 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; letter-spacing: -0.025em; line-height: 1.06; font-size: clamp(28px,3.6vw,44px); margin: 14px 0 0; }
     .h2--navy  { color: #1f2d3d; }
     .h2--white { color: #fff; }
-    .sec-head { max-width: 46rem; }
-    .sec-sub  { font-size: 17.5px; line-height: 1.56; margin: 14px 0 0; color: #a9cecb; }
+    .sec-sub { font-size: 17.5px; line-height: 1.55; margin: 16px 0 0; }
+    .sec-sub--dim   { color: #a9cecb; }
+    .sec-sub--muted { color: #5a6e7e; }
 
-    /* PROBLEM */
-    .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; margin-top: 44px; }
-    .prob-card { background: #fff; border: 1px solid #eaeee8; border-radius: 18px; padding: 28px; box-shadow: 0 14px 36px -28px rgba(31,45,61,0.5); }
-    .prob-icon { width: 40px; height: 40px; border-radius: 11px; background: rgba(255,107,74,0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-    .prob-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; color: #1f2d3d; margin: 0 0 8px; }
-    .prob-body { font-size: 15px; line-height: 1.55; color: #5a6e7e; margin: 0; }
+    /* ── Header ─ */
+    .site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); background: rgba(251,250,247,0.88); border-bottom: 1px solid rgba(31,45,61,0.07); }
+    .header-inner { padding: 14px 24px; max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit; }
+    .brand-mark { width: 40px; height: 40px; border-radius: 11px; background: #0f5e63; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; display: block; }
+    .dot--w { background: #fff; }
+    .dot--c { background: #ff6b4a; }
+    .brand-word { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #1f2d3d; }
+    .main-nav { display: flex; align-items: center; gap: 28px; }
+    .main-nav a { text-decoration: none; color: #48586a; font-weight: 500; font-size: 15px; transition: color .15s; }
+    .main-nav a:hover { color: #1f2d3d; }
+    .main-nav a.active { color: #0f5e63; font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-outline { font-family: 'Hanken Grotesk',sans-serif; font-weight: 600; font-size: 14px; color: #1f2d3d; background: transparent; border: 1px solid #d7ddd9; border-radius: 10px; padding: 9px 16px; text-decoration: none; transition: border-color .15s; }
+    .btn-outline:hover { border-color: #0f5e63; color: #0f5e63; }
+    .btn-cta { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 14px; color: #fff; background: #ff6b4a; border-radius: 10px; padding: 9px 16px; text-decoration: none; box-shadow: 0 6px 16px -6px rgba(255,107,74,0.55); transition: background .18s; }
+    .btn-cta:hover { background: #d65a3e; }
 
-    /* HOW */
-    .grid-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; margin-top: 46px; }
-    .step-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 24px; }
-    .step-num { width: 40px; height: 40px; border-radius: 11px; background: #ff6b4a; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 22px -10px rgba(255,107,74,0.7); }
-    .step-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16.5px; line-height: 1.2; color: #fff; margin: 16px 0 7px; }
+    /* ── Hero ─ */
+    .hero { background: radial-gradient(120% 130% at 85% 0%, #448185 0%, #0f5e63 38%, #0b4447 78%, #182330 100%); color: #eef6f5; padding: clamp(64px,9vw,112px) 0 clamp(48px,7vw,80px); }
+    .eyebrow-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #ff9a84; background: rgba(255,142,116,0.12); border: 1px solid rgba(255,142,116,0.28); padding: 7px 14px; border-radius: 999px; margin-bottom: 24px; }
+    .pulse { width: 7px; height: 7px; border-radius: 50%; background: #28b070; box-shadow: 0 0 0 3px rgba(40,176,112,0.25); animation: pulse 2.4s ease-out infinite; flex-shrink: 0; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(40,176,112,0.4)} 70%{box-shadow:0 0 0 6px rgba(40,176,112,0)} 100%{box-shadow:0 0 0 0 rgba(40,176,112,0)} }
+    .hero-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 900; letter-spacing: -0.03em; line-height: 1.02; font-size: clamp(38px,5.4vw,64px); color: #fff; margin: 0 0 20px; max-width: 18em; }
+    .hero-sub { font-size: clamp(16px,1.3vw,19px); line-height: 1.55; color: #c7d8d7; max-width: 34em; margin: 0 0 32px; }
+
+    .postal-form { display: flex; gap: 0; max-width: 520px; }
+    .postal-input { flex: 1; font-family: 'Hanken Grotesk',sans-serif; font-size: 17px; color: #1f2d3d; padding: 16px 20px; border: 2px solid transparent; border-radius: 14px 0 0 14px; outline: none; background: #fff; transition: border-color .15s; min-width: 0; }
+    .postal-input:focus { border-color: #ff6b4a; }
+    .postal-btn { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16px; color: #fff; background: #ff6b4a; border: none; border-radius: 0 14px 14px 0; padding: 16px 26px; cursor: pointer; white-space: nowrap; box-shadow: 0 12px 28px -10px rgba(255,107,74,0.7); transition: background .18s; }
+    .postal-btn:hover { background: #d65a3e; }
+
+    #postal-result { margin-top: 20px; display: none; }
+    .result-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: 18px; padding: 22px 24px; max-width: 520px; backdrop-filter: blur(2px); }
+    .result-cohort-id { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #ff9a84; margin: 0 0 4px; }
+    .result-name { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 20px; color: #fff; margin: 0 0 14px; }
+    .result-progress-label { display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+    .result-progress-track { height: 7px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden; margin-bottom: 16px; }
+    .result-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ff6b4a, #ff9a84); }
+    .result-status { font-size: 13.5px; color: #a9d8d5; margin: 0 0 18px; }
+    .result-cta { display: inline-block; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 15px; color: #fff; background: #ff6b4a; border-radius: 10px; padding: 12px 22px; text-decoration: none; box-shadow: 0 8px 20px -8px rgba(255,107,74,0.6); transition: background .18s; border: none; cursor: pointer; }
+    .result-cta:hover { background: #d65a3e; }
+    .result-waitlist-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 17px; color: #fff; margin: 0 0 8px; }
+    .result-waitlist-sub { font-size: 14px; color: rgba(255,255,255,0.55); margin: 0 0 16px; line-height: 1.5; }
+    .waitlist-email-row { display: flex; gap: 0; }
+    .waitlist-email-input { flex: 1; font-family: inherit; font-size: 15px; color: #1f2d3d; padding: 12px 16px; border: none; border-radius: 10px 0 0 10px; outline: none; min-width: 0; }
+    .waitlist-email-btn { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 14px; color: #fff; background: #ff6b4a; border: none; border-radius: 0 10px 10px 0; padding: 12px 18px; cursor: pointer; transition: background .18s; white-space: nowrap; }
+    .waitlist-email-btn:hover { background: #d65a3e; }
+
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 8px 0; margin-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; }
+    .hero-stat { padding: 0 28px 0 0; margin: 0 28px 0 0; border-right: 1px solid rgba(255,255,255,0.12); }
+    .hero-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+    .hs-value { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: clamp(22px,2.8vw,32px); color: #fff; margin: 0; }
+    .hs-label { font-size: 13px; color: #8fb8b5; margin: 4px 0 0; }
+
+    /* ── Steps ─ */
+    .steps-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; margin-top: 48px; }
+    .step-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px; }
+    .step-num { width: 40px; height: 40px; border-radius: 10px; background: #ff6b4a; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px -8px rgba(255,107,74,0.7); margin-bottom: 18px; }
+    .step-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16px; line-height: 1.25; color: #fff; margin: 0 0 8px; }
     .step-body { font-size: 14px; line-height: 1.5; color: #a9cecb; margin: 0; }
 
-    /* ECONOMICS */
-    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-top: 44px; }
-    .econ-card { background: #fff; border: 1px solid #eaeee8; border-radius: 18px; padding: 26px; box-shadow: 0 14px 36px -28px rgba(31,45,61,0.5); }
-    .econ-icon { width: 42px; height: 42px; border-radius: 11px; background: #e3f0ee; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-    .econ-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 17px; color: #1f2d3d; margin: 0 0 7px; }
-    .econ-body { font-size: 14.5px; line-height: 1.55; color: #5a6e7e; margin: 0; }
+    /* ── Math ─ */
+    .math-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 44px; }
+    .math-card { background: #fff; border: 1px solid #e7ebe6; border-radius: 18px; padding: 28px; box-shadow: 0 16px 36px -28px rgba(31,45,61,0.45); }
+    .math-value { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: clamp(28px,3vw,38px); color: #0f5e63; letter-spacing: -0.02em; margin: 0 0 6px; }
+    .math-label { font-size: 16px; font-weight: 600; color: #1f2d3d; margin: 0 0 8px; }
+    .math-sub { font-size: 14px; color: #8a96a0; margin: 0; line-height: 1.5; }
+    .math-panel { margin-top: 28px; background: linear-gradient(135deg, #0f5e63, #0b4447); color: #eaf5f3; border-radius: 20px; padding: clamp(28px,4vw,44px); box-shadow: 0 24px 50px -32px rgba(15,94,99,0.7); }
+    .math-panel-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: clamp(20px,2.4vw,26px); color: #fff; margin: 0 0 10px; line-height: 1.2; }
+    .math-panel-body { font-size: clamp(16px,1.4vw,19px); line-height: 1.55; margin: 0; color: #b5d8d5; }
+    .math-panel-em { color: #fff; font-weight: 600; }
 
-    /* TABLE */
-    .table-wrap { margin-top: 44px; overflow-x: auto; border: 1px solid #e7ebe6; border-radius: 20px; background: #fff; box-shadow: 0 22px 50px -38px rgba(31,45,61,0.55); }
-    .cmp { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 15px; }
-    .cmp th, .cmp td { padding: 18px 14px; border-bottom: 1px solid #f1f3f0; }
-    .cmp thead th { border-bottom-color: #e7ebe6; }
-    .cmp th:first-child, .cmp td:first-child { text-align: left; padding-left: 22px; }
-    .cmp-whl-head span { display: inline-flex; align-items: center; gap: 8px; background: #0f5e63; color: #fff; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 15px; padding: 9px 16px; border-radius: 11px; }
-    .cmp-cell--whl { background: rgba(15,94,99,0.05); text-align: center; }
-    .cmp-cell--other { text-align: center; }
-    .label-cell { font-weight: 600; color: #1f2d3d; }
-    .ico-partial { font-size: 13px; color: #8a96a0; font-weight: 600; }
-    .ico-txt { font-size: 14px; font-weight: 500; color: #48586a; }
-    .ico-txt--strong { font-weight: 700; color: #1f2d3d; }
+    /* ── Invite ─ */
+    .invite-share { display: flex; align-items: center; gap: 0; max-width: 440px; margin-top: 30px; }
+    .invite-link-box { flex: 1; font-size: 15px; font-weight: 600; color: #0f5e63; background: #fff; border: 1px solid #d7ddd9; border-radius: 11px 0 0 11px; padding: 12px 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .invite-copy-btn { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 14px; color: #fff; background: #0f5e63; border: none; border-radius: 0 11px 11px 0; padding: 12px 20px; cursor: pointer; white-space: nowrap; transition: background .18s; }
+    .invite-copy-btn:hover { background: #0b4447; }
 
-    /* WHO BIDS */
-    .chips { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 34px; }
-    .chip { display: inline-flex; align-items: center; gap: 9px; background: #fff; border: 1px solid #d9e6e3; color: #1f2d3d; font-weight: 600; font-size: 15.5px; padding: 13px 21px; border-radius: 13px; box-shadow: 0 10px 26px -22px rgba(31,45,61,0.6); }
-    .who-foot { font-size: 17.5px; line-height: 1.55; color: #48586a; margin: 28px 0 0; max-width: 40rem; }
+    /* ── Signup ─ */
+    .signup-card { max-width: 640px; background: #fff; border: 1px solid #e7ebe6; border-radius: 22px; padding: clamp(28px,4vw,44px); box-shadow: 0 30px 60px -40px rgba(31,45,61,0.4); margin-top: 44px; }
+    .signup-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field--full { grid-column: 1 / -1; }
+    .field-label { font-size: 13.5px; font-weight: 600; color: #1f2d3d; }
+    .field input, .field select { font-family: inherit; font-size: 15px; color: #1f2d3d; padding: 12px 14px; border: 1px solid #d7ddd9; border-radius: 11px; outline: none; background: #fff; width: 100%; transition: border-color .15s, box-shadow .15s; }
+    .field input:focus, .field select:focus { border-color: #0f5e63; box-shadow: 0 0 0 3px rgba(15,94,99,0.14); }
+    .signup-btn { width: 100%; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 16px; color: #fff; background: #ff6b4a; border: none; border-radius: 12px; padding: 15px; cursor: pointer; box-shadow: 0 14px 30px -12px rgba(255,107,74,0.65); transition: background .18s; margin-top: 4px; }
+    .signup-btn:hover { background: #d65a3e; }
+    .privacy-note { font-size: 13px; color: #8a96a0; display: flex; align-items: center; gap: 7px; margin-top: 16px; }
+    .signup-success { text-align: center; padding: 20px 0; }
+    .success-ico { width: 60px; height: 60px; border-radius: 50%; background: rgba(40,176,112,0.12); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .success-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 22px; color: #1f2d3d; margin: 0 0 8px; }
+    .success-body { font-size: 16px; color: #48586a; margin: 0; }
 
-    /* FAIR */
-    .fair-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; margin-top: 44px; }
-    .fair-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 28px; display: flex; gap: 18px; }
-    .fair-ico { width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px; background: rgba(255,142,116,0.18); display: flex; align-items: center; justify-content: center; }
-    .fair-title { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 18px; color: #fff; margin: 2px 0 7px; }
-    .fair-body { font-size: 15px; line-height: 1.55; color: #bcdedb; margin: 0; }
-
-    /* MODEL */
-    .model-panel { margin-top: 36px; background: linear-gradient(135deg,#0f5e63,#0b4448); color: #eaf5f3; border-radius: 22px; padding: clamp(32px,5vw,52px); box-shadow: 0 30px 60px -40px rgba(15,94,99,0.8); display: grid; grid-template-columns: auto 1px 1fr; gap: clamp(24px,4vw,44px); align-items: center; }
-    .model-stat { text-align: center; }
-    .model-num { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 900; font-size: clamp(32px,4vw,50px); color: #fff; letter-spacing: -0.03em; margin: 0; }
-    .model-cap { font-size: 13px; color: #9fcecb; margin: 4px 0 0; }
-    .model-pills { display: flex; gap: 24px; }
-    .model-div { background: rgba(255,255,255,0.16); }
-    .model-copy { font-size: clamp(17px,1.7vw,21px); line-height: 1.5; margin: 0; }
-    .model-em { color: #ff9a84; font-weight: 600; }
-
-    /* FAQ */
+    /* ── FAQ ─ */
     .faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
     .faq-item { background: #fff; border: 1px solid #e2eae8; border-radius: 16px; overflow: hidden; }
     .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 18px; text-align: left; background: none; border: none; cursor: pointer; padding: 20px 22px; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; color: #1f2d3d; }
     .faq-icon { font-size: 24px; font-weight: 400; color: #ff6b4a; line-height: 1; transition: transform .3s ease; flex-shrink: 0; }
     .faq-item.is-open .faq-icon { transform: rotate(45deg); }
-    .faq-a { display: grid; grid-template-rows: 0fr; opacity: 0; overflow: hidden; transition: grid-template-rows .3s ease, opacity .3s ease; }
+    .faq-a { display: grid; grid-template-rows: 0fr; opacity: 0; overflow: hidden; transition: grid-template-rows .32s ease, opacity .32s ease; }
     .faq-item.is-open .faq-a { grid-template-rows: 1fr; opacity: 1; }
     .faq-a p { margin: 0; min-height: 0; padding: 0 22px 22px; font-size: 15.5px; line-height: 1.6; color: #48586a; }
 
-    /* FOOTER */
+    /* ── Footer ─ */
     .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 36px; }
-    .foot-word { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 19px; color: #fff; letter-spacing: -0.02em; }
-    .foot-pill { font-size: 11px; font-weight: 600; color: #448185; background: rgba(25,146,154,0.16); padding: 3px 9px; border-radius: 999px; }
-    .foot-tag { font-size: 15.5px; color: #8fa1b0; margin: 16px 0 0; }
-    .foot-h { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.1em; color: #5f7384; margin: 0 0 14px; }
+    .foot-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 14px; }
+    .foot-word { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 20px; color: #fff; letter-spacing: -0.02em; }
+    .foot-pill { font-size: 11.5px; font-weight: 600; color: #448185; background: rgba(25,146,154,0.16); padding: 3px 9px; border-radius: 999px; }
+    .foot-tag { font-size: 15px; color: #8fa1b0; margin: 0 0 10px; line-height: 1.55; max-width: 24rem; }
+    .foot-h { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #5f7384; margin: 0 0 16px; }
     .foot-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
-    .foot-links a { color: #9fb0bf; text-decoration: none; font-size: 14.5px; transition: color .15s; }
+    .foot-links a { color: #9fb0bf; text-decoration: none; font-size: 15px; transition: color .15s; }
     .foot-links a:hover { color: #fff; }
-    .foot-bottom { margin-top: 42px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
-    .foot-copy { font-size: 13px; color: #6f8290; }
+    .foot-bottom { margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+    .foot-copy { font-size: 13.5px; color: #6f8290; }
+    .foot-made { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: #6f8290; }
 
-    /* ── RESPONSIVE ──── */
-    @media (max-width: 860px) {
-      .hero { flex-direction: column; min-height: auto; }
-      .hero-left { flex: none; padding-top: 32px; }
-      .hero-right { flex: none; height: 55vw; min-height: 300px; }
-      .grid-5 { grid-template-columns: repeat(2,1fr); }
-      .grid-4 { grid-template-columns: repeat(2,1fr); }
-      .grid-2 { grid-template-columns: 1fr; }
-      .fair-grid { grid-template-columns: 1fr; }
-      .model-panel { grid-template-columns: 1fr; }
-      .model-div { display: none; }
-      .foot-grid { grid-template-columns: 1fr 1fr; }
+    /* ── Scroll reveal ─ */
+    body.reveal [data-reveal] { transform: translateY(22px); transition: transform .7s cubic-bezier(.22,.61,.36,1); }
+    body.reveal [data-reveal].is-visible { transform: none; }
+
+    @media (max-width: 900px) {
+      .main-nav { display: none; }
+      .steps-grid { grid-template-columns: repeat(2,1fr); }
+      .math-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 560px) {
-      .grid-4 { grid-template-columns: 1fr; }
-      .grid-5 { grid-template-columns: 1fr; }
+    @media (max-width: 620px) {
+      .steps-grid { grid-template-columns: 1fr; }
+      .math-grid { grid-template-columns: 1fr; }
+      .postal-form { flex-direction: column; }
+      .postal-input { border-radius: 12px; }
+      .postal-btn { border-radius: 12px; }
+      .signup-form { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; gap: 14px; }
+      .hero-stat { border-right: none; padding-right: 0; margin-right: 0; }
       .foot-grid { grid-template-columns: 1fr; }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      body.reveal [data-reveal] { transform: none !important; transition: none !important; }
+      .pulse { animation: none; }
+    }
   </style>
 </head>
 <body>
 
-<!-- ════════════════ HEADER ════════════════ -->
+<!-- ══════ HEADER ══════ -->
 <header class="site-header">
-  <a href="index.html" class="brand" aria-label="Whollar for distributors">
-    <span class="brand-mark" aria-hidden="true">
-      <span class="dot dot--w"></span><span class="dot dot--c"></span><span class="dot dot--w"></span>
-    </span>
-    <span class="brand-label">
+  <div class="header-inner">
+    <a href="index.html" class="brand" aria-label="Whollar">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="dot dot--w"></span><span class="dot dot--c"></span><span class="dot dot--w"></span>
+      </span>
       <span class="brand-word">Whollar</span>
-      <span class="brand-sub">for distributors</span>
-    </span>
-  </a>
-  <nav class="header-nav" aria-label="Account">
-    <a href="register.html" class="btn-login">Log in</a>
-    <a href="register.html" class="btn-signup">Sign up free →</a>
-  </nav>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Households</a>
+      <a href="neighbourhoods.html">Neighbourhoods</a>
+      <a href="distributors.html">For providers</a>
+    </nav>
+    <div class="header-actions">
+      <a href="dashboard.html" class="btn-outline">Browse cohorts</a>
+      <a href="register.html" class="btn-cta">Apply to bid</a>
+    </div>
+  </div>
 </header>
 
-<!-- ════════════════ HERO SPLIT ════════════════ -->
-<section class="hero" aria-label="Hero">
+<main>
 
-  <!-- LEFT -->
-  <div class="hero-left">
-
-    <h1 class="hero-h1">Win a whole cohort<br>in a <em>single bid.</em></h1>
-
-    <p class="hero-sub">Verified, in-coverage households delivered as a group. One sealed auction per cohort. You only pay when they activate.</p>
-
-    <!-- Key stats -->
-    <div class="hero-stats" role="list">
-      <div class="hero-stat" role="listitem">
-        <span class="hs-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </span>
-        <span class="hs-value">50–250</span>
-        <span class="hs-label">contacts per cohort</span>
-      </div>
-      <div class="hero-stat" role="listitem">
-        <span class="hs-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/></svg>
-        </span>
-        <span class="hs-value">$0</span>
-        <span class="hs-label">pay upfront</span>
-      </div>
-      <div class="hero-stat" role="listitem">
-        <span class="hs-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </span>
-        <span class="hs-value">PIPEDA</span>
-        <span class="hs-label">compliant data</span>
-      </div>
-    </div>
-
-    <!-- Tab features -->
-    <div class="feature-tabs">
-      <div class="tab-list" role="tablist" aria-label="Key features">
-        <button class="tab-btn is-active" role="tab" aria-selected="true" data-tab="tab-1">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-          Pay on activation
-        </button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-2">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-          Verified demand
-        </button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-3">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
-          Dense cohorts
-        </button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-4">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z"/></svg>
-          Level field
-        </button>
-      </div>
-      <div>
-        <div class="tab-panel is-active" id="tab-1" role="tabpanel">
-          <div class="tab-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-          </div>
-          <div>
-            <h3 class="tab-title">No upfront spend, ever.</h3>
-            <p class="tab-desc">A flat success fee per activated household — confirmed only after they switch. Nothing on losing bids. Your cost per customer is locked in before you bid.</p>
-          </div>
-        </div>
-        <div class="tab-panel" id="tab-2" role="tabpanel">
-          <div class="tab-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-          </div>
-          <div>
-            <h3 class="tab-title">Ready to switch, not just browsing.</h3>
-            <p class="tab-desc">Every household is address-qualified inside your coverage, opted in to switch, with a known current plan and contract end-date. No wasted bids.</p>
-          </div>
-        </div>
-        <div class="tab-panel" id="tab-3" role="tabpanel">
-          <div class="tab-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
-          </div>
-          <div>
-            <h3 class="tab-title">Whole neighbourhoods, not scattered leads.</h3>
-            <p class="tab-desc">Cohorts are geographically clustered — your install crews cover one area at a time. Fewer truck-rolls, lower rollout cost, better margins.</p>
-          </div>
-        </div>
-        <div class="tab-panel" id="tab-4" role="tabpanel">
-          <div class="tab-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z"/></svg>
-          </div>
-          <div>
-            <h3 class="tab-title">One bid. Win on value, not ad budget.</h3>
-            <p class="tab-desc">Sealed auctions mean one chance to put your best offer forward. No marathon bidding. Regional carriers compete on equal footing with nationals.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="hero-cta">
-      <a href="register.html" class="btn-primary">
-        Sign up
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#economics" class="btn-secondary">See the economics</a>
-    </div>
-
-  </div><!-- /hero-left -->
-
-  <!-- RIGHT — photo -->
-  <div class="hero-right">
-    <video autoplay muted loop playsinline>
-      <source src="can_you_make_this_darker_pleas.mp4" type="video/mp4">
-    </video>
-    <div class="hero-right-overlay"></div>
-    <div class="cohort-float">
-      <p class="cf-tag">Live cohort · WHL-ON-001</p>
-      <p class="cf-name">Ottawa East — 87 households</p>
-      <div class="cf-pills">
-        <span class="cf-pill cf-pill--teal">Rogers → switching</span>
-        <span class="cf-pill cf-pill--warn">Closes Jun 22</span>
-      </div>
-      <hr class="cf-divider">
-      <p class="cf-progress-label"><span>Bid activity</span><span>3 bidders</span></p>
-      <div class="cf-bar"><div class="cf-bar-fill"></div></div>
-    </div>
-  </div>
-
-</section><!-- /hero -->
-
-<!-- ════════════════ ACQUISITION PROBLEM ════════════════ -->
-<section id="problem" class="sec sec--cream">
+<!-- ══════ HERO ══════ -->
+<section class="hero">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker kicker--coral">The acquisition problem</p>
-      <h2 class="h2 h2--navy">Acquiring customers one at a time is expensive.</h2>
-    </div>
-    <div class="grid-2">
-      <article class="prob-card">
-        <div class="prob-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3 class="prob-title">Door-to-door eats margin.</h3>
-        <p class="prob-body">High commissions and low close rates on every single sign-up. Your blended CAC keeps climbing with no ceiling in sight.</p>
-      </article>
-      <article class="prob-card">
-        <div class="prob-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        </div>
-        <h3 class="prob-title">Digital ads are low intent.</h3>
-        <p class="prob-body">You pay for clicks, not households actually ready to switch. Your blended CAC masks the waste underneath.</p>
-      </article>
-      <article class="prob-card">
-        <div class="prob-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        </div>
-        <h3 class="prob-title">Then they churn.</h3>
-        <p class="prob-body">Promo-hoppers leave the moment the intro price ends. Your acquisition cost, paid again.</p>
-      </article>
-    </div>
-  </div>
-</section>
+    <p class="eyebrow-pill"><span class="pulse" aria-hidden="true"></span>Ottawa pilot &middot; Now forming</p>
+    <h1 class="hero-title" data-reveal>Your neighbourhood is overpaying for internet.</h1>
+    <p class="hero-sub" data-reveal>Ottawa neighbours group up by postal code. ISPs compete to win the whole cohort. You get a deal only a block can negotiate.</p>
 
-<!-- ════════════════ THE ECONOMICS ════════════════ -->
-<section id="economics" class="sec sec--cream">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker kicker--coral">The economics</p>
-      <h2 class="h2 h2--navy">A predictable cost per customer, finally.</h2>
-    </div>
-    <div class="grid-4">
-      <article class="econ-card">
-        <div class="econ-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="#0f5e63"/></svg></div>
-        <h3 class="econ-title">Pay for outcomes, not attempts.</h3>
-        <p class="econ-body">A fixed success fee per activated household. No upfront spend, nothing on losing bids.</p>
-      </article>
-      <article class="econ-card">
-        <div class="econ-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></div>
-        <h3 class="econ-title">Whole cohorts, dense routes.</h3>
-        <p class="econ-body">Clustered installs cut truck-rolls and rollout cost dramatically vs one-at-a-time.</p>
-      </article>
-      <article class="econ-card">
-        <div class="econ-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><path d="M8.5 11.5l2.2 2.2 4.3-4.7"/></svg></div>
-        <h3 class="econ-title">Verified, in-coverage demand.</h3>
-        <p class="econ-body">Every household address-qualified and ready — no bid is wasted on out-of-area leads.</p>
-      </article>
-      <article class="econ-card">
-        <div class="econ-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 7h18M5 7l-2 6a4 4 0 0 0 8 0L9 7M15 7l-2 6a4 4 0 0 0 8 0l-2-6"/></svg></div>
-        <h3 class="econ-title">A level field.</h3>
-        <p class="econ-body">Sealed bidding lets independents win on value, not ad-spend budget.</p>
-      </article>
-    </div>
-    <div class="table-wrap">
-      <table class="cmp">
-        <thead>
-          <tr>
-            <th style="text-align:left;padding:18px 22px;font-weight:500;color:#8a96a0;font-size:13px;border-bottom:1px solid #e7ebe6;"></th>
-            <th class="cmp-whl-head" style="padding:16px;border-bottom:1px solid #e7ebe6;"><span><span style="width:6px;height:6px;border-radius:50%;background:#ff6b4a;display:inline-block;margin-right:4px;"></span>Whollar</span></th>
-            <th style="padding:16px 14px;font-family:'Schibsted Grotesk',sans-serif;font-weight:700;color:#48586a;font-size:14.5px;border-bottom:1px solid #e7ebe6;">Door-to-door</th>
-            <th style="padding:16px 14px;font-family:'Schibsted Grotesk',sans-serif;font-weight:700;color:#48586a;font-size:14.5px;border-bottom:1px solid #e7ebe6;">Digital ads</th>
-            <th style="padding:16px 14px;font-family:'Schibsted Grotesk',sans-serif;font-weight:700;color:#48586a;font-size:14.5px;border-bottom:1px solid #e7ebe6;">Retail / channel</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="label-cell">Predictable cost per customer</td>
-            <td class="cmp-cell--whl"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-          </tr>
-          <tr>
-            <td class="label-cell">High-intent, verified households</td>
-            <td class="cmp-cell--whl"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-            <td class="cmp-cell--other"><span class="ico-partial">Partial</span></td>
-          </tr>
-          <tr>
-            <td class="label-cell">No spend on losing bids</td>
-            <td class="cmp-cell--whl"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-            <td class="cmp-cell--other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3ccd2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></td>
-          </tr>
-          <tr style="border-bottom:none;">
-            <td class="label-cell">You pay</td>
-            <td class="cmp-cell--whl"><span class="ico-txt ico-txt--strong">Only on activation</span></td>
-            <td class="cmp-cell--other"><span class="ico-txt">Commission per door</span></td>
-            <td class="cmp-cell--other"><span class="ico-txt">Per click</span></td>
-            <td class="cmp-cell--other"><span class="ico-txt">Slotting + commission</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+    <form class="postal-form" id="postal-form" data-reveal>
+      <input class="postal-input" type="text" id="postal-input" placeholder="Enter your postal code, e.g. K1J 5T2" maxlength="7" autocomplete="postal-code" aria-label="Your postal code">
+      <button class="postal-btn" type="submit">Check my area &rarr;</button>
+    </form>
+    <div id="postal-result"></div>
 
-<!-- ════════════════ WHO BIDS ════════════════ -->
-<section id="who" class="sec sec--mist">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker kicker--teal">Who bids</p>
-      <h2 class="h2 h2--navy">Built for every kind of provider.</h2>
-    </div>
-    <div class="chips">
-      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>National carriers</span>
-      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Regional independents</span>
-      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Fixed wireless operators</span>
-      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Fibre overbuilders</span>
-      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f5e63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Resellers and distributors</span>
-    </div>
-    <p class="who-foot">Wherever you have coverage in Canada, we route verified cohorts to you.</p>
-  </div>
-</section>
-
-<!-- ════════════════ FAIR BY DESIGN ════════════════ -->
-<section id="fair" class="sec sec--deep">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker kicker--soft">Fair by design</p>
-      <h2 class="h2 h2--white">The rules that keep this market honest.</h2>
-    </div>
-    <div class="fair-grid">
-      <div class="fair-card">
-        <div class="fair-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9a84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div>
-          <h3 class="fair-title">Sealed bids</h3>
-          <p class="fair-body">One bid per distributor per cohort. No counter-bids, no watching what others offer. Win on value alone.</p>
-        </div>
+    <div class="hero-stats" data-reveal>
+      <div class="hero-stat">
+        <p class="hs-value">FREE</p>
+        <p class="hs-label">to join</p>
       </div>
-      <div class="fair-card">
-        <div class="fair-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9a84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
-        <div>
-          <h3 class="fair-title">No household is sold twice</h3>
-          <p class="fair-body">A cohort is exclusive — the winning distributor gets all of it. Nobody else pitches the same door.</p>
-        </div>
+      <div class="hero-stat">
+        <p class="hs-value">150</p>
+        <p class="hs-label">households = auction threshold</p>
       </div>
-      <div class="fair-card">
-        <div class="fair-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9a84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div>
-          <h3 class="fair-title">Consent-first data</h3>
-          <p class="fair-body">PIPEDA and Law 25 compliant. Households opt in explicitly and can withdraw any time.</p>
-        </div>
+      <div class="hero-stat">
+        <p class="hs-value">$300&ndash;500</p>
+        <p class="hs-label">avg annual overpay in Ottawa</p>
       </div>
-      <div class="fair-card">
-        <div class="fair-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9a84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div>
-          <h3 class="fair-title">Your floor, your call</h3>
-          <p class="fair-body">You set your minimum profitable threshold. No bid you place can cost more than you told us you can afford.</p>
-        </div>
+      <div class="hero-stat">
+        <p class="hs-value">$5</p>
+        <p class="hs-label">verification fee &mdash; only at threshold</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════ THE MODEL ════════════════ -->
-<section id="model" class="sec sec--cream">
+<!-- ══════ HOW IT WORKS ══════ -->
+<section id="how" class="sec sec--teal">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker kicker--coral">The model</p>
-      <h2 class="h2 h2--navy">We only make money when you do.</h2>
+    <div data-reveal>
+      <p class="kicker kicker--soft">How it works</p>
+      <h2 class="h2 h2--white">No subscription. No commitment. Just better terms.</h2>
+      <p class="sec-sub sec-sub--dim">A sealed auction &mdash; one bid wins your whole neighbourhood.</p>
     </div>
-    <div class="model-panel">
-      <div class="model-pills">
-        <div class="model-stat">
-          <p class="model-num">$0</p>
-          <p class="model-cap">on losing bids</p>
-        </div>
-        <div class="model-stat" style="margin-left:24px;">
-          <p class="model-num">100%</p>
-          <p class="model-cap">on activation</p>
-        </div>
-      </div>
-      <div class="model-div"></div>
-      <p class="model-copy">Whollar earns a <span class="model-em">fixed platform fee per activated household</span> — confirmed after the switch. No subscription, no listing fee, no penalty on bids you don't win. Our incentive is identical to yours: get households switched and keep them.</p>
+    <div class="steps-grid">
+      <article class="step-card" data-reveal>
+        <div class="step-num">1</div>
+        <h3 class="step-title">Enter your postal code</h3>
+        <p class="step-body">We check if you&rsquo;re in an active Ottawa FSA. Three cohorts are open right now.</p>
+      </article>
+      <article class="step-card" data-reveal>
+        <div class="step-num">2</div>
+        <h3 class="step-title">Share your current plan</h3>
+        <p class="step-body">Your provider, monthly bill, and contract end date &mdash; so we can match the auction window.</p>
+      </article>
+      <article class="step-card" data-reveal>
+        <div class="step-num">3</div>
+        <h3 class="step-title">150 neighbours sign up</h3>
+        <p class="step-body">When your cohort hits threshold, a $5 verification fee confirms your Ottawa address and opens the auction.</p>
+      </article>
+      <article class="step-card" data-reveal>
+        <div class="step-num">4</div>
+        <h3 class="step-title">ISPs bid in a sealed auction</h3>
+        <p class="step-body">Scored on 60% price, 25% service terms, 15% activation speed. Best overall value wins &mdash; not just cheapest.</p>
+      </article>
+      <article class="step-card" data-reveal>
+        <div class="step-num">5</div>
+        <h3 class="step-title">You decide whether to switch</h3>
+        <p class="step-body">When the winning ISP is announced, you choose. The deal is presented &mdash; no obligation before that point.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ════════════════ FAQ ════════════════ -->
+<!-- ══════ THE MATH ══════ -->
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div data-reveal>
+      <p class="kicker kicker--coral">The math</p>
+      <h2 class="h2 h2--navy">What groups your size can actually negotiate.</h2>
+      <p class="sec-sub sec-sub--muted">Individual subscribers have zero leverage. A 150-household cohort has plenty.</p>
+    </div>
+    <div class="math-grid">
+      <div class="math-card" data-reveal>
+        <p class="math-value">$92/mo</p>
+        <p class="math-label">Average Ottawa internet bill</p>
+        <p class="math-sub">Based on verified household data across our three active cohorts.</p>
+      </div>
+      <div class="math-card" data-reveal>
+        <p class="math-value">$55&ndash;75/mo</p>
+        <p class="math-label">Estimated group rate</p>
+        <p class="math-sub">Projected based on typical cohort auction outcomes for comparable demand density.</p>
+      </div>
+      <div class="math-card" data-reveal>
+        <p class="math-value">$200&ndash;444/yr</p>
+        <p class="math-label">Potential annual saving</p>
+        <p class="math-sub">$17&ndash;37/month &times; 12 &mdash; per household, if the cohort wins and you switch.</p>
+      </div>
+    </div>
+    <div class="math-panel" data-reveal>
+      <p class="math-panel-title">If 80% of a 150-household cohort activates &mdash;</p>
+      <p class="math-panel-body">that&rsquo;s <span class="math-panel-em">120 households &times; $25/mo saved = $36,000</span> back in Ottawa pockets every year. Every year the cohort stays on the winning plan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ INVITE YOUR STREET ══════ -->
+<section class="sec sec--mist">
+  <div class="wrap">
+    <div data-reveal>
+      <p class="kicker kicker--coral">Invite your street</p>
+      <h2 class="h2 h2--navy">The faster your street fills up, the sooner the auction runs.</h2>
+      <p class="sec-sub sec-sub--muted">Each cohort needs 150 verified households. Share your FSA link &mdash; no account needed to share.</p>
+    </div>
+    <div class="invite-share" data-reveal>
+      <div class="invite-link-box" id="invite-link-display">whollar.ca/n/K1J</div>
+      <button class="invite-copy-btn" id="invite-copy-btn">Copy link</button>
+    </div>
+    <p style="margin:14px 0 0;font-size:14px;color:#5a6e7e;">Recipients just enter their postal code on this page. No logins required.</p>
+  </div>
+</section>
+
+<!-- ══════ SIGNUP FORM ══════ -->
+<section id="signup" class="sec sec--cream">
+  <div class="wrap">
+    <div data-reveal>
+      <p class="kicker kicker--coral">Join the cohort</p>
+      <h2 class="h2 h2--navy">Add yourself to the list.</h2>
+      <p class="sec-sub sec-sub--muted">Free to join. We&rsquo;ll notify you as the cohort fills and when the auction opens.</p>
+    </div>
+    <div class="signup-card" data-reveal>
+      <div id="signup-form-wrap">
+        <form class="signup-form" id="signup-form" novalidate>
+          <label class="field field--full">
+            <span class="field-label">Email address</span>
+            <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
+          </label>
+          <label class="field">
+            <span class="field-label">Current provider</span>
+            <select name="provider">
+              <option value="">Select&hellip;</option>
+              <option>Rogers</option>
+              <option>Bell</option>
+              <option>Videotron</option>
+              <option>Shaw / Freedom</option>
+              <option>Eastlink</option>
+              <option>TekSavvy</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="field-label">Monthly bill (approx.)</span>
+            <input type="number" name="bill" placeholder="e.g. 92" min="0" max="999">
+          </label>
+          <div class="field">
+            <span class="field-label">Contract end (approx.)</span>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <select name="contract-month">
+                <option value="">Month</option>
+                <option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option>
+                <option>May</option><option>Jun</option><option>Jul</option><option>Aug</option>
+                <option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option>
+              </select>
+              <select name="contract-year">
+                <option value="">Year</option>
+                <option>2025</option><option>2026</option><option>2027</option><option>2028</option>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="fsa" id="fsa-hidden">
+          <div class="field field--full">
+            <button type="submit" class="signup-btn">Add me to the cohort &rarr;</button>
+          </div>
+        </form>
+        <p class="privacy-note">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a96a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          We never share your data. PIPEDA and Qu&eacute;bec Law 25 compliant.
+        </p>
+      </div>
+      <div id="signup-success" class="signup-success" style="display:none;">
+        <div class="success-ico">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#28b070" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <p class="success-title">You&rsquo;re in.</p>
+        <p class="success-body">We&rsquo;ll notify you as the cohort fills up and when the auction opens &mdash; no commitment required until then.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FAQ ══════ -->
 <section id="faq" class="sec sec--mist">
-  <div class="wrap wrap--narrow">
-    <div class="sec-head" style="max-width:none;text-align:center;">
+  <div class="wrap" style="max-width:840px;">
+    <div style="text-align:center;" data-reveal>
       <p class="kicker kicker--coral">FAQ</p>
-      <h2 class="h2 h2--navy">Questions from distributors.</h2>
+      <h2 class="h2 h2--navy">Your questions.</h2>
     </div>
     <div class="faq-list">
       <div class="faq-item is-open">
-        <button class="faq-q" aria-expanded="true">What does it cost to participate?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>No upfront cost. You pay a success fee only on households that activate with you. Your exact fee is confirmed in your founding-partner agreement.</p></div>
+        <button class="faq-q" aria-expanded="true">Is it free to join?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><p>Free to sign up. A $5 verification fee is charged only when your cohort hits the 150-household threshold &mdash; that&rsquo;s how we confirm you&rsquo;re a real Ottawa address and open the auction.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">How do I know the demand is real?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Every household is address-qualified inside your coverage area, opted in, with a known current plan and contract-end date. We don't put a cohort out to bid until every home clears verification.</p></div>
+        <button class="faq-q" aria-expanded="false">Am I obligated to switch providers?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><p>No. When the winning ISP is announced, you decide. The cohort deal is presented to you &mdash; you&rsquo;re never locked in to anything before that point. You can say yes or no.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Who handles the switching?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>We do. We manage onboarding and the cutover for every household in the cohort, end to end.</p></div>
+        <button class="faq-q" aria-expanded="false">What if the cohort doesn&rsquo;t hit 150 households?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><p>Your cohort stays open until it reaches threshold. We&rsquo;re seeding Ottawa East, Orl&eacute;ans, and Barrhaven first. If yours is still filling, invite your neighbours &mdash; each person who joins moves everyone closer to the auction.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">What data do I receive?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Only the consented, PIPEDA and Law 25-compliant household details needed to serve the cohort. Nothing more.</p></div>
+        <button class="faq-q" aria-expanded="false">When does Ottawa launch?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><p>First auctions are targeting Q3 2026. Cohorts are forming now. The earlier you join, the more weight your preferences carry in the process &mdash; and the sooner the auction threshold is reached.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Can I bid on multiple cohorts at once?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Yes — you can place bids on multiple active cohorts simultaneously, as long as each falls inside your declared coverage area.</p></div>
+        <button class="faq-q" aria-expanded="false">Will Whollar come to my city?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><p>Ottawa is our launch city. We&rsquo;re proving the model here before expanding. Add your email on the waitlist and you&rsquo;ll be first to know when your city opens.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════ FOOTER ════════════════ -->
-<footer style="background:#16212c;padding:0;">
-  <div class="wrap" style="padding-top:clamp(44px,6vw,68px);padding-bottom:28px;">
+</main>
+
+<!-- ══════ FOOTER ══════ -->
+<footer style="background:#182330;color:#9fb0bf;">
+  <div style="max-width:1180px;margin:0 auto;padding:clamp(48px,6vw,72px) 24px 30px;">
     <div class="foot-grid">
       <div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="brand-mark" style="width:34px;height:34px;border-radius:9px;gap:3px;" aria-hidden="true">
-            <span class="dot dot--w" style="width:6px;height:6px;"></span>
-            <span class="dot dot--c" style="width:6px;height:6px;"></span>
-            <span class="dot dot--w" style="width:6px;height:6px;"></span>
+        <div class="foot-brand">
+          <span style="width:36px;height:36px;border-radius:10px;background:#0f5e63;display:flex;align-items:center;justify-content:center;gap:3px;" aria-hidden="true">
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#ff6b4a;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
           </span>
-          <span style="display:flex;align-items:center;gap:7px;">
-            <span class="foot-word">Whollar</span>
-            <span class="foot-pill">for distributors</span>
-          </span>
+          <span class="foot-word">Whollar</span>
+          <span class="foot-pill">Ottawa pilot</span>
         </div>
-        <p class="foot-tag">Verified demand, delivered in cohorts.</p>
+        <p class="foot-tag">Pooling Ottawa neighbourhoods into cohorts &mdash; ISPs bid for the whole group.</p>
+        <p style="font-size:14px;color:#6f8290;margin:0;">Who runs Whollar: a small Ottawa-based team.<br><a href="mailto:hello@whollar.ca" style="color:#9fb0bf;">hello@whollar.ca</a></p>
       </div>
       <div>
-        <h4 class="foot-h">Distributors</h4>
+        <h4 class="foot-h">Households</h4>
         <ul class="foot-links">
-          <li><a href="register.html">Sign up</a></li>
-          <li><a href="dashboard.html">Browse cohorts</a></li>
-          <li><a href="#economics">The economics</a></li>
+          <li><a href="index.html">Check your neighbourhood</a></li>
+          <li><a href="neighbourhoods.html">Live progress</a></li>
+          <li><a href="#how">How it works</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="foot-h">Whollar</h4>
+        <h4 class="foot-h">Providers</h4>
         <ul class="foot-links">
-          <li><a href="#">For households</a></li>
-          <li><a href="#">Privacy policy</a></li>
-          <li><a href="#">Terms of service</a></li>
-          <li><a href="#">Contact us</a></li>
+          <li><a href="distributors.html">Why bid on Whollar</a></li>
+          <li><a href="dashboard.html">Browse cohorts</a></li>
+          <li><a href="register.html">Apply to bid</a></li>
+          <li><a href="#" title="Coming soon">Privacy</a></li>
+          <li><a href="#" title="Coming soon">Terms</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bottom">
-      <span class="foot-copy">© 2026 Whollar. Now forming the first cohorts in Canada.</span>
-      <span class="foot-copy">Made in Canada 🍁</span>
+      <span class="foot-copy">&copy; 2026 Whollar. Ottawa&rsquo;s first cohort &mdash; forming now.</span>
+      <span class="foot-made">Made in Canada <svg width="16" height="16" viewBox="0 0 512 512" fill="#d8443c" aria-hidden="true"><path d="M256 32l-28 92-72-44 28 104-84-12 56 64-40 36 96 16-8 56 64-44 64 44-8-56 96-16-40-36 56-64-84 12 28-104-72 44z"/></svg></span>
     </div>
   </div>
 </footer>
 
+<script src="script.js"></script>
 <script>
 (function(){
-  /* Tab switcher */
-  var tabs = document.querySelectorAll('.tab-btn');
-  var panels = document.querySelectorAll('.tab-panel');
-  tabs.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      tabs.forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
-      panels.forEach(function(p){ p.classList.remove('is-active'); });
-      btn.classList.add('is-active'); btn.setAttribute('aria-selected','true');
-      var panel = document.getElementById(btn.getAttribute('data-tab'));
-      if(panel) panel.classList.add('is-active');
-    });
+  var COHORTS = {
+    'K1J': {id:'WHL-ON-001', name:'Ottawa East — Beacon Hill / Cardinal Heights', count:87, status:'Closes in 5 days', pct:58},
+    'K1K': {id:'WHL-ON-001', name:'Ottawa East — Beacon Hill / Cardinal Heights', count:87, status:'Closes in 5 days', pct:58},
+    'K1C': {id:'WHL-ON-002', name:'Orléans', count:112, status:'Now forming — 38 more needed', pct:75},
+    'K4A': {id:'WHL-ON-002', name:'Orléans', count:112, status:'Now forming — 38 more needed', pct:75},
+    'K2J': {id:'WHL-ON-003', name:'Barrhaven', count:41, status:'Now forming — be one of the first 150', pct:27}
+  };
+
+  function extractFSA(raw) {
+    return raw.replace(/\s/g,'').toUpperCase().substring(0,3);
+  }
+
+  document.getElementById('postal-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var raw = document.getElementById('postal-input').value.trim();
+    if (raw.length < 3) return;
+    var fsa = extractFSA(raw);
+    document.getElementById('fsa-hidden').value = fsa;
+    showResult(fsa);
   });
 
-  /* FAQ accordion */
-  var items = document.querySelectorAll('.faq-item');
-  items.forEach(function(item){
-    var btn = item.querySelector('.faq-q');
-    if(!btn) return;
-    btn.addEventListener('click', function(){
-      var open = item.classList.contains('is-open');
-      items.forEach(function(i){
-        i.classList.remove('is-open');
-        var b = i.querySelector('.faq-q'); if(b) b.setAttribute('aria-expanded','false');
+  function showResult(fsa) {
+    var el = document.getElementById('postal-result');
+    var cohort = COHORTS[fsa];
+
+    if (cohort) {
+      el.innerHTML =
+        '<div class="result-card">' +
+          '<p class="result-cohort-id">' + cohort.id + '</p>' +
+          '<p class="result-name">' + cohort.name + '</p>' +
+          '<div class="result-progress-label"><span>' + cohort.count + ' households joined</span><span>150 threshold</span></div>' +
+          '<div class="result-progress-track"><div class="result-progress-fill" style="width:' + cohort.pct + '%;"></div></div>' +
+          '<p class="result-status">' + cohort.status + '</p>' +
+          '<button class="result-cta" onclick="document.getElementById(\'signup\').scrollIntoView({behavior:\'smooth\'})">Join this cohort &rarr;</button>' +
+        '</div>';
+      document.getElementById('invite-link-display').textContent = 'whollar.ca/n/' + fsa;
+    } else if (fsa.charAt(0) === 'K') {
+      el.innerHTML =
+        '<div class="result-card result-card--waitlist">' +
+          '<p class="result-waitlist-title">Your FSA isn’t open yet — but Ottawa is your city.</p>' +
+          '<p class="result-waitlist-sub">We’re starting with Beacon Hill, Orléans, and Barrhaven. Add your email and we’ll notify you when ' + fsa + ' opens.</p>' +
+          '<div class="waitlist-email-row"><input class="waitlist-email-input" type="email" placeholder="you@email.com" id="wl-' + fsa + '"><button class="waitlist-email-btn" onclick="submitWaitlist(\'' + fsa + '\')">Notify me</button></div>' +
+        '</div>';
+    } else {
+      el.innerHTML =
+        '<div class="result-card result-card--waitlist">' +
+          '<p class="result-waitlist-title">Ottawa launches first.</p>' +
+          '<p class="result-waitlist-sub">Your area (' + fsa + ') is on our expansion list. Add your email and we’ll notify you when your city opens.</p>' +
+          '<div class="waitlist-email-row"><input class="waitlist-email-input" type="email" placeholder="you@email.com" id="wl-' + fsa + '"><button class="waitlist-email-btn" onclick="submitWaitlist(\'' + fsa + '\')">Notify me &rarr;</button></div>' +
+        '</div>';
+    }
+
+    el.style.display = 'block';
+  }
+
+  window.submitWaitlist = function(fsa) {
+    var input = document.getElementById('wl-' + fsa);
+    if (!input || !input.value) return;
+    var card = input.closest('.result-card');
+    if (card) card.innerHTML = '<p style="color:#a9d8d5;font-weight:600;margin:0;">Got it. We’ll reach you when ' + fsa + ' opens.</p>';
+  };
+
+  document.getElementById('invite-copy-btn').addEventListener('click', function(){
+    var text = 'https://' + document.getElementById('invite-link-display').textContent;
+    var btn = this;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent = 'Copied ✓';
+        setTimeout(function(){ btn.textContent = 'Copy link'; }, 2000);
       });
-      if(!open){ item.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); }
-    });
+    } else {
+      btn.textContent = 'Copied ✓';
+      setTimeout(function(){ btn.textContent = 'Copy link'; }, 2000);
+    }
   });
+
+  document.getElementById('signup-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('signup-form-wrap').style.display = 'none';
+    document.getElementById('signup-success').style.display = 'block';
+  });
+
 })();
 </script>
 </body>
