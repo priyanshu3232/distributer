@@ -1,7 +1,34 @@
 /* =========================================================================
    Whollar — shared behaviour
-   FAQ accordion + transform-only scroll reveal.
+   Cohort data · FAQ accordion · transform-only scroll reveal.
    ========================================================================= */
+
+/* Single source of truth — cohort dataset */
+window.WHOLLAR_COHORTS = [
+  {
+    id: 'WHL-ON-001', name: 'Beacon Hill / Cardinal Heights',
+    fsas: ['K1J','K1K'], verified: 87, threshold: 150, pct: 58,
+    avgBill: 92, status: 'OPEN', bidders: 3,
+    deadlineDays: 5,
+    providerMix: [{name:'Rogers',pct:61},{name:'Bell',pct:27},{name:'Other',pct:12}],
+    contractEnd: 'Q3 2026'
+  },
+  {
+    id: 'WHL-ON-002', name: 'Orléans',
+    fsas: ['K1C','K4A'], verified: 112, threshold: 150, pct: 75,
+    avgBill: 85, status: 'FORMING',
+    providerMix: [{name:'Bell',pct:65},{name:'Rogers',pct:22},{name:'Other',pct:13}],
+    contractEnd: 'Q3 2026'
+  },
+  {
+    id: 'WHL-ON-003', name: 'Barrhaven',
+    fsas: ['K2J'], verified: 41, threshold: 150, pct: 27,
+    avgBill: 98, status: 'FORMING',
+    providerMix: [{name:'Rogers',pct:58},{name:'Bell',pct:30},{name:'Other',pct:12}],
+    contractEnd: 'Q4 2026'
+  }
+];
+
 (function () {
   'use strict';
 

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live demand — Whollar for providers</title>
+  <meta name="description" content="Verified Ottawa household demand by cohort. Address-qualified, opted-in households with known provider, bill, and contract end date. Three cohorts active now.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET ──────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 17px; color: #1f2d3d; background: #fbfaf7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    ::selection { background: #ff6b4a; color: #fff; }
+    img, svg { display: block; }
+
+    /* ── TOKENS ─────────────────────────────────────────────────────────── */
+    :root {
+      --c:    #ff6b4a;
+      --ch:   #d65a3e;
+      --cs:   #ff9a84;
+      --t:    #0f5e63;
+      --td:   #0b4447;
+      --tb:   #448185;
+      --nv:   #1f2d3d;
+      --nvd:  #182330;
+      --mist: #e7efef;
+      --green:#28b070;
+      --cream:#fbfaf7;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────────────────────── */
+    .wrap { max-width: 1180px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+
+    /* ── HEADER ─────────────────────────────────────────────────────────── */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px);
+      background: rgba(251,250,247,0.88);
+      border-bottom: 1px solid rgba(31,45,61,0.07);
+    }
+    .header-inner {
+      max-width: 1180px; margin: 0 auto; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; flex-shrink: 0; }
+    .brand-mark { width: 40px; height: 40px; border-radius: 11px; background: #0f5e63; display: flex; align-items: center; justify-content: center; gap: 4px; flex-shrink: 0; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; display: block; }
+    .dot--w { background: #fff; }
+    .dot--c { background: #ff6b4a; }
+    .brand-word { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #1f2d3d; }
+    .brand-pill { font-size: 11.5px; font-weight: 600; color: #0f5e63; background: rgba(15,94,99,0.1); border: 1px solid rgba(15,94,99,0.15); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+    .main-nav { display: flex; align-items: center; gap: 26px; }
+    .main-nav a { text-decoration: none; color: #48586a; font-weight: 500; font-size: 15px; transition: color .15s; white-space: nowrap; }
+    .main-nav a:hover { color: #1f2d3d; }
+    .main-nav a.active { color: var(--t); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .btn-ghost { font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: #1f2d3d; background: transparent; border: 1px solid #d7ddd9; border-radius: 10px; padding: 9px 16px; text-decoration: none; transition: border-color .15s; white-space: nowrap; }
+    .btn-ghost:hover { border-color: #9fb0bf; }
+    .btn-primary-sm { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #fff; background: var(--c); border-radius: 10px; padding: 9px 16px; text-decoration: none; box-shadow: 0 6px 16px -6px rgba(255,107,74,0.55); transition: background .15s; white-space: nowrap; }
+    .btn-primary-sm:hover { background: var(--ch); }
+
+    @media (max-width: 900px) { .main-nav { display: none; } .header-actions { display: none; } }
+    @media (max-width: 400px) { .brand-pill { display: none; } }
+
+    /* ── SCROLL REVEAL ──────────────────────────────────────────────────── */
+    body.reveal [data-reveal] { transform: translateY(22px); transition: transform .7s cubic-bezier(.22,.61,.36,1); }
+    body.reveal [data-reveal].is-visible { transform: none; }
+    [data-reveal-delay="1"] { transition-delay: .1s; }
+    [data-reveal-delay="2"] { transition-delay: .2s; }
+    [data-reveal-delay="3"] { transition-delay: .3s; }
+    [data-reveal-delay="4"] { transition-delay: .4s; }
+    [data-reveal-delay="5"] { transition-delay: .5s; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      body.reveal [data-reveal] { transform: none !important; transition: none !important; }
+      .eyebrow-dot { animation: none !important; }
+      .progress-fill { transition: none !important; }
+    }
+
+    /* ── HERO ───────────────────────────────────────────────────────────── */
+    .hero {
+      background: radial-gradient(120% 130% at 85% 0%, #448185 0%, #0f5e63 38%, #0b4447 78%, #182330 100%);
+      color: #fff;
+      padding: clamp(64px,10vw,108px) 24px clamp(52px,8vw,80px);
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 28px 28px; pointer-events: none;
+    }
+    .hero-inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; }
+    .eyebrow-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 12.5px;
+      letter-spacing: 0.09em; text-transform: uppercase; color: var(--cs);
+      background: rgba(255,154,132,0.13); border: 1px solid rgba(255,154,132,0.28);
+      padding: 7px 15px; border-radius: 999px; margin-bottom: 28px;
+    }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cs); animation: dotpulse 2.2s ease-in-out infinite; }
+    @keyframes dotpulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.78); } }
+    .hero-h1 {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-weight: 900; font-size: clamp(38px,5.8vw,68px);
+      letter-spacing: -0.03em; line-height: 1.03; color: #fff; max-width: 13em; margin: 0 0 18px;
+    }
+    .hero-sub {
+      font-size: clamp(16px,1.4vw,19px); line-height: 1.6;
+      color: rgba(255,255,255,0.7); max-width: 38em; margin: 0 0 48px;
+    }
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 0;
+      padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); max-width: 780px;
+    }
+    .hstat { flex: 1; min-width: 140px; padding-right: 28px; }
+    .hstat + .hstat { padding-left: 28px; border-left: 1px solid rgba(255,255,255,0.12); }
+    .hstat-val { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(17px,2vw,22px); color: #fff; letter-spacing: -0.02em; margin-bottom: 3px; }
+    .hstat-label { font-size: 12.5px; color: rgba(255,255,255,0.5); line-height: 1.4; }
+    @media (max-width: 560px) {
+      .hero-stats { gap: 20px; }
+      .hstat { min-width: 130px; border-left: none !important; padding: 0 !important; }
+      .hstat + .hstat { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 20px !important; }
+    }
+
+    /* ── COHORT PANELS SECTION ──────────────────────────────────────────── */
+    .cohorts-section { background: var(--cream); padding: clamp(56px,8vw,88px) 24px; }
+    .section-kicker {
+      display: block; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 12.5px;
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .kicker--teal { color: var(--t); }
+    .section-h2 {
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800;
+      font-size: clamp(26px,3.8vw,42px); letter-spacing: -0.025em; line-height: 1.1;
+      margin: 0 0 8px; color: var(--nv);
+    }
+    .section-sub { font-size: 17px; color: #5a6d7c; line-height: 1.6; margin: 0 0 44px; max-width: 48em; }
+
+    /* ── COHORT PANEL CARD ──────────────────────────────────────────────── */
+    .cohort-panel {
+      background: #fff; border: 1px solid #e4ecea; border-radius: 22px;
+      overflow: hidden; margin-bottom: 28px;
+      box-shadow: 0 14px 44px -28px rgba(31,45,61,0.35);
+    }
+    .cohort-panel:last-of-type { margin-bottom: 0; }
+
+    /* 3-column grid inside each panel */
+    .cohort-panel-inner {
+      display: grid; grid-template-columns: 55fr 25fr 20fr;
+    }
+    @media (max-width: 900px) {
+      .cohort-panel-inner { grid-template-columns: 1fr 1fr; }
+      .cohort-col-main { grid-column: 1 / -1; }
+      .cohort-col-mix { border-left: none; border-top: 1px solid #f0f4f3; }
+      .cohort-col-map { border-left: 1px solid #f0f4f3; border-top: 1px solid #f0f4f3; }
+    }
+    @media (max-width: 560px) {
+      .cohort-panel-inner { grid-template-columns: 1fr; }
+      .cohort-col-map { border-left: none; border-top: 1px solid #f0f4f3; }
+    }
+
+    .cohort-col-main { padding: 30px 28px; }
+    .cohort-col-mix { padding: 28px 24px; border-left: 1px solid #f0f4f3; }
+    .cohort-col-map {
+      padding: 28px 22px; border-left: 1px solid #f0f4f3;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* badges */
+    .cohort-badges { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .badge-id { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5a6d7c; background: #f0f4f3; border: 1px solid #dde8e6; padding: 4px 10px; border-radius: 6px; }
+    .badge-status {
+      font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+      padding: 4px 11px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .badge-status--open { background: rgba(255,107,74,0.1); color: #c94a30; border: 1px solid rgba(255,107,74,0.25); }
+    .badge-status--forming { background: rgba(15,94,99,0.08); color: #0f5e63; border: 1px solid rgba(15,94,99,0.18); }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    .badge-dot--open { background: #c94a30; }
+    .badge-dot--forming { background: #0f5e63; }
+
+    /* name + FSA pills */
+    .cohort-panel-name {
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800;
+      font-size: clamp(20px,2.4vw,26px); letter-spacing: -0.02em; line-height: 1.1;
+      color: var(--nv); margin: 0 0 12px;
+    }
+    .fsa-row { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 22px; }
+    .fsa-pill { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: var(--t); background: rgba(15,94,99,0.08); padding: 4px 11px; border-radius: 7px; border: 1px solid rgba(15,94,99,0.14); }
+
+    /* progress bar */
+    .progress-label-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 13.5px; color: #5a6d7c; margin-bottom: 8px;
+    }
+    .progress-label-row strong { color: var(--nv); font-weight: 700; font-size: 15px; }
+    .progress-track { height: 10px; background: #e7ebe6; border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
+    .progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--t), var(--tb)); width: 0; transition: width 1s cubic-bezier(.34,1.56,.64,1); }
+    .progress-threshold-note { font-size: 13px; color: #8a96a0; line-height: 1.5; margin: 0; }
+
+    /* countdown */
+    .countdown-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: #c94a30;
+      background: rgba(255,107,74,0.07); border: 1px solid rgba(255,107,74,0.2);
+      padding: 7px 14px; border-radius: 999px; margin-top: 14px;
+    }
+
+    /* panel footer */
+    .cohort-panel-footer {
+      padding: 18px 28px 22px; border-top: 1px solid #f0f4f3;
+      display: flex; align-items: flex-start; flex-wrap: wrap; gap: 12px;
+    }
+    .btn-bid-panel {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 15px;
+      padding: 13px 24px; border-radius: 12px; background: var(--c); color: #fff;
+      text-decoration: none; box-shadow: 0 8px 22px -8px rgba(255,107,74,0.6);
+      transition: background .15s, transform .15s;
+    }
+    .btn-bid-panel:hover { background: var(--ch); transform: translateY(-1px); }
+    .btn-notify {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; font-size: 15px;
+      padding: 13px 22px; border-radius: 12px; background: transparent; color: var(--nv);
+      border: 1.5px solid #c8d4d2; cursor: pointer; transition: border-color .15s, background .15s;
+    }
+    .btn-notify:hover { border-color: var(--t); background: rgba(15,94,99,0.04); }
+
+    /* inline notify form */
+    .notify-form-wrap { display: none; width: 100%; }
+    .notify-form-wrap.is-open { display: block; animation: fadeSlide .28s ease both; }
+    @keyframes fadeSlide { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+    .notify-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-top: 4px; }
+    .notify-field { display: flex; flex-direction: column; gap: 5px; }
+    .notify-label { font-size: 12.5px; font-weight: 600; color: #48586a; }
+    .notify-input {
+      background: #fff; border: 1.5px solid #d7ddd9; border-radius: 10px;
+      padding: 10px 14px; font-family: 'Hanken Grotesk', sans-serif; font-size: 14.5px;
+      color: var(--nv); outline: none; width: 190px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .notify-input:focus { border-color: var(--t); box-shadow: 0 0 0 3px rgba(15,94,99,0.1); }
+    .btn-notify-submit {
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 14px;
+      padding: 10px 20px; border-radius: 10px; background: var(--t); color: #fff;
+      border: none; cursor: pointer; white-space: nowrap; transition: background .15s;
+    }
+    .btn-notify-submit:hover { background: var(--td); }
+    .notify-success { display: none; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; color: var(--green); margin-top: 10px; }
+    .notify-success.is-visible { display: flex; }
+
+    /* ── PROVIDER MIX (middle col) ──────────────────────────────────────── */
+    .mix-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #8a96a0; margin: 0 0 14px; }
+    .mix-bar-group { display: flex; flex-direction: column; gap: 11px; }
+    .mix-bar-label-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: #48586a; margin-bottom: 5px; }
+    .mix-bar-pct { color: var(--nv); }
+    .mix-track { height: 7px; background: #e7ebe6; border-radius: 999px; overflow: hidden; }
+    .mix-fill { height: 100%; border-radius: 999px; }
+    .mix-fill--rogers { background: rgba(209,27,27,0.52); }
+    .mix-fill--bell   { background: rgba(0,51,160,0.48); }
+    .mix-fill--other  { background: #bdc5cb; }
+
+    .avg-bill-block { margin-top: 20px; padding-top: 18px; border-top: 1px solid #f0f4f3; }
+    .avg-bill-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #8a96a0; margin: 0 0 4px; }
+    .avg-bill-val { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.02em; color: var(--nv); line-height: 1; }
+    .avg-bill-unit { font-size: 0.52em; font-weight: 700; color: #8a96a0; }
+
+    /* ── MAP COL (right) ────────────────────────────────────────────────── */
+    .map-svg-wrap {
+      width: 110px; height: 110px; background: #eef4f3; border-radius: 16px;
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; border: 1px solid #dde8e6; flex-shrink: 0;
+    }
+    .contract-window { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.01em; color: var(--t); text-align: center; margin-bottom: 4px; }
+    .contract-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #8a96a0; text-align: center; margin-bottom: 14px; }
+
+    /* ── METHODOLOGY SECTION ────────────────────────────────────────────── */
+    .methodology-section { background: var(--td); color: #dfeeec; padding: clamp(64px,8vw,96px) 24px; }
+    .kicker--soft { color: var(--cs); }
+    .method-h2 {
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800;
+      font-size: clamp(26px,3.8vw,42px); letter-spacing: -0.025em; line-height: 1.1;
+      color: #fff; margin: 0 0 10px;
+    }
+    .method-sub { font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.6; max-width: 46em; margin: 0 0 48px; }
+    .method-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+    @media (max-width: 768px) { .method-cols { grid-template-columns: 1fr; gap: 16px; } }
+    .method-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 28px 26px; transition: background .2s; }
+    .method-card:hover { background: rgba(255,255,255,0.1); }
+    .method-step-num {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: rgba(255,107,74,0.2); border: 1px solid rgba(255,107,74,0.3);
+      color: var(--cs); font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 17px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .method-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #fff; margin: 0 0 10px; }
+    .method-body { font-size: 15px; line-height: 1.58; color: rgba(169,206,203,0.88); margin: 0; }
+
+    .compliance-bar {
+      margin-top: 44px; padding: 16px 24px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 13px; display: flex; align-items: center; justify-content: center;
+      gap: 18px; flex-wrap: wrap;
+    }
+    .compliance-item { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.72); }
+    .compliance-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+    .compliance-sep { color: rgba(255,255,255,0.22); }
+
+    /* ── FINAL CTA ──────────────────────────────────────────────────────── */
+    .final-cta-section { background: var(--cream); padding: clamp(64px,8vw,96px) 24px; text-align: center; }
+    .final-cta-h2 {
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 900;
+      font-size: clamp(28px,4vw,48px); letter-spacing: -0.03em; line-height: 1.05;
+      color: var(--nv); margin: 0 0 14px;
+    }
+    .final-cta-sub { font-size: 17px; color: #5a6d7c; line-height: 1.6; max-width: 38em; margin: 0 auto 38px; }
+    .final-cta-btns { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-cta-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 16px;
+      padding: 16px 32px; border-radius: 13px; background: var(--c); color: #fff;
+      text-decoration: none; box-shadow: 0 14px 30px -12px rgba(255,107,74,0.65);
+      transition: background .15s, transform .15s;
+    }
+    .btn-cta-primary:hover { background: var(--ch); transform: translateY(-1px); }
+    .btn-cta-ghost {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; font-size: 16px;
+      padding: 16px 28px; border-radius: 13px; background: transparent; color: var(--nv);
+      border: 1.5px solid #c8d4d2; text-decoration: none; transition: border-color .15s, background .15s;
+    }
+    .btn-cta-ghost:hover { border-color: var(--t); background: rgba(15,94,99,0.04); }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────────── */
+    .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 36px; }
+    @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .foot-grid { grid-template-columns: 1fr; } }
+    .foot-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+    .foot-links a { color: #9fb0bf; text-decoration: none; font-size: 15px; transition: color .15s; }
+    .foot-links a:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════ HEADER ══════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand" aria-label="Whollar">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="dot dot--w"></span>
+        <span class="dot dot--c"></span>
+        <span class="dot dot--w"></span>
+      </span>
+      <span class="brand-word">Whollar</span>
+      <span class="brand-pill">for providers</span>
+    </a>
+    <nav class="main-nav" aria-label="Provider navigation">
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#economics">The economics</a>
+      <a href="demand.html" class="active" aria-current="page">Live demand</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="dashboard.html" class="btn-ghost">Browse cohorts</a>
+      <a href="register.html" class="btn-primary-sm">Apply to bid</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════ HERO ════════════════════════════════════ -->
+<section class="hero" aria-label="Live Ottawa demand">
+  <div class="hero-inner">
+
+    <div class="eyebrow-pill" data-reveal>
+      <span class="eyebrow-dot" aria-hidden="true"></span>
+      Ottawa pilot &middot; 3 cohorts active
+    </div>
+
+    <h1 class="hero-h1" data-reveal>Live demand in Ottawa.</h1>
+
+    <p class="hero-sub" data-reveal>Every household address-verified, opted in, with known provider, bill, and contract end date.</p>
+
+    <div class="hero-stats" data-reveal>
+      <div class="hstat">
+        <div class="hstat-val">240</div>
+        <div class="hstat-label">total verified households</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">3</div>
+        <div class="hstat-label">active cohorts</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">$91/mo</div>
+        <div class="hstat-label">avg bill across cohorts</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">80&ndash;90%</div>
+        <div class="hstat-label">expected activation rate</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════ COHORT PANELS ═══════════════════════════ -->
+<section class="cohorts-section" aria-label="Active Ottawa cohorts">
+  <div class="wrap">
+    <span class="section-kicker kicker--teal" data-reveal>Verified demand · Ottawa 2026</span>
+    <h2 class="section-h2" data-reveal>Three cohorts, 240 households.</h2>
+    <p class="section-sub" data-reveal>Each panel shows the live household count, current provider breakdown, and contract-end alignment for that cohort. All data captured at opt-in.</p>
+
+    <!-- ── WHL-ON-001 · Beacon Hill / Cardinal Heights ── -->
+    <article class="cohort-panel" data-reveal>
+      <div class="cohort-panel-inner">
+
+        <!-- LEFT: main info -->
+        <div class="cohort-col-main">
+          <div class="cohort-badges">
+            <span class="badge-id">WHL-ON-001</span>
+            <span class="badge-status badge-status--open">
+              <span class="badge-dot badge-dot--open" aria-hidden="true"></span>Open
+            </span>
+          </div>
+          <h2 class="cohort-panel-name">Beacon Hill &amp; Cardinal Heights</h2>
+          <div class="fsa-row" aria-label="FSA codes">
+            <span class="fsa-pill">K1J</span>
+            <span class="fsa-pill">K1K</span>
+          </div>
+          <div class="progress-label-row">
+            <span><strong id="prog-count-001">87</strong> of 150 verified households</span>
+            <span>58%</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100" aria-label="Cohort progress">
+            <div class="progress-fill" id="pf-001" data-target="58"></div>
+          </div>
+          <p class="progress-threshold-note">Auction is <strong>open</strong> — threshold of 150 reached. Bidding window closes in 5 days.</p>
+          <div class="countdown-badge" aria-live="polite">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span id="countdown-text">Closes in 5 days</span>
+          </div>
+        </div>
+
+        <!-- MIDDLE: provider mix -->
+        <div class="cohort-col-mix">
+          <p class="mix-title">Current provider breakdown</p>
+          <div class="mix-bar-group">
+            <div>
+              <div class="mix-bar-label-row"><span>Rogers</span><span class="mix-bar-pct">61%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--rogers" style="width:61%;"></div></div>
+            </div>
+            <div>
+              <div class="mix-bar-label-row"><span>Bell</span><span class="mix-bar-pct">27%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--bell" style="width:27%;"></div></div>
+            </div>
+            <div>
+              <div class="mix-bar-label-row"><span>Other</span><span class="mix-bar-pct">12%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--other" style="width:12%;"></div></div>
+            </div>
+          </div>
+          <div class="avg-bill-block">
+            <p class="avg-bill-label">Avg monthly bill</p>
+            <p class="avg-bill-val">$92<span class="avg-bill-unit">/mo</span></p>
+          </div>
+        </div>
+
+        <!-- RIGHT: dot map + contract window -->
+        <div class="cohort-col-map">
+          <div class="map-svg-wrap" aria-hidden="true">
+            <svg width="90" height="90" viewBox="0 0 120 120" fill="none">
+              <circle cx="60" cy="60" r="46" stroke="#0f5e63" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.5"/>
+              <circle cx="60" cy="60" r="26" fill="rgba(15,94,99,0.1)" stroke="#0f5e63" stroke-width="1.5"/>
+              <circle cx="60" cy="60" r="6" fill="#0f5e63"/>
+              <g fill="#0f5e63" opacity="0.65">
+                <circle cx="36" cy="44" r="4"/>
+                <circle cx="42" cy="74" r="4"/>
+                <circle cx="84" cy="38" r="4"/>
+                <circle cx="88" cy="72" r="4"/>
+                <circle cx="54" cy="24" r="4"/>
+                <circle cx="74" cy="22" r="3.5"/>
+                <circle cx="28" cy="64" r="3.5"/>
+              </g>
+            </svg>
+          </div>
+          <p class="contract-window">Q3 2026</p>
+          <p class="contract-label">Contract window</p>
+          <span class="badge-status badge-status--open" style="font-size:11px;">
+            <span class="badge-dot badge-dot--open" aria-hidden="true"></span>Open
+          </span>
+        </div>
+      </div>
+
+      <div class="cohort-panel-footer">
+        <a href="dashboard.html" class="btn-bid-panel">Place a bid &rarr;</a>
+      </div>
+    </article>
+
+    <!-- ── WHL-ON-002 · Orléans ── -->
+    <article class="cohort-panel" data-reveal data-reveal-delay="1">
+      <div class="cohort-panel-inner">
+
+        <div class="cohort-col-main">
+          <div class="cohort-badges">
+            <span class="badge-id">WHL-ON-002</span>
+            <span class="badge-status badge-status--forming">
+              <span class="badge-dot badge-dot--forming" aria-hidden="true"></span>Forming
+            </span>
+          </div>
+          <h2 class="cohort-panel-name">Orl&eacute;ans</h2>
+          <div class="fsa-row">
+            <span class="fsa-pill">K1C</span>
+            <span class="fsa-pill">K4A</span>
+          </div>
+          <div class="progress-label-row">
+            <span><strong>112</strong> of 150 verified households</span>
+            <span>75%</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="Cohort progress">
+            <div class="progress-fill" id="pf-002" data-target="75"></div>
+          </div>
+          <p class="progress-threshold-note">Opens to bidding at 150 verified households. <strong>38 more needed.</strong></p>
+        </div>
+
+        <div class="cohort-col-mix">
+          <p class="mix-title">Current provider breakdown</p>
+          <div class="mix-bar-group">
+            <div>
+              <div class="mix-bar-label-row"><span>Bell</span><span class="mix-bar-pct">65%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--bell" style="width:65%;"></div></div>
+            </div>
+            <div>
+              <div class="mix-bar-label-row"><span>Rogers</span><span class="mix-bar-pct">22%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--rogers" style="width:22%;"></div></div>
+            </div>
+            <div>
+              <div class="mix-bar-label-row"><span>Other</span><span class="mix-bar-pct">13%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--other" style="width:13%;"></div></div>
+            </div>
+          </div>
+          <div class="avg-bill-block">
+            <p class="avg-bill-label">Avg monthly bill</p>
+            <p class="avg-bill-val">$85<span class="avg-bill-unit">/mo</span></p>
+          </div>
+        </div>
+
+        <div class="cohort-col-map">
+          <div class="map-svg-wrap" aria-hidden="true">
+            <svg width="90" height="90" viewBox="0 0 120 120" fill="none">
+              <circle cx="58" cy="62" r="46" stroke="#0b6070" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.5"/>
+              <circle cx="58" cy="62" r="28" fill="rgba(11,96,112,0.1)" stroke="#0b6070" stroke-width="1.5"/>
+              <circle cx="58" cy="62" r="6" fill="#0b6070"/>
+              <g fill="#0b6070" opacity="0.65">
+                <circle cx="32" cy="46" r="4"/>
+                <circle cx="38" cy="78" r="4"/>
+                <circle cx="82" cy="34" r="4"/>
+                <circle cx="88" cy="74" r="4"/>
+                <circle cx="52" cy="20" r="4"/>
+                <circle cx="78" cy="88" r="3.5"/>
+                <circle cx="24" cy="68" r="3.5"/>
+                <circle cx="90" cy="52" r="3.5"/>
+              </g>
+            </svg>
+          </div>
+          <p class="contract-window">Q3 2026</p>
+          <p class="contract-label">Contract window</p>
+          <span class="badge-status badge-status--forming" style="font-size:11px;">
+            <span class="badge-dot badge-dot--forming" aria-hidden="true"></span>Forming
+          </span>
+        </div>
+      </div>
+
+      <div class="cohort-panel-footer">
+        <button class="btn-notify" type="button" id="notify-btn-002" aria-expanded="false" aria-controls="notify-form-002">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Notify me when this cohort opens
+        </button>
+        <div class="notify-form-wrap" id="notify-form-002">
+          <form class="notify-form" novalidate aria-label="Notification sign-up for WHL-ON-002">
+            <div class="notify-field">
+              <label class="notify-label" for="nf-002-email">Work email</label>
+              <input class="notify-input" id="nf-002-email" type="email" placeholder="you@company.com" autocomplete="email">
+            </div>
+            <div class="notify-field">
+              <label class="notify-label" for="nf-002-co">Company name</label>
+              <input class="notify-input" id="nf-002-co" type="text" placeholder="Your ISP" autocomplete="organization">
+            </div>
+            <button class="btn-notify-submit" type="submit">Notify me</button>
+          </form>
+          <div class="notify-success" id="notify-success-002" role="status">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            You&rsquo;re on the list &mdash; we&rsquo;ll notify you when WHL-ON-002 opens for bidding.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── WHL-ON-003 · Barrhaven ── -->
+    <article class="cohort-panel" data-reveal data-reveal-delay="2">
+      <div class="cohort-panel-inner">
+
+        <div class="cohort-col-main">
+          <div class="cohort-badges">
+            <span class="badge-id">WHL-ON-003</span>
+            <span class="badge-status badge-status--forming">
+              <span class="badge-dot badge-dot--forming" aria-hidden="true"></span>Forming
+            </span>
+          </div>
+          <h2 class="cohort-panel-name">Barrhaven</h2>
+          <div class="fsa-row">
+            <span class="fsa-pill">K2J</span>
+          </div>
+          <div class="progress-label-row">
+            <span><strong>41</strong> of 150 verified households</span>
+            <span>27%</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100" aria-label="Cohort progress">
+            <div class="progress-fill" id="pf-003" data-target="27"></div>
+          </div>
+          <p class="progress-threshold-note">Opens to bidding at 150 verified households. <strong>109 more needed.</strong></p>
+        </div>
+
+        <div class="cohort-col-mix">
+          <p class="mix-title">Current provider breakdown</p>
+          <div class="mix-bar-group">
+            <div>
+              <div class="mix-bar-label-row"><span>Rogers</span><span class="mix-bar-pct">58%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--rogers" style="width:58%;"></div></div>
+            </div>
+            <div>
+              <div class="mix-bar-label-row"><span>Bell</span><span class="mix-bar-pct">30%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--bell" style="width:30%;"></div></div>
+            </div>
+            <div>
+              <div class="mix-bar-label-row"><span>Other</span><span class="mix-bar-pct">12%</span></div>
+              <div class="mix-track"><div class="mix-fill mix-fill--other" style="width:12%;"></div></div>
+            </div>
+          </div>
+          <div class="avg-bill-block">
+            <p class="avg-bill-label">Avg monthly bill</p>
+            <p class="avg-bill-val">$98<span class="avg-bill-unit">/mo</span></p>
+          </div>
+        </div>
+
+        <div class="cohort-col-map">
+          <div class="map-svg-wrap" aria-hidden="true">
+            <svg width="90" height="90" viewBox="0 0 120 120" fill="none">
+              <circle cx="62" cy="58" r="46" stroke="#0f5e63" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.5"/>
+              <circle cx="62" cy="58" r="18" fill="rgba(15,94,99,0.1)" stroke="#0f5e63" stroke-width="1.5"/>
+              <circle cx="62" cy="58" r="6" fill="#0f5e63"/>
+              <g fill="#0f5e63" opacity="0.65">
+                <circle cx="40" cy="42" r="4"/>
+                <circle cx="86" cy="38" r="4"/>
+                <circle cx="46" cy="78" r="4"/>
+                <circle cx="84" cy="76" r="4"/>
+              </g>
+            </svg>
+          </div>
+          <p class="contract-window">Q4 2026</p>
+          <p class="contract-label">Contract window</p>
+          <span class="badge-status badge-status--forming" style="font-size:11px;">
+            <span class="badge-dot badge-dot--forming" aria-hidden="true"></span>Forming
+          </span>
+        </div>
+      </div>
+
+      <div class="cohort-panel-footer">
+        <button class="btn-notify" type="button" id="notify-btn-003" aria-expanded="false" aria-controls="notify-form-003">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Notify me when this cohort opens
+        </button>
+        <div class="notify-form-wrap" id="notify-form-003">
+          <form class="notify-form" novalidate aria-label="Notification sign-up for WHL-ON-003">
+            <div class="notify-field">
+              <label class="notify-label" for="nf-003-email">Work email</label>
+              <input class="notify-input" id="nf-003-email" type="email" placeholder="you@company.com" autocomplete="email">
+            </div>
+            <div class="notify-field">
+              <label class="notify-label" for="nf-003-co">Company name</label>
+              <input class="notify-input" id="nf-003-co" type="text" placeholder="Your ISP" autocomplete="organization">
+            </div>
+            <button class="btn-notify-submit" type="submit">Notify me</button>
+          </form>
+          <div class="notify-success" id="notify-success-003" role="status">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            You&rsquo;re on the list &mdash; we&rsquo;ll notify you when WHL-ON-003 opens for bidding.
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ VERIFICATION METHODOLOGY ════════════════ -->
+<section class="methodology-section" aria-labelledby="method-h2">
+  <div class="wrap">
+    <span class="section-kicker kicker--soft" data-reveal>Verification methodology</span>
+    <h2 class="method-h2" id="method-h2" data-reveal>How we verify demand is real.</h2>
+    <p class="method-sub" data-reveal>Every household in a Whollar cohort has completed all three steps before it counts toward threshold.</p>
+
+    <div class="method-cols">
+      <div class="method-card" data-reveal data-reveal-delay="1">
+        <div class="method-step-num" aria-hidden="true">1</div>
+        <h3 class="method-title">Address qualification</h3>
+        <p class="method-body">UK-style FSA lookup confirms the postal code is within the designated cohort boundary. No mismatched postcodes. Every household must resolve to a verified Ottawa address inside the cohort&rsquo;s FSA zone before it is counted.</p>
+      </div>
+      <div class="method-card" data-reveal data-reveal-delay="2">
+        <div class="method-step-num" aria-hidden="true">2</div>
+        <h3 class="method-title">Opt-in consent</h3>
+        <p class="method-body">Explicit PIPEDA&hairsp;/&hairsp;Qu&eacute;bec Law&nbsp;25 consent collected at sign-up. Households are given a clear data disclosure before their information is logged. Consent is stored and timestamped against each record.</p>
+      </div>
+      <div class="method-card" data-reveal data-reveal-delay="3">
+        <div class="method-step-num" aria-hidden="true">3</div>
+        <h3 class="method-title">Plan + contract capture</h3>
+        <p class="method-body">Current provider, approximate monthly bill ($), and contract end date captured at time of opt-in. This is the contract-end alignment that makes cohorts auction-ready &mdash; you bid on verified intent, not cold leads.</p>
+      </div>
+    </div>
+
+    <div class="compliance-bar" data-reveal>
+      <span class="compliance-item"><span class="compliance-dot" aria-hidden="true"></span>PIPEDA compliant</span>
+      <span class="compliance-sep" aria-hidden="true">&middot;</span>
+      <span class="compliance-item"><span class="compliance-dot" aria-hidden="true"></span>Qu&eacute;bec Law&nbsp;25 compliant</span>
+      <span class="compliance-sep" aria-hidden="true">&middot;</span>
+      <span class="compliance-item"><span class="compliance-dot" aria-hidden="true"></span>Data shared with winning bidder only</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ FINAL CTA ═══════════════════════════════ -->
+<section class="final-cta-section" aria-label="Call to action">
+  <div class="wrap">
+    <span class="section-kicker kicker--teal" style="display:block;text-align:center;" data-reveal>Ready to move</span>
+    <h2 class="final-cta-h2" data-reveal>This demand is ready to bid on.</h2>
+    <p class="final-cta-sub" data-reveal>WHL-ON-001 is open now. WHL-ON-002 and WHL-ON-003 open when they hit 150 verified households. Apply to join the approved provider list and you&rsquo;re notified the moment each cohort opens.</p>
+    <div class="final-cta-btns" data-reveal>
+      <a href="register.html" class="btn-cta-primary">Apply to bid &rarr;</a>
+      <a href="dashboard.html" class="btn-cta-ghost">Browse cohorts</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ══════════════════════════ FOOTER ══════════════════════════════════ -->
+<footer style="background:#182330;color:#9fb0bf;">
+  <div style="max-width:1180px;margin:0 auto;padding:clamp(48px,6vw,72px) 24px 30px;">
+    <div class="foot-grid">
+
+      <!-- Brand col -->
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span style="width:36px;height:36px;border-radius:10px;background:#0f5e63;display:flex;align-items:center;justify-content:center;gap:3px;" aria-hidden="true">
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#ff6b4a;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
+          </span>
+          <span style="font-family:'Schibsted Grotesk',sans-serif;font-weight:800;font-size:20px;color:#fff;letter-spacing:-0.02em;">Whollar</span>
+          <span style="font-size:11.5px;font-weight:600;color:#448185;background:rgba(25,146,154,0.16);padding:3px 9px;border-radius:999px;">Ottawa pilot</span>
+        </div>
+        <p style="font-size:15px;color:#8fa1b0;line-height:1.6;max-width:24rem;margin:0 0 10px;">Pooling Ottawa neighbourhoods into cohorts &mdash; ISPs bid for the whole group.</p>
+        <p style="font-size:14px;color:#6f8290;margin:0;"><a href="mailto:hello@whollar.ca" style="color:#9fb0bf;text-decoration:none;">hello@whollar.ca</a></p>
+      </div>
+
+      <!-- Providers col -->
+      <div>
+        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#5f7384;margin:0 0 16px;">Providers</h4>
+        <ul class="foot-links">
+          <li><a href="register.html">Apply to bid</a></li>
+          <li><a href="dashboard.html">Browse cohorts</a></li>
+          <li><a href="demand.html" aria-current="page">Live demand</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Other col -->
+      <div>
+        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#5f7384;margin:0 0 16px;">Other</h4>
+        <ul class="foot-links">
+          <li><a href="https://whollar.ca" target="_blank" rel="noopener">Whollar for households &rarr;</a></li>
+          <li><a href="#" title="Coming soon">Privacy</a></li>
+          <li><a href="#" title="Coming soon">Terms</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <div style="margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;">
+      <span style="font-size:13.5px;color:#6f8290;">&#169; 2026 Whollar. Ottawa pilot now forming. &mdash; <a href="mailto:hello@whollar.ca" style="color:#6f8290;text-decoration:none;">hello@whollar.ca</a></span>
+      <span style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:#6f8290;">Made in Canada <svg width="16" height="16" viewBox="0 0 512 512" fill="#d8443c" aria-hidden="true"><path d="M256 32l-28 92-72-44 28 104-84-12 56 64-40 36 96 16-8 56 64-44 64 44-8-56 96-16-40-36 56-64-84 12 28-104-72 44z"/></svg></span>
+    </div>
+  </div>
+</footer>
+
+
+<script src="script.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── 1. Progress bar animation ──────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var fills = document.querySelectorAll('.progress-fill[data-target]');
+    setTimeout(function () {
+      fills.forEach(function (fill) {
+        fill.style.width = fill.getAttribute('data-target') + '%';
+      });
+    }, 50);
+  });
+
+  /* ── 2. WHL-ON-001 countdown ────────────────────────────────────────── */
+  var deadlineMs = Date.now() + 5 * 24 * 60 * 60 * 1000;
+  function updateCountdown() {
+    var el = document.getElementById('countdown-text');
+    if (!el) return;
+    var diff = deadlineMs - Date.now();
+    if (diff <= 0) { el.textContent = 'Auction window closed'; return; }
+    var days  = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins  = Math.floor((diff % 3600000) / 60000);
+    el.textContent = 'Closes in ' + days + 'd ' + hours + 'h ' + mins + 'm';
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 30000);
+
+  /* ── 3. Notify-me inline forms ──────────────────────────────────────── */
+  function setupNotify(btnId, formWrapId, successId) {
+    var btn      = document.getElementById(btnId);
+    var formWrap = document.getElementById(formWrapId);
+    var form     = formWrap ? formWrap.querySelector('form') : null;
+    var success  = document.getElementById(successId);
+
+    if (!btn || !formWrap || !form || !success) return;
+
+    btn.addEventListener('click', function () {
+      var isOpen = formWrap.classList.contains('is-open');
+      if (isOpen) {
+        formWrap.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        formWrap.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+        var firstInput = formWrap.querySelector('input');
+        if (firstInput) setTimeout(function () { firstInput.focus(); }, 50);
+      }
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var emailInput = form.querySelector('input[type="email"]');
+      var coInput    = form.querySelector('input[type="text"]');
+      if (!emailInput || !emailInput.value || !emailInput.value.includes('@')) {
+        emailInput.style.borderColor = 'var(--c)';
+        emailInput.focus();
+        return;
+      }
+      form.style.display = 'none';
+      success.classList.add('is-visible');
+      btn.style.display = 'none';
+    });
+
+    /* reset border on input */
+    form.querySelectorAll('input').forEach(function (inp) {
+      inp.addEventListener('input', function () { inp.style.borderColor = ''; });
+    });
+  }
+
+  setupNotify('notify-btn-002', 'notify-form-002', 'notify-success-002');
+  setupNotify('notify-btn-003', 'notify-form-003', 'notify-success-003');
+
+})();
+</script>
+</body>
+</html>

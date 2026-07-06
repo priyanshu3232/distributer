@@ -372,7 +372,7 @@
         </span>
         <span style="display:flex;align-items:center;gap:9px;">
           <span class="brand-word">Whollar</span>
-          <span class="brand-pill">for distributors</span>
+          <span class="brand-pill">for providers</span>
         </span>
       </a>
 
@@ -401,11 +401,11 @@
       </div>
 
       <div class="left-tagline">
-        <p><strong>Join Canada's first cohort bidding network.</strong><br>Win verified households — pay only on activation.</p>
+        <p><strong>Founding partners get first access to every Ottawa cohort.</strong><br>Zero upfront cost &mdash; pay only on activation.</p>
       </div>
 
       <div class="photo-family">
-        <img src="jessica-rockowitz-5NLCaz2wJXE-unsplash.jpg" alt="A family — the verified households you'll win through Whollar" loading="eager">
+        <img src="jessica-rockowitz-5NLCaz2wJXE-unsplash.jpg" alt="Ottawa neighbourhood — verified demand in your cohort coverage area" loading="eager">
         <div class="photo-overlay"></div>
         <span class="photo-pill">
           <span class="pulse"></span>
@@ -499,8 +499,8 @@
                 <div class="value-perk">
                   <span class="perk-num">3</span>
                   <div>
-                    <p class="perk-title">Win groups, not individuals</p>
-                    <p class="perk-body">One bid, 50–250 households. Lower CAC than any door-to-door or digital channel.</p>
+                    <p class="perk-title">Founding-partner rate locked</p>
+                    <p class="perk-body">Founding partners lock in their $40&ndash;80 fee rate and get first-look access to every new Ottawa cohort.</p>
                   </div>
                 </div>
               </div>
@@ -521,36 +521,50 @@
           <div class="s1-form-col">
             <div class="step-head">
               <p class="step-eyebrow">Step 2 of 3</p>
-              <h2 class="step-title">Where can you serve?</h2>
-              <p class="step-sub">We use this to match your bids to cohorts inside your coverage footprint.</p>
+              <h2 class="step-title">Ottawa coverage.</h2>
+              <p class="step-sub">Select the FSAs you can serve. We match your footprint to cohorts before your bids are activated.</p>
             </div>
             <form class="form-grid" id="form-2" novalidate>
 
-              <!-- Province multi-select -->
+              <!-- Ottawa FSA checkboxes -->
               <div class="field field--full">
-                <span class="field-label">Province(s) / coverage regions</span>
-                <div class="province-select" id="province-select">
-                  <div class="ps-trigger" id="ps-trigger" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
-                    <span class="ps-placeholder" id="ps-placeholder">Select provinces or territories…</span>
-                    <span class="ps-arrow">&#9660;</span>
-                  </div>
-                  <div class="ps-dropdown" id="ps-dropdown" hidden>
-                    <div class="ps-search-wrap">
-                      <input type="text" class="ps-search" id="ps-search" placeholder="Search provinces…" autocomplete="off">
-                    </div>
-                    <ul class="ps-list" id="ps-list" role="listbox" aria-multiselectable="true"></ul>
-                    <p class="ps-no-results" id="ps-no-results" hidden>No results</p>
-                  </div>
+                <span class="field-label">Ottawa FSAs you can serve</span>
+                <div class="checkbox-group" id="fsa-group" style="grid-template-columns:1fr 1fr;">
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="fsa" value="K1J">
+                    <span class="checkbox-item-label">K1J &mdash; Beacon Hill</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="fsa" value="K1K">
+                    <span class="checkbox-item-label">K1K &mdash; Cardinal Heights</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="fsa" value="K1C">
+                    <span class="checkbox-item-label">K1C &mdash; Orl&eacute;ans (West)</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="fsa" value="K4A">
+                    <span class="checkbox-item-label">K4A &mdash; Orl&eacute;ans (East)</span>
+                  </label>
+                  <label class="checkbox-item" style="grid-column:1/-1;">
+                    <input type="checkbox" name="fsa" value="K2J">
+                    <span class="checkbox-item-label">K2J &mdash; Barrhaven</span>
+                  </label>
                 </div>
-                <input type="hidden" name="regions" id="regions-value">
-                <span class="field-err" id="regions-err" hidden></span>
+                <span class="field-err" id="fsa-err" hidden></span>
               </div>
+
+              <!-- Other FSAs -->
+              <label class="field field--full">
+                <span class="field-label">Other Ottawa FSAs you cover <span class="field-hint">(optional)</span></span>
+                <input type="text" name="other-fsas" placeholder="e.g. K1H, K1G, K1S &mdash; we&rsquo;ll add them to the next cohort batch">
+              </label>
 
               <!-- Network type -->
               <label class="field field--full">
                 <span class="field-label">Primary network type</span>
                 <select name="network">
-                  <option value="">Select…</option>
+                  <option value="">Select&hellip;</option>
                   <option>Fibre</option>
                   <option>Cable (DOCSIS)</option>
                   <option>Fixed wireless</option>
@@ -561,60 +575,25 @@
                 <span class="field-err" hidden></span>
               </label>
 
-              <!-- PIPEDA question -->
+              <!-- PIPEDA / Law 25 -->
               <div class="field field--full">
-                <span class="field-label">Are you registered under PIPEDA and Québec Law 25?</span>
+                <span class="field-label">PIPEDA and Qu&eacute;bec Law 25 compliance status</span>
                 <div class="radio-group" role="radiogroup">
                   <label class="radio-item">
                     <input type="radio" name="pipeda" value="yes">
-                    <span class="radio-item-label">Yes — fully compliant</span>
+                    <span class="radio-item-label">Fully compliant</span>
                   </label>
                   <label class="radio-item">
                     <input type="radio" name="pipeda" value="in-progress">
-                    <span class="radio-item-label">In progress — working on it</span>
+                    <span class="radio-item-label">In progress &mdash; working toward compliance</span>
                   </label>
                   <label class="radio-item">
                     <input type="radio" name="pipeda" value="no">
-                    <span class="radio-item-label">No — not yet</span>
+                    <span class="radio-item-label">Not yet started</span>
                   </label>
                 </div>
                 <span class="field-err" id="pipeda-err" hidden></span>
               </div>
-
-              <!-- Bundled services -->
-              <div class="field field--full">
-                <span class="field-label">Do you offer any bundled services alongside internet?</span>
-                <div class="checkbox-group">
-                  <label class="checkbox-item">
-                    <input type="checkbox" name="bundle" value="tv">
-                    <span class="checkbox-item-label">📺 TV</span>
-                  </label>
-                  <label class="checkbox-item">
-                    <input type="checkbox" name="bundle" value="phone">
-                    <span class="checkbox-item-label">📞 Phone</span>
-                  </label>
-                  <label class="checkbox-item">
-                    <input type="checkbox" name="bundle" value="smarthome">
-                    <span class="checkbox-item-label">🏠 Smart home</span>
-                  </label>
-                  <label class="checkbox-item">
-                    <input type="checkbox" name="bundle" value="none">
-                    <span class="checkbox-item-label">Internet only</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Activation time (optional) -->
-              <label class="field field--full">
-                <span class="field-label">On average, how long does it take to activate a new residential customer after sign-up? <span class="field-hint">(optional)</span></span>
-                <select name="activationtime">
-                  <option value="">Select…</option>
-                  <option>Under 1 week</option>
-                  <option>1–2 weeks</option>
-                  <option>2–4 weeks</option>
-                  <option>Over a month</option>
-                </select>
-              </label>
 
             </form>
             <div class="step-nav">
@@ -629,12 +608,14 @@
               <img src="Gemini_Generated_Image_y9pgopy9pgopy9pg.png" alt="Coverage map illustration">
               <div class="s2-img-panel-overlay"></div>
               <div class="s2-img-caption">
-                <p class="s2-img-caption-tag">Coverage matching</p>
-                <p class="s2-img-caption-title">Cohorts routed to your exact footprint</p>
+                <p class="s2-img-caption-tag">Ottawa pilot FSAs</p>
+                <p class="s2-img-caption-title">Cohorts matched to your exact coverage</p>
                 <div class="s2-img-caption-pills">
-                  <span class="s2-pill">Ontario</span>
-                  <span class="s2-pill">Quebec</span>
-                  <span class="s2-pill">Atlantic</span>
+                  <span class="s2-pill">K1J</span>
+                  <span class="s2-pill">K1K</span>
+                  <span class="s2-pill">K1C</span>
+                  <span class="s2-pill">K4A</span>
+                  <span class="s2-pill">K2J</span>
                 </div>
               </div>
             </div>
@@ -792,13 +773,13 @@
     var f = document.getElementById('form-2');
     var ok = true;
 
-    /* provinces */
-    var regionsVal = document.getElementById('regions-value').value;
-    var regionsErr = document.getElementById('regions-err');
-    if (!regionsVal) {
-      regionsErr.textContent = 'Please select at least one province or territory.';
-      regionsErr.removeAttribute('hidden'); ok = false;
-    } else { regionsErr.setAttribute('hidden',''); }
+    /* Ottawa FSAs */
+    var fsaChecked = document.querySelectorAll('input[name="fsa"]:checked').length > 0;
+    var fsaErr = document.getElementById('fsa-err');
+    if (!fsaChecked) {
+      fsaErr.textContent = 'Please select at least one Ottawa FSA.';
+      fsaErr.removeAttribute('hidden'); ok = false;
+    } else { fsaErr.setAttribute('hidden',''); }
 
     /* network */
     var netEl = f.elements['network'];
@@ -816,116 +797,7 @@
     return ok;
   }
 
-  /* ── Province multi-select ───────────────────────── */
-  (function(){
-    var PROVINCES = [
-      {code:'AB', name:'Alberta'},
-      {code:'BC', name:'British Columbia'},
-      {code:'MB', name:'Manitoba'},
-      {code:'NB', name:'New Brunswick'},
-      {code:'NL', name:'Newfoundland and Labrador'},
-      {code:'NT', name:'Northwest Territories'},
-      {code:'NS', name:'Nova Scotia'},
-      {code:'NU', name:'Nunavut'},
-      {code:'ON', name:'Ontario'},
-      {code:'PE', name:'Prince Edward Island'},
-      {code:'QC', name:'Québec'},
-      {code:'SK', name:'Saskatchewan'},
-      {code:'YT', name:'Yukon'}
-    ];
-
-    var selected = [];
-    var trigger  = document.getElementById('ps-trigger');
-    var dropdown = document.getElementById('ps-dropdown');
-    var list     = document.getElementById('ps-list');
-    var search   = document.getElementById('ps-search');
-    var noRes    = document.getElementById('ps-no-results');
-    var hidden   = document.getElementById('regions-value');
-    var placeholder = document.getElementById('ps-placeholder');
-
-    /* build list items */
-    PROVINCES.forEach(function(p){
-      var li = document.createElement('li');
-      li.className = 'ps-item';
-      li.setAttribute('data-name', p.name.toLowerCase());
-      var id = 'ps-' + p.code;
-      li.innerHTML = '<label for="' + id + '">' +
-        '<input type="checkbox" id="' + id + '" value="' + p.code + '"> ' + p.name + ' (' + p.code + ')' +
-        '</label>';
-      li.querySelector('input').addEventListener('change', function(){ toggleProvince(p.code, p.name, this.checked); });
-      list.appendChild(li);
-    });
-
-    function toggleProvince(code, name, add) {
-      if (add) {
-        if (selected.indexOf(code) === -1) selected.push(code);
-      } else {
-        selected = selected.filter(function(c){ return c !== code; });
-      }
-      renderPills();
-      hidden.value = selected.join(',');
-    }
-
-    function renderPills() {
-      /* clear trigger content except arrow */
-      var arrow = trigger.querySelector('.ps-arrow');
-      trigger.innerHTML = '';
-      trigger.appendChild(arrow);
-      if (selected.length === 0) {
-        var ph = document.createElement('span');
-        ph.className = 'ps-placeholder'; ph.id = 'ps-placeholder';
-        ph.textContent = 'Select provinces or territories…';
-        trigger.insertBefore(ph, arrow);
-        placeholder = ph;
-      } else {
-        selected.forEach(function(code){
-          var pill = document.createElement('span');
-          pill.className = 'ps-selected-pill';
-          pill.innerHTML = code + ' <button type="button" class="ps-remove-btn" data-code="' + code + '" aria-label="Remove ' + code + '">&#x2715;</button>';
-          pill.querySelector('.ps-remove-btn').addEventListener('click', function(e){
-            e.stopPropagation();
-            var c = this.getAttribute('data-code');
-            var cb = list.querySelector('input[value="' + c + '"]');
-            if (cb) cb.checked = false;
-            toggleProvince(c, '', false);
-          });
-          trigger.insertBefore(pill, arrow);
-        });
-      }
-    }
-
-    function openDropdown() {
-      dropdown.removeAttribute('hidden');
-      trigger.classList.add('is-open');
-      trigger.setAttribute('aria-expanded','true');
-      search.value = '';
-      filterList('');
-      search.focus();
-    }
-
-    function closeDropdown() {
-      dropdown.setAttribute('hidden','');
-      trigger.classList.remove('is-open');
-      trigger.setAttribute('aria-expanded','false');
-    }
-
-    function filterList(q) {
-      var any = false;
-      list.querySelectorAll('.ps-item').forEach(function(li){
-        var match = li.getAttribute('data-name').indexOf(q.toLowerCase()) !== -1;
-        li.classList.toggle('is-hidden', !match);
-        if (match) any = true;
-      });
-      noRes.hidden = any;
-    }
-
-    trigger.addEventListener('click', function(){ dropdown.hasAttribute('hidden') ? openDropdown() : closeDropdown(); });
-    trigger.addEventListener('keydown', function(e){ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); dropdown.hasAttribute('hidden') ? openDropdown() : closeDropdown(); }});
-    search.addEventListener('input', function(){ filterList(this.value); });
-    document.addEventListener('click', function(e){
-      if (!trigger.contains(e.target) && !dropdown.contains(e.target)) closeDropdown();
-    });
-  })();
+  /* Ottawa FSA checkboxes — validation handled in validateStep2 above */
 
   function validateStep3() {
     var ok = true;
