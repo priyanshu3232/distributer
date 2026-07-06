@@ -62,8 +62,24 @@
     .btn-primary-sm { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #fff; background: var(--c); border-radius: 10px; padding: 9px 16px; text-decoration: none; box-shadow: 0 6px 16px -6px rgba(255,107,74,0.55); transition: background .15s; white-space: nowrap; }
     .btn-primary-sm:hover { background: var(--ch); }
 
-    @media (max-width: 900px) { .main-nav { display: none; } .header-actions { display: none; } }
+    @media (max-width: 900px) { .main-nav { display: none !important; } }
+    @media (max-width: 768px) { .header-actions { display: none !important; } #hamburger-btn { display: flex !important; } }
     @media (max-width: 400px) { .brand-pill { display: none; } }
+
+    /* ── Hamburger ── */
+    #hamburger-btn { display: none; align-items: center; justify-content: center; width: 40px; height: 40px; background: transparent; border: 1px solid rgba(31,45,61,0.14); border-radius: 10px; cursor: pointer; flex-direction: column; gap: 5px; padding: 8px; }
+    #hamburger-btn span { display: block; width: 18px; height: 2px; background: #1f2d3d; border-radius: 2px; transition: transform .2s, opacity .2s; }
+    #hamburger-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    #hamburger-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    #mobile-menu { display: none; position: fixed; top: 69px; left: 0; right: 0; background: rgba(251,250,247,0.98); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(31,45,61,0.08); z-index: 49; padding: 14px 24px 20px; flex-direction: column; gap: 0; }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a { display: block; padding: 13px 0; border-bottom: 1px solid rgba(31,45,61,0.06); font-family: 'Hanken Grotesk',sans-serif; font-size: 16px; font-weight: 600; color: #1f2d3d; text-decoration: none; }
+    #mobile-menu a:last-of-type { border-bottom: none; }
+    .mob-actions { display: flex; gap: 10px; margin-top: 14px; }
+    .mob-actions a { flex: 1; text-align: center; padding: 12px 0; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; }
+    .mob-a-browse { border: 1px solid #d7ddd9; color: #1f2d3d; background: transparent; }
+    .mob-a-apply  { background: #ff6b4a; color: #fff; }
 
     /* ── SCROLL REVEAL ──────────────────────────────────────────────────── */
     body.reveal [data-reveal] { transform: translateY(22px); transition: transform .7s cubic-bezier(.22,.61,.36,1); }
@@ -368,8 +384,21 @@
       <a href="dashboard.html" class="btn-ghost">Browse cohorts</a>
       <a href="register.html" class="btn-primary-sm">Apply to bid</a>
     </div>
+    <button id="hamburger-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+<nav id="mobile-menu" aria-label="Site navigation">
+  <a href="index.html#how">How it works</a>
+  <a href="index.html#economics">The economics</a>
+  <a href="demand.html" aria-current="page">Live demand</a>
+  <a href="index.html#faq">FAQ</a>
+  <div class="mob-actions">
+    <a href="dashboard.html" class="mob-a-browse">Browse cohorts</a>
+    <a href="register.html" class="mob-a-apply">Apply to bid</a>
+  </div>
+</nav>
 
 <main>
 
@@ -413,7 +442,7 @@
   <div class="wrap">
     <span class="section-kicker kicker--teal" data-reveal>Verified demand · Ottawa 2026</span>
     <h2 class="section-h2" data-reveal>Three cohorts, 240 households.</h2>
-    <p class="section-sub" data-reveal>Each panel shows the live household count, current provider breakdown, and contract-end alignment for that cohort. All data captured at opt-in.</p>
+    <p class="section-sub" data-reveal>Each panel shows the live household count, current provider breakdown, and contract-end alignment for that cohort. All data captured at opt-in. A cohort opens to bidding when it reaches 150 verified households, or earlier when 80%+ of its verified members' contracts end within the next two quarters (contract-window trigger).</p>
 
     <!-- ── WHL-ON-001 · Beacon Hill / Cardinal Heights ── -->
     <article class="cohort-panel" data-reveal>
@@ -439,7 +468,7 @@
           <div class="progress-track" role="progressbar" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100" aria-label="Cohort progress">
             <div class="progress-fill" id="pf-001" data-target="58"></div>
           </div>
-          <p class="progress-threshold-note">Auction is <strong>open</strong> — threshold of 150 reached. Bidding window closes in 5 days.</p>
+          <p class="progress-threshold-note">Opened under <strong>contract-window trigger</strong> — 80%+ of verified members' contracts end Q3&nbsp;2026. Bidding window closes in <span id="countdown-note" style="font-variant-numeric:tabular-nums;">5 days</span>.</p>
           <div class="countdown-badge" aria-live="polite">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             <span id="countdown-text">Closes in 5 days</span>
@@ -708,7 +737,7 @@
       <div class="method-card" data-reveal data-reveal-delay="1">
         <div class="method-step-num" aria-hidden="true">1</div>
         <h3 class="method-title">Address qualification</h3>
-        <p class="method-body">UK-style FSA lookup confirms the postal code is within the designated cohort boundary. No mismatched postcodes. Every household must resolve to a verified Ottawa address inside the cohort&rsquo;s FSA zone before it is counted.</p>
+        <p class="method-body">FSA lookup confirms the postal code resolves to a verified Ottawa address inside the cohort boundary. No mismatched postcodes — every household must resolve to a valid Ottawa address within the cohort&rsquo;s FSA zone before it is counted.</p>
       </div>
       <div class="method-card" data-reveal data-reveal-delay="2">
         <div class="method-step-num" aria-hidden="true">2</div>
@@ -738,7 +767,7 @@
   <div class="wrap">
     <span class="section-kicker kicker--teal" style="display:block;text-align:center;" data-reveal>Ready to move</span>
     <h2 class="final-cta-h2" data-reveal>This demand is ready to bid on.</h2>
-    <p class="final-cta-sub" data-reveal>WHL-ON-001 is open now. WHL-ON-002 and WHL-ON-003 open when they hit 150 verified households. Apply to join the approved provider list and you&rsquo;re notified the moment each cohort opens.</p>
+    <p class="final-cta-sub" data-reveal>WHL-ON-001 is open now — opened under the contract-window trigger. WHL-ON-002 and WHL-ON-003 open at 150 verified households. Apply to join the approved provider list and you&rsquo;re notified the moment each cohort opens.</p>
     <div class="final-cta-btns" data-reveal>
       <a href="register.html" class="btn-cta-primary">Apply to bid &rarr;</a>
       <a href="dashboard.html" class="btn-cta-ghost">Browse cohorts</a>
@@ -765,7 +794,7 @@
           <span style="font-family:'Schibsted Grotesk',sans-serif;font-weight:800;font-size:20px;color:#fff;letter-spacing:-0.02em;">Whollar</span>
           <span style="font-size:11.5px;font-weight:600;color:#448185;background:rgba(25,146,154,0.16);padding:3px 9px;border-radius:999px;">Ottawa pilot</span>
         </div>
-        <p style="font-size:15px;color:#8fa1b0;line-height:1.6;max-width:24rem;margin:0 0 10px;">Pooling Ottawa neighbourhoods into cohorts &mdash; ISPs bid for the whole group.</p>
+        <p style="font-size:15px;color:#8fa1b0;line-height:1.6;max-width:24rem;margin:0 0 10px;">Who runs Whollar: a small Ottawa-based team.</p>
         <p style="font-size:14px;color:#6f8290;margin:0;"><a href="mailto:hello@whollar.ca" style="color:#9fb0bf;text-decoration:none;">hello@whollar.ca</a></p>
       </div>
 
@@ -815,16 +844,17 @@
   });
 
   /* ── 2. WHL-ON-001 countdown ────────────────────────────────────────── */
-  var deadlineMs = Date.now() + 5 * 24 * 60 * 60 * 1000;
+  var deadlineMs = new Date((window.WHOLLAR_COHORTS && window.WHOLLAR_COHORTS[0].deadline) || '2026-07-11T23:59:59-04:00').getTime();
   function updateCountdown() {
-    var el = document.getElementById('countdown-text');
-    if (!el) return;
     var diff = deadlineMs - Date.now();
-    if (diff <= 0) { el.textContent = 'Auction window closed'; return; }
-    var days  = Math.floor(diff / 86400000);
-    var hours = Math.floor((diff % 86400000) / 3600000);
-    var mins  = Math.floor((diff % 3600000) / 60000);
-    el.textContent = 'Closes in ' + days + 'd ' + hours + 'h ' + mins + 'm';
+    var closed = diff <= 0;
+    var days  = closed ? 0 : Math.floor(diff / 86400000);
+    var hours = closed ? 0 : Math.floor((diff % 86400000) / 3600000);
+    var txt   = closed ? 'Auction window closed' : (days + 'd ' + hours + 'h');
+    var el1 = document.getElementById('countdown-text');
+    var el2 = document.getElementById('countdown-note');
+    if (el1) el1.textContent = closed ? 'Auction window closed' : ('Closes in ' + txt);
+    if (el2) el2.textContent = closed ? 'closed' : txt;
   }
   updateCountdown();
   setInterval(updateCountdown, 30000);
@@ -873,6 +903,20 @@
 
   setupNotify('notify-btn-002', 'notify-form-002', 'notify-success-002');
   setupNotify('notify-btn-003', 'notify-form-003', 'notify-success-003');
+
+  /* ── Mobile nav ── */
+  var ham = document.getElementById('hamburger-btn');
+  var mob = document.getElementById('mobile-menu');
+  if (ham && mob) {
+    ham.addEventListener('click', function () {
+      var open = mob.classList.contains('open');
+      mob.classList.toggle('open');
+      ham.setAttribute('aria-expanded', String(!open));
+    });
+    mob.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { mob.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); });
+    });
+  }
 
 })();
 </script>

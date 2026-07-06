@@ -10,6 +10,8 @@ window.WHOLLAR_COHORTS = [
     fsas: ['K1J','K1K'], verified: 87, threshold: 150, pct: 58,
     avgBill: 92, status: 'OPEN', bidders: 3,
     deadlineDays: 5,
+    deadline: '2026-07-11T23:59:59-04:00',
+    openRule: 'contract-window',
     providerMix: [{name:'Rogers',pct:61},{name:'Bell',pct:27},{name:'Other',pct:12}],
     contractEnd: 'Q3 2026'
   },

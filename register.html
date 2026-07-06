@@ -358,9 +358,89 @@
       .form-grid { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+
+    /* ── Site nav ──────────────────────────────────── */
+    .site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); background: rgba(251,250,247,0.9); border-bottom: 1px solid rgba(31,45,61,0.07); }
+    .header-inner { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; flex-shrink: 0; }
+    .nav-brand-mark { width: 38px; height: 38px; border-radius: 10px; background: #0f5e63; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .nav-brand-mark em { width: 6px; height: 6px; border-radius: 50%; background: #fff; display: block; font-style: normal; }
+    .nav-brand-mark em:nth-child(2) { background: #ff6b4a; }
+    .nav-brand-name { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 800; font-size: 21px; letter-spacing: -0.02em; color: #1f2d3d; }
+    .nav-brand-pill { font-size: 11px; font-weight: 600; color: #448185; background: rgba(68,129,133,0.12); border: 1px solid rgba(68,129,133,0.22); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+    .site-nav { display: flex; align-items: center; gap: 26px; }
+    .site-nav a { text-decoration: none; color: #48586a; font-weight: 500; font-size: 15px; transition: color .15s; white-space: nowrap; }
+    .site-nav a:hover { color: #0f5e63; }
+    .hdr-actions { display: flex; align-items: center; gap: 10px; }
+    .hdr-btn-ghost { font-family: 'Hanken Grotesk',sans-serif; font-weight: 600; font-size: 14px; color: #1f2d3d; background: transparent; border: 1px solid #d7ddd9; border-radius: 10px; padding: 9px 16px; text-decoration: none; transition: border-color .15s; white-space: nowrap; }
+    .hdr-btn-ghost:hover { border-color: #9fb0bf; }
+    .hdr-btn-primary { font-family: 'Schibsted Grotesk',sans-serif; font-weight: 700; font-size: 14px; color: #fff; background: #ff6b4a; border-radius: 10px; padding: 9px 16px; text-decoration: none; box-shadow: 0 6px 16px -6px rgba(255,107,74,0.55); transition: background .15s; white-space: nowrap; }
+    .hdr-btn-primary:hover { background: #d65a3e; }
+    @media (max-width: 900px) { .site-nav { display: none !important; } }
+    @media (max-width: 768px) { .hdr-actions { display: none !important; } #rg-ham { display: flex !important; } }
+    #rg-ham { display: none; align-items: center; justify-content: center; width: 40px; height: 40px; background: transparent; border: 1px solid rgba(31,45,61,0.14); border-radius: 10px; cursor: pointer; flex-direction: column; gap: 5px; padding: 8px; }
+    #rg-ham span { display: block; width: 18px; height: 2px; background: #1f2d3d; border-radius: 2px; transition: transform .2s, opacity .2s; }
+    #rg-ham[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #rg-ham[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    #rg-ham[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    #rg-mob-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: rgba(251,250,247,0.98); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(31,45,61,0.08); z-index: 49; padding: 14px 24px 20px; flex-direction: column; gap: 0; }
+    #rg-mob-menu.open { display: flex; }
+    #rg-mob-menu a { display: block; padding: 13px 0; border-bottom: 1px solid rgba(31,45,61,0.06); font-family: 'Hanken Grotesk',sans-serif; font-size: 16px; font-weight: 600; color: #1f2d3d; text-decoration: none; }
+    #rg-mob-menu a:last-of-type { border-bottom: none; }
+    .rg-mob-acts { display: flex; gap: 10px; margin-top: 14px; }
+    .rg-mob-acts a { flex: 1; text-align: center; padding: 12px 0; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; }
+    .rg-mob-acts a:first-child { border: 1px solid #d7ddd9; color: #1f2d3d; background: transparent; }
+    .rg-mob-acts a:last-child  { background: #ff6b4a; color: #fff; }
+
+    /* ── Site footer ───────────────────────────────── */
+    .rg-footer { background: #182330; color: #9fb0bf; }
+    .rg-footer-inner { max-width: 1180px; margin: 0 auto; padding: clamp(48px,6vw,72px) 24px 30px; }
+    .rg-foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 36px; margin-bottom: 44px; }
+    @media (max-width: 768px) { .rg-foot-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .rg-foot-grid { grid-template-columns: 1fr; } }
+    .rg-foot-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+    .rg-foot-links a { color: #9fb0bf; text-decoration: none; font-size: 15px; transition: color .15s; }
+    .rg-foot-links a:hover { color: #fff; }
+    .rg-foot-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
   </style>
 </head>
 <body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="nav-brand" aria-label="Whollar">
+      <span class="nav-brand-mark" aria-hidden="true">
+        <em></em><em></em><em></em>
+      </span>
+      <span class="nav-brand-name">Whollar</span>
+      <span class="nav-brand-pill">for providers</span>
+    </a>
+    <nav class="site-nav" aria-label="Site navigation">
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#economics">The economics</a>
+      <a href="demand.html">Live demand</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+    <div class="hdr-actions">
+      <a href="dashboard.html" class="hdr-btn-ghost">Browse cohorts</a>
+      <a href="register.html" class="hdr-btn-primary" aria-current="page">Apply to bid</a>
+    </div>
+    <button id="rg-ham" aria-label="Open navigation" aria-expanded="false" aria-controls="rg-mob-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<nav id="rg-mob-menu" aria-label="Site navigation">
+  <a href="index.html#how">How it works</a>
+  <a href="index.html#economics">The economics</a>
+  <a href="demand.html">Live demand</a>
+  <a href="index.html#faq">FAQ</a>
+  <div class="rg-mob-acts">
+    <a href="dashboard.html">Browse cohorts</a>
+    <a href="register.html">Apply to bid</a>
+  </div>
+</nav>
+
 <div class="page">
 
   <!-- ══════════════ LEFT PANEL ══════════════ -->
@@ -695,6 +775,47 @@
 
 </div><!-- /page -->
 
+<footer class="rg-footer" role="contentinfo">
+  <div class="rg-footer-inner">
+    <div class="rg-foot-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span style="width:36px;height:36px;border-radius:10px;background:#0f5e63;display:flex;align-items:center;justify-content:center;gap:3px;" aria-hidden="true">
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#ff6b4a;display:block;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;"></span>
+          </span>
+          <span style="font-family:'Schibsted Grotesk',sans-serif;font-weight:800;font-size:20px;color:#fff;letter-spacing:-0.02em;">Whollar</span>
+        </div>
+        <p style="font-size:15px;color:#8fa1b0;line-height:1.6;max-width:24rem;margin:0 0 10px;">Who runs Whollar: a small Ottawa-based team.</p>
+        <p style="font-size:14px;color:#6f8290;margin:0;"><a href="mailto:hello@whollar.ca" style="color:#9fb0bf;text-decoration:none;">hello@whollar.ca</a></p>
+      </div>
+      <div>
+        <h4 style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:#5f7384;margin:0 0 16px;font-family:'Hanken Grotesk',sans-serif;font-weight:700;">Providers</h4>
+        <ul class="rg-foot-links">
+          <li><a href="register.html" aria-current="page">Apply to bid</a></li>
+          <li><a href="dashboard.html">Browse cohorts</a></li>
+          <li><a href="demand.html">Live demand</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:#5f7384;margin:0 0 16px;font-family:'Hanken Grotesk',sans-serif;font-weight:700;">Other</h4>
+        <ul class="rg-foot-links">
+          <li><a href="https://whollar.ca" target="_blank" rel="noopener">Whollar for households &rarr;</a></li>
+          <li><a href="#" title="Coming soon">Privacy</a></li>
+          <li><a href="#" title="Coming soon">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rg-foot-bottom">
+      <span style="font-size:13.5px;color:#6f8290;">&#169; 2026 Whollar. Ottawa pilot now forming. Made in Canada.</span>
+      <a href="mailto:hello@whollar.ca" style="font-size:13.5px;color:#9fb0bf;text-decoration:none;">hello@whollar.ca</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 <script>
 (function(){
   var currentStep = 1;
@@ -851,6 +972,20 @@
     el.addEventListener('input', function(){ clearErr(el); });
     el.addEventListener('change', function(){ clearErr(el); });
   });
+
+  /* ── Mobile nav ── */
+  var rgHam = document.getElementById('rg-ham');
+  var rgMob = document.getElementById('rg-mob-menu');
+  if (rgHam && rgMob) {
+    rgHam.addEventListener('click', function () {
+      var open = rgMob.classList.contains('open');
+      rgMob.classList.toggle('open');
+      rgHam.setAttribute('aria-expanded', String(!open));
+    });
+    rgMob.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { rgMob.classList.remove('open'); rgHam.setAttribute('aria-expanded', 'false'); });
+    });
+  }
 
 })();
 </script>

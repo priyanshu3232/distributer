@@ -851,7 +851,7 @@
         <div class="hcard-top">
           <span class="hcard-open-badge">
             <span class="hcard-open-dot" aria-hidden="true"></span>
-            OPEN &middot; Closes in 5 days
+            OPEN &middot; <span id="hero-countdown" style="font-variant-numeric:tabular-nums;">5d 0h</span>
           </span>
           <span class="hcard-bidders">3 bidders</span>
         </div>
@@ -1264,6 +1264,7 @@
   <div class="wrap">
     <span class="section-kicker kicker--teal" data-reveal>Live demand</span>
     <h2 class="section-h2 h2--navy" id="demand-h2" data-reveal>Demand that&#8217;s real.</h2>
+    <p style="font-size:15px;color:#5a6d7c;line-height:1.6;margin:-22px 0 28px;max-width:52em;" data-reveal>A cohort opens to bidding when it reaches 150 verified households, or earlier when 80%+ of its verified members' contracts end within the next two quarters (contract-window trigger). WHL-ON-001 opened under the contract-window trigger.</p>
     <div class="demand-grid">
 
       <!-- WHL-ON-001 -->
@@ -1422,7 +1423,7 @@
           </span>
           <span class="footer-brand-name">Whollar</span>
         </div>
-        <p class="footer-tagline">Pooling Ottawa households into FSA-clustered cohorts. ISPs bid once to win the group.</p>
+        <p class="footer-tagline">Who runs Whollar: a small Ottawa-based team.</p>
       </div>
       <div class="footer-col">
         <h2 class="footer-col-title">Providers</h2>
@@ -1509,6 +1510,20 @@
   elFee.addEventListener('input', update);
   elRate.addEventListener('input', update);
   update();
+
+  /* ── HERO COUNTDOWN ────────────────────────────────────── */
+  (function() {
+    var dl = new Date((window.WHOLLAR_COHORTS && window.WHOLLAR_COHORTS[0].deadline) || '2026-07-11T23:59:59-04:00').getTime();
+    function tick() {
+      var el = document.getElementById('hero-countdown');
+      if (!el) return;
+      var diff = dl - Date.now();
+      if (diff <= 0) { el.textContent = 'Auction closed'; return; }
+      el.textContent = Math.floor(diff / 86400000) + 'd ' + Math.floor((diff % 86400000) / 3600000) + 'h';
+    }
+    tick();
+    setInterval(tick, 30000);
+  })();
 
   /* ── HAMBURGER ─────────────────────────────────────────── */
   var hamburger  = document.getElementById('hamburger-btn');
